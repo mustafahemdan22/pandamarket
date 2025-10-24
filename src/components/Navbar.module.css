@@ -1,0 +1,21 @@
+.navLink{position: relative;
+    transition: 0.3s;
+}
+.navLink:hover{
+    color: rgb(102, 230, 145);
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+.navLink::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 0;
+    height: 1px;
+    background-color: rgb(102, 230, 145);
+    transition: 0.3s ease-in-out;
+}
+.navLink:hover::before{
+    width: 100%;
+}
