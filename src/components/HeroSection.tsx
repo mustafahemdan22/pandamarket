@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FiShoppingBag, FiArrowRight, FiArrowLeft } from "react-icons/fi";
-import { useLanguage } from "@/contexts/LanguageProvider";
+import { useLanguage } from "../contexts/LanguageProvider";
 import style from "./HeroSection.module.css";
 import Image from "next/image";
 import img from "./ChatGPT Image Oct 21, 2025, 07_32_49 PM.png"; // أو المسار بتاع الصورة

@@ -3,12 +3,12 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAppSelector, useAppDispatch } from '@/hooks/redux';
-import { useOrders } from '@/contexts/OrderProvider';
-import { useAuth } from '@/contexts/AuthProvider';
-import { useLanguage } from '@/contexts/LanguageProvider';
-import { clearCart } from '@/store/cartSlice';
-import { FiCreditCard, FiMapPin, FiPhone, FiMail, FiUser, FiArrowLeft, FiCheckCircle } from 'react-icons/fi';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { useOrders } from '../../contexts/OrderProvider';
+import { useAuth } from '../../contexts/AuthProvider';
+import { useLanguage } from '../../contexts/LanguageProvider';
+import { clearCart } from '../../store/cartSlice';
+import { FiCreditCard, FiMapPin,  FiUser, FiArrowLeft, FiCheckCircle } from 'react-icons/fi';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 

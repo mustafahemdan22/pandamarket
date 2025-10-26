@@ -5,10 +5,10 @@ import Head from "next/head";
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FiShoppingBag} from 'react-icons/fi';
-import HeroSection from '@/components/HeroSection';
-import CategoryGrid from '@/components/CategoryGrid';
-import FeaturesSection from '@/components/FeaturesSection';
-import { useLanguage } from '@/contexts/LanguageProvider';
+import HeroSection from '../components/HeroSection';
+import CategoryGrid from '../components/CategoryGrid';
+import FeaturesSection from '../components/FeaturesSection';
+import { useLanguage } from '../contexts/LanguageProvider';
 
 export default function Home() {
   const { language } = useLanguage();

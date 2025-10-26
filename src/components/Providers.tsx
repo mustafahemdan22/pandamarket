@@ -1,13 +1,13 @@
 'use client';
 
 import { Provider } from 'react-redux';
-import { store } from '@/store';
-import { ThemeProvider } from '@/contexts/ThemeProvider';
-import { LanguageProvider } from '@/contexts/LanguageProvider';
-import { WishlistProvider } from '@/contexts/WishlistProvider';
-import { AuthProvider } from '@/contexts/AuthProvider';
-import { OrderProvider } from '@/contexts/OrderProvider';
-import { ReviewProvider } from '@/contexts/ReviewProvider';
+import { store } from '../store';
+import { ThemeProvider } from '../contexts/ThemeProvider';
+import { LanguageProvider } from '../contexts/LanguageProvider';
+import { WishlistProvider } from '../contexts/WishlistProvider';
+import { AuthProvider } from '../contexts/AuthProvider';
+import { OrderProvider } from '../contexts/OrderProvider';
+import { ReviewProvider } from '../contexts/ReviewProvider';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';

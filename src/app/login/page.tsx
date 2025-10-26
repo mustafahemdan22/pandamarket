@@ -2,8 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
-import { useLanguage } from '@/contexts/LanguageProvider';
-import { useAuth } from '@/contexts/AuthProvider';
+import { useLanguage } from '../../contexts/LanguageProvider';
+import { useAuth } from '../../contexts/AuthProvider';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -33,7 +33,7 @@ const LoginPage = () => {
     setIsSubmitting(true);
     
     try {
-      const success = await login(formData.email, formData.password);
+const success = await login(formData.email, formData.password) as boolean;
       if (success) {
         toast.success(language === 'ar' ? 'تم تسجيل الدخول بنجاح!' : 'Login successful!');
         router.push('/');

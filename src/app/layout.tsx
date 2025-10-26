@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Providers } from "@/components/Providers";
+import { Providers } from "../components/Providers";
 import { Toaster } from "react-hot-toast";
-import { LanguageProvider } from "@/contexts/LanguageProvider"; 
+import { LanguageProvider } from "../contexts/LanguageProvider"; 
 
 
 const geistSans = Geist({

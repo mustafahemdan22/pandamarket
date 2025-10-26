@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Product } from '@/store/cartSlice';
+import { Product } from '../store/cartSlice';
 
 interface WishlistContextType {
   wishlist: Product[];

@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useWishlist } from '@/contexts/WishlistProvider';
-import ProductCard from '@/components/ProductCard';
-import { useLanguage } from '@/contexts/LanguageProvider';
+import { useWishlist } from '../../contexts/WishlistProvider';
+import ProductCard from '../../components/ProductCard';
+import { useLanguage } from '../../contexts/LanguageProvider';
 import { FiHeart, FiShoppingBag, FiArrowLeft } from 'react-icons/fi';
 import Link from 'next/link';
 

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { FiMail, FiPhone, FiMapPin, FiClock, FiSend } from "react-icons/fi";
-import { useLanguage } from "@/contexts/LanguageProvider";
+import { useLanguage } from "../../contexts/LanguageProvider";
 import { useState } from "react";
 
 const ContactPage = () => {

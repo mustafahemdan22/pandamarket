@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { FiTarget, FiUsers, FiAward, FiHeart } from 'react-icons/fi';
-import { useLanguage } from '@/contexts/LanguageProvider';
+import { useLanguage } from '../../contexts/LanguageProvider';
 
 const AboutPage = () => {
   const { language } = useLanguage();

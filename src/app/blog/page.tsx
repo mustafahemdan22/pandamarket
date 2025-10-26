@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useLanguage } from '@/contexts/LanguageProvider';
+import { useLanguage } from '../../contexts/LanguageProvider';
 
 const BlogPage = () => {
   const { language } = useLanguage();

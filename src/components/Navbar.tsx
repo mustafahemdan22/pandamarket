@@ -21,11 +21,11 @@ import {
   FiHeart,
   FiPackage
 } from 'react-icons/fi';
-import { useAppSelector } from '@/hooks/redux';
-import { useTheme } from '@/contexts/ThemeProvider';
-import { useLanguage } from '@/contexts/LanguageProvider';
-import { useWishlist } from '@/contexts/WishlistProvider';
-import { useAuth } from '@/contexts/AuthProvider';
+import { useAppSelector } from '../hooks/redux';
+import { useTheme } from '../contexts/ThemeProvider';
+import { useLanguage } from '../contexts/LanguageProvider';
+import { useWishlist } from '../contexts/WishlistProvider';
+import { useAuth } from '../contexts/AuthProvider';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

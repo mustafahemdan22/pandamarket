@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowUp } from 'react-icons/fi';
-import { useLanguage } from '@/contexts/LanguageProvider';
+import { useLanguage } from '../contexts/LanguageProvider';
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);

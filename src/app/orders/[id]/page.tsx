@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useOrders } from '@/contexts/OrderProvider';
-import { useLanguage } from '@/contexts/LanguageProvider';
-import { useAuth } from '@/contexts/AuthProvider';
+import { useOrders } from '../../../contexts/OrderProvider';
+import { useLanguage } from '../../../contexts/LanguageProvider';
+import { useAuth } from '../../../contexts/AuthProvider';
 import { FiPackage, FiTruck, FiCheckCircle, FiClock, FiXCircle, FiArrowLeft, FiMapPin, FiPhone, FiMail, FiCalendar } from 'react-icons/fi';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';

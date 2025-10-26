@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { sampleProducts } from '@/data/products';
-import ProductCard from '@/components/ProductCard';
-import { useLanguage } from '@/contexts/LanguageProvider';
+import { sampleProducts } from '../../data/products';
+import ProductCard from '../../components/ProductCard';
+import { useLanguage } from '../../contexts/LanguageProvider';
 import { useState, useMemo } from 'react';
 import { FiSearch } from 'react-icons/fi';
 

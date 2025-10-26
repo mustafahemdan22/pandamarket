@@ -11,7 +11,7 @@ import {
   FiArrowUp,
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
-import { useLanguage } from "@/contexts/LanguageProvider";
+import { useLanguage } from "../contexts/LanguageProvider";
 
 const Footer = () => {
   const { language, isRTL } = useLanguage();

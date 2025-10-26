@@ -2,11 +2,11 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Product } from '@/store/cartSlice';
-import { useAppDispatch } from '@/hooks/redux';
-import { addToCart } from '@/store/cartSlice';
+import { Product } from '../store/cartSlice';
+import { useAppDispatch } from '../hooks/redux';
+import { addToCart } from '../store/cartSlice';
 import { FiShoppingCart, FiPlus } from 'react-icons/fi';
-import { useLanguage } from '@/contexts/LanguageProvider';
+import { useLanguage } from '../contexts/LanguageProvider';
 import toast from 'react-hot-toast';
 
 interface ProductCardProps {

@@ -1,11 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useAppSelector, useAppDispatch } from '@/hooks/redux';
-import { removeFromCart, updateQuantity, clearCart } from '@/store/cartSlice';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { removeFromCart, updateQuantity, clearCart } from '../../store/cartSlice';
 import { FiShoppingCart, FiPlus, FiMinus, FiTrash2, FiArrowLeft } from 'react-icons/fi';
 import Link from 'next/link';
-import { useLanguage } from '@/contexts/LanguageProvider';
+import { useLanguage } from '../../contexts/LanguageProvider';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 

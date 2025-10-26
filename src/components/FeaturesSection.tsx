@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { FiTruck, FiShield, FiClock, FiHeart } from 'react-icons/fi';
-import { useLanguage } from '@/contexts/LanguageProvider';
+import { useLanguage } from '../contexts/LanguageProvider';
 
 const FeaturesSection = () => {
   const { language } = useLanguage();

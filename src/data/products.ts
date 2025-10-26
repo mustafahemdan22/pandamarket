@@ -1,4 +1,4 @@
-import { Product } from '@/store/cartSlice';
+import { Product } from '../store/cartSlice';
 
 export const sampleProducts: Product[] = [
   // Bakery Products
