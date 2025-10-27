@@ -10,6 +10,7 @@
 
 import type * as functions_createUser from "../functions/createUser.js";
 import type * as functions_login from "../functions/login.js";
+import type * as uploadImage from "../uploadImage.js";
 
 import type {
   ApiFromModules,
@@ -28,6 +29,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   "functions/createUser": typeof functions_createUser;
   "functions/login": typeof functions_login;
+  uploadImage: typeof uploadImage;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 

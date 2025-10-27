@@ -1,4 +1,5 @@
 "use client";
+import UploadImageButton from "../components/UploadImageButton";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -7,7 +8,10 @@ import { useLanguage } from "../contexts/LanguageProvider";
 import style from "./HeroSection.module.css";
 import Image from "next/image";
 import img from "./ChatGPT Image Oct 21, 2025, 07_32_49 PM.png"; // أو المسار بتاع الصورة
-
+ <main>
+      <h1>Upload Image Example</h1>
+      <UploadImageButton />
+    </main>
 const HeroSection = () => {
   const { language, isRTL } = useLanguage();
 
