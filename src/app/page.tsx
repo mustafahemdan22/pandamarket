@@ -1,31 +1,32 @@
 'use client';
-import Head from "next/head";
 
-
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { FiShoppingBag} from 'react-icons/fi';
+import { useLanguage } from '../contexts/LanguageProvider';
 import HeroSection from '../components/HeroSection';
 import CategoryGrid from '../components/CategoryGrid';
 import FeaturesSection from '../components/FeaturesSection';
-import { useLanguage } from '../contexts/LanguageProvider';
+import UploadImage from '../components/UploadImageButton'; // الملف اللي فيه زر رفع الصورة
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { FiShoppingBag } from 'react-icons/fi';
 
 export default function Home() {
   const { language } = useLanguage();
-    <Head>
-      <title>Panda Market | سوبر ماركت باندا</title>
-      <meta
-        name="description"
-        content="Panda Market - الإبراهيمية، 15 شارع حلمي بهجت، الإسكندرية. تسوق أفضل المنتجات بأسعار مميزة."
-      />
-    </Head>
-
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <HeroSection />
-      
+
+      {/* Upload Image Section */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            {language === 'ar' ? 'رفع صورة جديدة' : 'Upload a New Image'}
+          </h2>
+          <UploadImage />
+        </div>
+      </section>
+
       {/* Categories Section */}
       <section className="py-16 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,10 +40,9 @@ export default function Home() {
               {language === 'ar' ? 'تسوق حسب الفئة' : 'Shop by Category'}
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              {language === 'ar' 
-                ? 'اكتشف مجموعتنا الواسعة من المنتجات الطازجة والعالية الجودة' 
-                : 'Discover our wide range of fresh and high-quality products'
-              }
+              {language === 'ar'
+                ? 'اكتشف مجموعتنا الواسعة من المنتجات الطازجة والعالية الجودة'
+                : 'Discover our wide range of fresh and high-quality products'}
             </p>
           </motion.div>
           <CategoryGrid />
@@ -53,8 +53,7 @@ export default function Home() {
       <FeaturesSection />
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-green-200 to-green-600"
->
+      <section className="py-16 bg-gradient-to-r from-green-200 to-green-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -65,10 +64,9 @@ export default function Home() {
               {language === 'ar' ? 'ابدأ التسوق الآن' : 'Start Shopping Now'}
             </h2>
             <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-              {language === 'ar' 
-                ? 'احصل على أفضل المنتجات بأسعار تنافسية مع خدمة توصيل سريعة' 
-                : 'Get the best products at competitive prices with fast delivery service'
-              }
+              {language === 'ar'
+                ? 'احصل على أفضل المنتجات بأسعار تنافسية مع خدمة توصيل سريعة'
+                : 'Get the best products at competitive prices with fast delivery service'}
             </p>
             <Link
               href="/categories"
