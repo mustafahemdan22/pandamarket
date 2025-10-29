@@ -94,7 +94,7 @@ const CheckoutPage = () => {
 
       toast.success(language === 'ar' ? 'تم تأكيد الطلب بنجاح!' : 'Order confirmed successfully!');
       router.push('/orders');
-    } catch (error) {
+    } catch {
       toast.error(language === 'ar' ? 'حدث خطأ أثناء تأكيد الطلب' : 'An error occurred during checkout');
     } finally {
       setIsProcessing(false);

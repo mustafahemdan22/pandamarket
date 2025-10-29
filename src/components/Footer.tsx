@@ -13,8 +13,12 @@ import {
 import { FaWhatsapp } from "react-icons/fa";
 import { useLanguage } from "../contexts/LanguageProvider";
 
+import React from 'react';
+
+
+
 const Footer = () => {
-  const { language, isRTL } = useLanguage();
+  const { language } = useLanguage();
 
   const quickLinks = [
     { href: "/", text: language === "ar" ? "الرئيسية" : "Home" },
@@ -90,16 +94,15 @@ const Footer = () => {
                 <FiFacebook className="w-5 h-5" />
               </a>
 
-           <a
-  href="https://wa.me/201129862523"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label={language === 'ar' ? 'واتساب' : 'WhatsApp'}
-  className="text-gray-400 hover:text-white transition-colors duration-200"
->
-  <FaWhatsapp className="w-5 h-5 text-green-500" />
-</a>
-
+              <a
+                href="https://wa.me/201129862523"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={language === "ar" ? "واتساب" : "WhatsApp"}
+                className="text-gray-400 hover:text-white transition-colors duration-200"
+              >
+                <FaWhatsapp className="w-5 h-5 text-green-500" />
+              </a>
 
               <a
                 href="#"

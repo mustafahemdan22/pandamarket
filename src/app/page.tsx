@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useLanguage } from '../contexts/LanguageProvider';
 import HeroSection from '../components/HeroSection';
 import CategoryGrid from '../components/CategoryGrid';
@@ -80,4 +81,9 @@ export default function Home() {
       </section>
     </div>
   );
+}
+
+// Cart Page Component
+export function CartPage() {
+  return <div>Cart Page</div>;
 }

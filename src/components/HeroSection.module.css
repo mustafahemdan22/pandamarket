@@ -23,8 +23,19 @@
     position: relative;
     z-index: 2;
 }
-.span{
- background: linear-gradient(135deg, #299421, #4ab90a, #5cdf81);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+
+/* Fix class name formatting and add vendor prefixes */
+.span {
+    background: linear-gradient(135deg, #299421, #4ab90a, #5cdf81);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* Fallback for older browsers */
+}
+
+/* Add mobile responsiveness */
+@media (max-width: 768px) {
+    .heroSection {
+        background-attachment: scroll; /* Better mobile performance */
+    }
 }
