@@ -195,8 +195,8 @@ const Footer = () => {
         >
           <p className="text-gray-400 text-sm">
             {language === "ar"
-              ? "© 2024 سوبر ماركت باندا. تصميم وبرمجة: مصطفى همدان."
-              : "© 2024 Panda Supermarket. Designed & Developed by Mustafa Hemdan."}
+              ? "© 2025 سوبر ماركت باندا. تصميم وبرمجة: مصطفى حمدان."
+              : "© 2025 Panda Supermarket. Designed & Developed by Mustafa Hemdan."}
           </p>
           <button
             onClick={scrollToTop}

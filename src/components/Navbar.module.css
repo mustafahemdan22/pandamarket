@@ -1,6 +1,49 @@
 .navLink{position: relative;
     transition: 0.3s;
 }
+.logo {
+  font-size: 1.5rem; /* أو استخدم clamp للتجاوب: clamp(1.25rem, 4vw, 2rem) */
+  font-weight: 800;
+  background: linear-gradient(135deg, #10b981, #ace4ba, #4bd86e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+  letter-spacing: -0.02em;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  position: relative;
+}
+.logo:hover{
+    color: rgb(102, 230, 145);
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+.logo::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 0;
+    height: 1px;
+    background-color: rgb(102, 230, 145);
+    transition: 0.3s ease-in-out;
+}
+.logo:hover::before{
+    width: 100%;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* دعم الوضع الداكن */
+@media (prefers-color-scheme: dark) {
+  .logo {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+}
 .navLink:hover{
     color: rgb(102, 230, 145);
     transform: scale(1.1);

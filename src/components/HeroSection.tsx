@@ -44,12 +44,12 @@ const HeroSection = () => {
               {language === "ar" ? (
                 <>
                   مرحباً بك في{" "}
-                  <span className="text-green-500">سوبر ماركت باندا</span>
+                  <span className={style.span}>سوبر ماركت باندا</span>
                 </>
               ) : (
                 <>
                   Welcome to{" "}
-                  <span className="text-green-500">Panda Supermarket</span>
+                  <span className={style.span}>Panda Supermarket</span>
                 </>
               )}
             </motion.h1>
@@ -73,7 +73,7 @@ const HeroSection = () => {
             >
               <Link
                 href="/categories"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white text-green-600 font-semibold rounded-lg hover:bg-green-50 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                className="inline-flex items-center justify-center px-8 py-4 bg-white text-green-600 font-semibold rounded-lg hover:bg-green-50 transition-all duration-200  hover:shadow-xl transform hover:-translate-y-1"
               >
                 <FiShoppingBag className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" />
                 {language === "ar" ? "تسوق الآن" : "Shop Now"}
@@ -128,7 +128,7 @@ const HeroSection = () => {
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="absolute -top-4 -right-4  flex items-center justify-center shadow-lg"
+                className="absolute -top-4 -right-4  flex items-center justify-center "
               >
                 <span className="text-5xl">🥕</span>
               </motion.div>
@@ -141,9 +141,21 @@ const HeroSection = () => {
                   ease: "easeInOut",
                   delay: 1,
                 }}
-                className="absolute -bottom-4 -left-4 flex items-center justify-center shadow-lg"
+                className="absolute -bottom-4 -left-4 flex items-center justify-center "
               >
                 <span className="text-5xl">🍊</span>
+              </motion.div>
+                  <motion.div
+                animate={{ y: [-5, 15, -5] }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 2,
+                }}
+                className="absolute top-1/16 start-32 flex items-center justify-center "
+              >
+                <span className="text-5xl">🥕</span>
               </motion.div>
 
               <motion.div
@@ -154,7 +166,7 @@ const HeroSection = () => {
                   ease: "easeInOut",
                   delay: 2,
                 }}
-                className="absolute top-1/2 -left-8 flex items-center justify-center shadow-lg"
+                className="absolute top-5 -left-8 flex items-center justify-center "
               >
                 <span className="text-5xl">🍎</span>
               </motion.div>

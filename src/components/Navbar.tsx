@@ -38,6 +38,7 @@ const Navbar = () => {
 
   const navItems = [
     { href: '/', icon: FiHome, text: language === 'ar' ? 'الرئيسية' : 'Home' },
+
     { href: '/about', icon: FiInfo, text: language === 'ar' ? 'من نحن' : 'About' },
     { href: '/blog', icon: FiBookOpen, text: language === 'ar' ? 'المدونة' : 'Blog' },
     { href: '/contact', icon: FiMail, text: language === 'ar' ? 'اتصل بنا' : 'Contact' },
@@ -63,8 +64,8 @@ const Navbar = () => {
           >
             <Link href="/" className="flex items-centerspace-x-2 rtl:space-x-reverse">
              
-              <span className="text-xl font-bold text-gray-900 dark:text-white">
-                {language === 'ar' ? 'سوبر ماركت باندا' : 'Panda market'}
+              <span className={style.logo}>
+                {language === 'ar' ? 'ماركت باندا' : 'Panda Market'}
               </span>
             </Link>
           </motion.div>
@@ -75,9 +76,9 @@ const Navbar = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`${style.navLink} flex items-center space-x-1 rtl:space-x-reverse text-gray-700 dark:text-gray-300 hover:text-bl-600 dark:hover:text-bl-400 transition-colors duration-200`}
+                className=" flex items-center space-x-1 rtl:space-x-reverse text-gray-700 dark:text-gray-300 hover:text-bl-600 dark:hover:text-bl-400 transition-colors duration-200"
               >
-                <span>{item.text}</span>
+                <span className={style.navLink}>{item.text}</span>
               </Link>
             ))}
           </div>
