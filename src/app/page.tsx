@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FiShoppingBag } from 'react-icons/fi';
 
-export default function Home() {
+export default function Page() {
   const { language } = useLanguage();
 
   return (
@@ -83,7 +83,3 @@ export default function Home() {
   );
 }
 
-// Cart Page Component
-export function CartPage() {
-  return <div>Cart Page</div>;
-}
