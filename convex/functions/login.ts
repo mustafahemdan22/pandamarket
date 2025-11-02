@@ -7,22 +7,25 @@ export const loginUser = mutation({
     password: v.string(),
   },
   handler: async ({ db }, { email, password }) => {
-    // البحث عن المستخدم بالإيميل
     const user = await db
       .query("users")
       .withIndex("by_email", (q) => q.eq("email", email))
       .unique();
 
     if (!user) {
-      throw new Error("User not found");
+      return {
+        success: false,
+        message: "User not found",
+      };
     }
 
-    // التحقق من كلمة المرور (بما إنك مش عامل تشفير حاليًا)
     if (user.password !== password) {
-      throw new Error("Invalid password");
+      return {
+        success: false,
+        message: "Invalid password",
+      };
     }
 
-    // لو كله تمام
     return {
       success: true,
       message: "Login successful",

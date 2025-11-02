@@ -137,11 +137,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return false;
     } finally {
       setIsLoading(false);
-      return false;
+      // ✅ لا يوجد return هنا — هذا هو الإصلاح الرئيسي
     }
   };
 
-  // Login existing user
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     clearError();
@@ -149,7 +148,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const loginCredentials: LoginCredentials = {
         email: email.toLowerCase().trim(),
-        password
+        password,
       };
 
       const result = (await loginUser(loginCredentials)) as LoginResult;
@@ -162,7 +161,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         id: result.userId,
         email: loginCredentials.email,
         firstName: result.firstName,
-        lastName: result.lastName
+        lastName: result.lastName,
       };
 
       setUser(loggedInUser);
@@ -176,7 +175,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return false;
     } finally {
       setIsLoading(false);
-      return false;
+      // ✅ لا يوجد return هنا — هذا هو الإصلاح الرئيسي
     }
   };
 

@@ -18,11 +18,12 @@
     color: rgb(102, 230, 145);
     transform: scale(1.1);
     transition: 0.3s;
+    
 }
 .logo::before{
     content: '';
     position: absolute;
-    left: 0;
+    left: 50%;
     bottom: -8px;
     width: 0;
     height: 1px;
@@ -31,6 +32,8 @@
 }
 .logo:hover::before{
     width: 100%;
+   transform: translate(-50%);
+
 }
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
@@ -52,7 +55,7 @@
 .navLink::before{
     content: '';
     position: absolute;
-    left: 0;
+    left: 50%;
     bottom: -8px;
     width: 0;
     height: 1px;
@@ -61,4 +64,5 @@
 }
 .navLink:hover::before{
     width: 100%;
+    transform: translate(-50%);
 }
