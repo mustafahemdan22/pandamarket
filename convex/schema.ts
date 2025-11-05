@@ -9,12 +9,22 @@ export default defineSchema({
     password: v.string(),
     phone: v.optional(v.string()),
     createdAt: v.optional(v.number()),
-  }).index("by_email", ["email"]), // ✅ هنا بنضيف الـ index
+  }).index("by_email", ["email"]),
 
   images: defineTable({
     storageId: v.string(),
     title: v.optional(v.string()),
     uploadedBy: v.optional(v.string()),
+    createdAt: v.optional(v.number()),
+  }),
+
+  // 🛒 جدول المنتجات
+  products: defineTable({
+    name: v.string(),
+    price: v.number(),
+    image: v.string(), // هنا ممكن نحط لينك أو storageId
+    category: v.optional(v.string()),
+    description: v.optional(v.string()),
     createdAt: v.optional(v.number()),
   }),
 });

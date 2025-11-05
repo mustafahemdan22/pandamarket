@@ -91,9 +91,9 @@ const CategoriesPage = () => {
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+                className={`px-6 py-3  rounded-lg font-medium transition-all duration-200  ${
                   selectedCategory === category.id
-                    ? 'bg-green-600 text-white shadow-lg'
+                    ? 'bg-green-600 text-white shadow-lg '
                     : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
               >

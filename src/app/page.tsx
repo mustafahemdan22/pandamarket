@@ -5,7 +5,6 @@ import { useLanguage } from '../contexts/LanguageProvider';
 import HeroSection from '../components/HeroSection';
 import CategoryGrid from '../components/CategoryGrid';
 import FeaturesSection from '../components/FeaturesSection';
-import UploadImage from '../components/UploadImageButton'; // الملف اللي فيه زر رفع الصورة
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FiShoppingBag } from 'react-icons/fi';
@@ -17,17 +16,6 @@ export default function Page() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <HeroSection />
-
-      {/* Upload Image Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            {language === 'ar' ? 'رفع صورة جديدة' : 'Upload a New Image'}
-          </h2>
-          <UploadImage />
-        </div>
-      </section>
-
       {/* Categories Section */}
       <section className="py-16 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

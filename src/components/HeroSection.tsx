@@ -1,5 +1,4 @@
 "use client";
-import UploadImageButton from "../components/UploadImageButton";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -8,10 +7,7 @@ import { useLanguage } from "../contexts/LanguageProvider";
 import style from "./HeroSection.module.css";
 import Image from "next/image";
 import img from "./ChatGPT Image Oct 21, 2025, 07_32_49 PM.png"; // أو المسار بتاع الصورة
- <main>
-      <h1>Upload Image Example</h1>
-      <UploadImageButton />
-    </main>
+
 const HeroSection = () => {
   const { language, isRTL } = useLanguage();
 
@@ -188,7 +184,7 @@ const HeroSection = () => {
       </div>
 
       {/* Wave Bottom */}
-      <div className="absolute bottom-0 left-0 w-full">
+      {/* <div className="absolute bottom-0 left-0 w-full">
         <svg
           viewBox="0 0 1200 120"
           preserveAspectRatio="none"
@@ -196,7 +192,7 @@ const HeroSection = () => {
         >
           <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
         </svg>
-      </div>
+      </div> */}
     </section>
   );
 };

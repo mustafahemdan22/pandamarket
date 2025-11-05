@@ -1,20 +1,18 @@
-import { mutation } from "../convex/_generated/server";
+import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 
 export const uploadImage = mutation({
   args: {
     storageId: v.string(),
-    title: v.optional(v.string()),
-    uploadedBy: v.optional(v.string()),
+    title: v.string(),
+    uploadedBy: v.string(),
   },
   handler: async (ctx, args) => {
-    const imageId = await ctx.db.insert("images", { // ✅ "images" موجود دلوقتي
+    await ctx.db.insert("images", {
       storageId: args.storageId,
-      title: args.title ?? "",
-      uploadedBy: args.uploadedBy ?? "",
+      title: args.title,
+      uploadedBy: args.uploadedBy,
       createdAt: Date.now(),
     });
-
-    return { success: true, imageId };
   },
 });

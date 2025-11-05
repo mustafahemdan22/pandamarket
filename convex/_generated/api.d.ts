@@ -8,8 +8,10 @@
  * @module
  */
 
+import type * as files from "../files.js";
 import type * as functions_createUser from "../functions/createUser.js";
 import type * as functions_login from "../functions/login.js";
+import type * as products from "../products.js";
 import type * as uploadImage from "../uploadImage.js";
 
 import type {
@@ -27,8 +29,10 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  files: typeof files;
   "functions/createUser": typeof functions_createUser;
   "functions/login": typeof functions_login;
+  products: typeof products;
   uploadImage: typeof uploadImage;
 }>;
 declare const fullApiWithMounts: typeof fullApi;

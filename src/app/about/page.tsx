@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import { FiTarget, FiUsers, FiAward, FiHeart } from 'react-icons/fi';
 import { useLanguage } from '../../contexts/LanguageProvider';
+import img from "../Phoenix_10_A_cute_panda_mother_with_her_two_baby_pandas_shoppi_3.jpg";
+import Image from "next/image";
 
 const AboutPage = () => {
   const { language } = useLanguage();
@@ -12,28 +14,28 @@ const AboutPage = () => {
       icon: FiTarget,
       title: language === 'ar' ? 'رؤيتنا' : 'Our Vision',
       description: language === 'ar' 
-        ? 'أن نكون الوجهة الأولى للبقالة الطازجة والجودة العالية في المنطقة' 
+        ? 'نهدف دايمًا نكون المكان المفضل لكل عيلة تدور على منتجات طازجة وجودة عالية بأسعار مناسبة.' 
         : 'To be the leading destination for fresh groceries and high-quality products in the region'
     },
     {
       icon: FiUsers,
       title: language === 'ar' ? 'رسالتنا' : 'Our Mission',
       description: language === 'ar' 
-        ? 'توفير أفضل المنتجات الطازجة مع خدمة عملاء استثنائية' 
+        ? 'نوفر أفضل المنتجات الطازجة بخدمة مميزة تخلي التسوق تجربة ممتعة وسهلة.' 
         : 'Providing the freshest products with exceptional customer service'
     },
     {
       icon: FiAward,
       title: language === 'ar' ? 'جودتنا' : 'Our Quality',
       description: language === 'ar' 
-        ? 'نحن ملتزمون بأعلى معايير الجودة في جميع منتجاتنا' 
+        ? 'نهتم بكل تفصيلة في المنتج عشان نضمن دايمًا الجودة اللي تستحقها.' 
         : 'We are committed to the highest quality standards in all our products'
     },
     {
       icon: FiHeart,
       title: language === 'ar' ? 'قيمنا' : 'Our Values',
       description: language === 'ar' 
-        ? 'الصدق والشفافية والالتزام برضا العملاء' 
+        ? 'الصدق، الاحترام، ورضا العميل هما الأساس في شغلنا كل يوم.' 
         : 'Honesty, transparency, and commitment to customer satisfaction'
     }
   ];
@@ -53,7 +55,7 @@ const AboutPage = () => {
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             {language === 'ar' 
-              ? 'سوبر ماركت باندا هو أكثر من مجرد متجر بقالة. نحن عائلة ملتزمة بتقديم أفضل المنتجات الطازجة والجودة العالية لعملائنا الكرام.' 
+              ? 'سوبر ماركت باندا بقاله أكتر من 6 سنين بيخدم العائلات بكل حب. مش مجرد مكان للتسوق، إحنا عيلة واحدة هدفها تقدم الأفضل لعملائنا كل يوم.' 
               : 'Panda Supermarket is more than just a grocery store. We are a family committed to providing the freshest products and highest quality for our valued customers.'
             }
           </p>
@@ -73,73 +75,66 @@ const AboutPage = () => {
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 {language === 'ar' 
-                  ? 'بدأت رحلتنا منذ أكثر من عقد من الزمان بهدف بسيط: توفير المنتجات الطازجة والجودة العالية لعائلاتنا وجيراننا. اليوم، نحن فخورون بأن نكون جزءاً من المجتمع.' 
+                  ? 'بدأنا مشوارنا من حوالي 6 سنين بهدف بسيط: نوصل المنتجات الطازجة والجودة العالية لكل بيت. ومع الوقت، كبرنا بفضل ثقة الناس فينا.' 
                   : 'Our journey began over a decade ago with a simple goal: to provide fresh, high-quality products for our families and neighbors. Today, we are proud to be part of the community.'
                 }
               </p>
               <p className="text-gray-600 dark:text-gray-400">
                 {language === 'ar' 
-                  ? 'نحن نؤمن بأن كل عائلة تستحق الحصول على أفضل المنتجات بأسعار معقولة، ولهذا نسعى جاهدين لتقديم ذلك يومياً.' 
+                  ? 'إيماننا دايمًا إن كل زبون يستحق أفضل جودة وأحسن سعر، وده اللي بنحاول نحققه كل يوم.' 
                   : 'We believe every family deserves access to the best products at affordable prices, and that\'s what we strive to deliver every day.'
                 }
               </p>
             </div>
-            <div className="h-80 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
-              <span className="text-8xl">🐼</span>
+            <div className="relative h-80 w-full">
+              <Image 
+                src={img} 
+                alt="Panda" 
+                fill 
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-[rgba(0,0,0,0.6)]"></div>
             </div>
           </div>
         </motion.div>
 
-        {/* Values Grid */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
-        >
-          {values.map((value, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 * index }}
-              className="text-center"
-            >
-              <div className="w-16 h-16 mx-auto mb-4 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                <value.icon className="w-8 h-8 text-green-600 dark:text-green-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                {value.title}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                {value.description}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
+       {/* Values Grid */}
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.6, delay: 0.4 }}
+  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
+>
+  {values.map((value, index) => (
+    <motion.div
+      key={index}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+transition={{ duration: 0.6, ease: "easeInOut" }}
+whileHover={{ boxShadow: "0 0 25px rgba(34,197,94,0.5)" }}
+      className="relative group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden min-h-[280px] flex flex-col items-center justify-start"
+    >
+      <div className="w-16 h-16 mx-auto mb-4 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
+        <value.icon className="w-8 h-8 text-green-600 dark:text-green-400" />
+      </div>
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+        {value.title}
+      </h3>
+      <p className="text-gray-600 dark:text-gray-400 text-center transition-all duration-500 line-clamp-3 group-hover:line-clamp-none group-hover:mt-2">
+        {value.description}
+      </p>
 
-        {/* Team Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center"
-        >
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-            {language === 'ar' ? 'فريقنا' : 'Our Team'}
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto">
-            {language === 'ar' 
-              ? 'فريقنا المتفاني من المهنيين يعمل بجد لضمان حصولك على أفضل تجربة تسوق ممكنة. نحن هنا لمساعدتك في العثور على ما تحتاجه.' 
-              : 'Our dedicated team of professionals works hard to ensure you have the best shopping experience possible. We are here to help you find what you need.'
-            }
-          </p>
-          <div className="flex justify-center">
-            <div className="w-24 h-24 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-              <span className="text-4xl">👥</span>
-            </div>
-          </div>
-        </motion.div>
+      {/* Overlay effect */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileHover={{ opacity: 0.05 }}
+        className="absolute inset-0 bg-green-600 rounded-2xl pointer-events-none transition-opacity duration-500"
+      />
+    </motion.div>
+  ))}
+</motion.div>
+
+      
       </div>
     </div>
   );
