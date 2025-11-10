@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import style from './Navbar.module.css';
 import { 
   FiShoppingCart, 
@@ -29,6 +29,7 @@ import { useAuth } from '../contexts/AuthProvider';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false); // ✅ جديد
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, isRTL } = useLanguage();
   const { wishlist } = useWishlist();
@@ -36,9 +37,13 @@ const Navbar = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
+  // ✅ منع hydration error
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const navItems = [
     { href: '/', icon: FiHome, text: language === 'ar' ? 'الرئيسية' : 'Home' },
-
     { href: '/about', icon: FiInfo, text: language === 'ar' ? 'من نحن' : 'About' },
     { href: '/blog', icon: FiBookOpen, text: language === 'ar' ? 'المدونة' : 'Blog' },
     { href: '/contact', icon: FiMail, text: language === 'ar' ? 'اتصل بنا' : 'Contact' },
@@ -62,8 +67,7 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
             className="flex-shrink-0"
           >
-            <Link href="/" className="flex items-centerspace-x-2 rtl:space-x-reverse">
-             
+            <Link href="/" className="flex items-center gap-2">
               <span className={style.logo}>
                 {language === 'ar' ? 'ماركت باندا' : 'Panda Market'}
               </span>
@@ -71,12 +75,12 @@ const Navbar = () => {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="  hidden md:flex items-center space-x-8 rtl:space-x-reverse">
+          <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className=" flex items-center space-x-1 rtl:space-x-reverse text-gray-700 dark:text-gray-300 hover:text-bl-600 dark:hover:text-bl-400 transition-colors duration-200"
+                className="flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200"
               >
                 <span className={style.navLink}>{item.text}</span>
               </Link>
@@ -84,7 +88,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden  md:flex  space-x-4 rtl:space-x-reverse">
+          <div className="hidden md:flex items-center gap-4">
             {/* Language Toggle */}
             <button
               onClick={toggleLanguage}
@@ -103,30 +107,23 @@ const Navbar = () => {
               {theme === 'light' ? <FiMoon className="w-5 h-5" /> : <FiSun className="w-5 h-5" />}
             </button>
 
-            {/* Wishlist */}
-          
-
-            {/* Cart */}
+            {/* Cart - ✅ الحل هنا */}
             <Link
               href="/cart"
-              className="relative p-2 rounded-lg bg-bl-100 dark:bg-bl-900 text-bl-700 dark:text-bl-300 hover:bg-bl-200 dark:hover:bg-bl-800 transition-colors duration-200"
+              className="relative p-2 rounded-lg bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 transition-colors duration-200"
             >
               <FiShoppingCart className="w-5 h-5" />
-              {itemCount > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
-                >
+              {mounted && itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
                   {itemCount}
-                </motion.span>
+                </span>
               )}
             </Link>
 
             {/* Auth Links */}
-            <div className="flex items-center space-x-2 rtl:space-x-reverse">
+            <div className="flex items-center gap-2">
               {user ? (
-                <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                <div className="flex items-center gap-2">
                   <div className="text-sm text-gray-700 dark:text-gray-300">
                     {language === 'ar' ? `مرحباً، ${user.firstName}` : `Hi, ${user.firstName}`}
                   </div>
@@ -142,7 +139,7 @@ const Navbar = () => {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="flex items-center space-x-1 rtl:space-x-reverse px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                   >
                     <item.icon className="w-4 h-4" />
                     <span className="text-sm">{item.text}</span>
@@ -153,7 +150,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-2 rtl:space-x-reverse">
+          <div className="md:hidden flex items-center gap-2">
             <button
               onClick={toggleLanguage}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
@@ -171,7 +168,7 @@ const Navbar = () => {
               className="relative p-2 rounded-lg bg-pink-100 dark:bg-pink-900 text-pink-700 dark:text-pink-300"
             >
               <FiHeart className="w-5 h-5" />
-              {wishlist.length > 0 && (
+              {mounted && wishlist.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {wishlist.length}
                 </span>
@@ -179,10 +176,10 @@ const Navbar = () => {
             </Link>
             <Link
               href="/cart"
-              className="relative p-2 rounded-lg bg-bl-100 dark:bg-bl-900 text-bl-700 dark:text-bl-300"
+              className="relative p-2 rounded-lg bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300"
             >
               <FiShoppingCart className="w-5 h-5" />
-              {itemCount > 0 && (
+              {mounted && itemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {itemCount}
                 </span>
@@ -198,58 +195,61 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-gray-200 dark:border-gray-700"
-          >
-            <div className="py-4 space-y-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center space-x-2 rtl:space-x-reverse px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-                >
-                  <item.icon className="w-4 h-4" />
-                  <span>{item.text}</span>
-                </Link>
-              ))}
-              <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
-                {user ? (
-                  <div className="px-4 py-2">
-                    <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                      {language === 'ar' ? `مرحباً، ${user.firstName}` : `Hi, ${user.firstName}`}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden border-t border-gray-200 dark:border-gray-700"
+            >
+              <div className="py-4 space-y-2">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                  >
+                    <item.icon className="w-4 h-4" />
+                    <span>{item.text}</span>
+                  </Link>
+                ))}
+                <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
+                  {user ? (
+                    <div className="px-4 py-2">
+                      <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                        {language === 'ar' ? `مرحباً، ${user.firstName}` : `Hi, ${user.firstName}`}
+                      </div>
+                      <button
+                        onClick={() => {
+                          logout();
+                          setIsMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                      >
+                        {language === 'ar' ? 'تسجيل الخروج' : 'Logout'}
+                      </button>
                     </div>
-                    <button
-                      onClick={() => {
-                        logout();
-                        setIsMenuOpen(false);
-                      }}
-                      className="w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-                    >
-                      {language === 'ar' ? 'تسجيل الخروج' : 'Logout'}
-                    </button>
-                  </div>
-                ) : (
-                  authItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center space-x-2 rtl:space-x-reverse px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-                    >
-                      <item.icon className="w-4 h-4" />
-                      <span>{item.text}</span>
-                    </Link>
-                  ))
-                )}
+                  ) : (
+                    authItems.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                      >
+                        <item.icon className="w-4 h-4" />
+                        <span>{item.text}</span>
+                      </Link>
+                    ))
+                  )}
+                </div>
               </div>
-            </div>
-          </motion.div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
