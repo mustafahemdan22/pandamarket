@@ -147,9 +147,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
         {/* Product Info */}
         <div className="p-4">
           {/* Brand */}
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wide font-medium">
+          {/* <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wide font-medium">
             {product.brand}
-          </p>
+          </p> */}
 
           {/* Product Name */}
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[3.5rem] group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
