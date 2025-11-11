@@ -314,14 +314,18 @@ const blogPosts = {
   }
 };
 
+
+
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const { language } = useLanguage();
   const [isDark, setIsDark] = useState(false);
+
   const post = blogPosts[params.slug as keyof typeof blogPosts];
 
+  // مراقبة وضع الداكن
   useEffect(() => {
     const checkDarkMode = () => {
-      setIsDark(document.documentElement.classList.contains('dark'));
+      setIsDark(document.documentElement.classList.contains("dark"));
     };
 
     checkDarkMode();
@@ -334,29 +338,37 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   if (!post) {
     return (
       <div className={styles.container}>
-        <div style={{ textAlign: 'center', paddingTop: '8rem' }}>
-          <h1>{language === 'ar' ? 'المقال غير موجود' : 'Post not found'}</h1>
-          <Link href="/blog" className={styles.backButton}>
-            {language === 'ar' ? 'العودة إلى المدونة' : 'Back to Blog'}
+        <div className="text-center pt-32">
+          <h1 className="text-2xl font-bold">
+            {language === "ar" ? "المقال غير موجود" : "Post not found"}
+          </h1>
+          <Link
+            href="/blog"
+            className="mt-4 inline-block text-green-600 hover:text-green-700 font-medium"
+          >
+            {language === "ar" ? "العودة إلى المدونة" : "Back to Blog"}
           </Link>
         </div>
       </div>
     );
   }
 
-  const ArrowIcon = language === 'ar' ? FiArrowRight : FiArrowLeft;
+  const ArrowIcon = language === "ar" ? FiArrowRight : FiArrowLeft;
 
   return (
-    <div className={`${styles.container} ${isDark ? styles.dark : ''}`}>
+    <div className={`${styles.container} ${isDark ? styles.dark : ""}`}>
       <article className={styles.article}>
         {/* زر الرجوع */}
-        <Link href="/blog" className={styles.backButton}>
-          <ArrowIcon className={styles.backIcon} />
-          {language === 'ar' ? 'العودة إلى المدونة' : 'Back to Blog'}
+        <Link
+          href="/blog"
+          className="flex items-center gap-2 text-green-600 hover:text-green-700 font-medium mb-6"
+        >
+          <ArrowIcon className="w-5 h-5" />
+          {language === "ar" ? "العودة إلى المدونة" : "Back to Blog"}
         </Link>
 
         {/* الصورة الرئيسية */}
-        <div className={`${styles.headerImage} ${styles.fadeIn}`}>
+        <div className={`${styles.headerImage} ${styles.fadeIn} relative w-full h-80 sm:h-96 md:h-[500px] rounded-lg overflow-hidden mb-6`}>
           <Image
             src={post.image}
             alt={post.title[language]}
@@ -367,23 +379,23 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </div>
 
         {/* العنوان */}
-        <h1 className={styles.title}>{post.title[language]}</h1>
+        <h1 className="text-3xl font-bold mb-4">{post.title[language]}</h1>
 
         {/* بيانات الكاتب والتاريخ */}
-        <div className={styles.metaInfo}>
-          <div className={styles.metaItem}>
-            <FiUser className={styles.metaIcon} />
+        <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-8">
+          <div className="flex items-center gap-2">
+            <FiUser className="w-5 h-5" />
             <span>{post.author[language]}</span>
           </div>
-          <div className={styles.metaItem}>
-            <FiCalendar className={styles.metaIcon} />
+          <div className="flex items-center gap-2">
+            <FiCalendar className="w-5 h-5" />
             <span>{post.date[language]}</span>
           </div>
         </div>
 
         {/* المحتوى */}
         <div
-          className={styles.content}
+          className="prose dark:prose-invert max-w-none"
           dangerouslySetInnerHTML={{ __html: post.content[language] }}
         />
       </article>

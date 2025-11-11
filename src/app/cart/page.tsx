@@ -6,8 +6,6 @@ import {
   removeFromCart,
   updateQuantity,
   clearCart,
-  incrementQuantity,
-  decrementQuantity,
   selectCartSubtotal,
   selectDeliveryFee,
   selectCartDiscount,
@@ -33,6 +31,7 @@ const CartPage = () => {
   const { language, isRTL } = useLanguage();
   const router = useRouter();
   const dispatch = useAppDispatch();
+
   const { items, total, itemCount } = useAppSelector((state) => state.cart);
   const subtotal = useAppSelector(selectCartSubtotal);
   const deliveryFee = useAppSelector(selectDeliveryFee);
@@ -41,37 +40,33 @@ const CartPage = () => {
 
   const [showClearConfirm, setShowClearConfirm] = useState(false);
 
-  // const handleUpdateQuantity = (id: string, quantity: number) => {
-  //   if (quantity <= 0) {
-  //     dispatch(removeFromCart(id));
-  //     toast.success(
-  //       language === "ar"
-  //         ? "تم إزالة المنتج من السلة"
-  //         : "Product removed from cart"
-  //     );
-  //   } else {
-  //     dispatch(updateQuantity({ id, quantity }));
-  //   }
-  // };
+  const notify = (msgAr: string, msgEn: string, type: "success" | "error" = "success") => {
+    toast[type](language === "ar" ? msgAr : msgEn);
+  };
+
+  const handleQuantityChange = (id: string, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      dispatch(removeFromCart(id));
+      notify("تم إزالة المنتج من السلة", "Product removed from cart");
+    } else {
+      dispatch(updateQuantity({ id, quantity: newQuantity }));
+    }
+  };
 
   const handleRemoveItem = (id: string) => {
     dispatch(removeFromCart(id));
-    toast.success(
-      language === "ar"
-        ? "تم إزالة المنتج من السلة"
-        : "Product removed from cart"
-    );
+    notify("تم إزالة المنتج من السلة", "Product removed from cart");
   };
 
   const handleClearCart = () => {
     dispatch(clearCart());
-    toast.success(language === "ar" ? "تم إفراغ السلة" : "Cart cleared");
+    notify("تم إفراغ السلة", "Cart cleared");
     setShowClearConfirm(false);
   };
 
   const handleCheckout = () => {
     if (items.length === 0) {
-      toast.error(language === "ar" ? "السلة فارغة" : "Cart is empty");
+      notify("السلة فارغة", "Cart is empty", "error");
       return;
     }
     router.push("/checkout");
@@ -119,10 +114,7 @@ const CartPage = () => {
   }
 
   return (
-    <div
-      className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16"
-      dir={isRTL ? "rtl" : "ltr"}
-    >
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16" dir={isRTL ? "rtl" : "ltr"}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -166,15 +158,9 @@ const CartPage = () => {
               <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 <AnimatePresence mode="popLayout">
                   {items.map((item, index) => {
-                    const productName =
-                      language === "ar"
-                        ? item.product.name
-                        : item.product.nameEn;
-
+                    const productName = language === "ar" ? item.product.name : item.product.nameEn;
                     const productDescription =
-                      language === "ar"
-                        ? item.product.description
-                        : item.product.descriptionEn;
+                      language === "ar" ? item.product.description : item.product.descriptionEn;
 
                     return (
                       <motion.div
@@ -194,7 +180,7 @@ const CartPage = () => {
                             width={500}
                             height={300}
                             className="w-full h-full object-cover"
-                            priority // للصور المهمة في أعلى الصفحة
+                            priority={index < 3}
                           />
                         </div>
 
@@ -214,39 +200,34 @@ const CartPage = () => {
                             <span>{item.product.unit}</span>
                           </div>
                           <p className="text-green-600 font-semibold mt-1">
-                            {item.product.price}{" "}
-                            {language === "ar" ? "ج.م" : "EGP"}
+                            {item.product.price} {language === "ar" ? "ج.م" : "EGP"}
                           </p>
                         </div>
 
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() =>
-                              dispatch(decrementQuantity(item.product.id))
-                            }
-                            className="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            onClick={() => handleQuantityChange(item.product.id, item.quantity - 1)}
+                            className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                             aria-label="Decrease quantity"
                           >
-                            <FiMinus className="w-2 h-2 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300" />
+                            <FiMinus className="w-4 h-4 text-gray-700 dark:text-gray-300" />
                           </button>
 
-                          <span className="w-10 sm:w-12 text-center font-medium text-gray-900 dark:text-white text-base sm:text-lg">
+                          <span className="w-10 text-center font-medium text-gray-900 dark:text-white text-lg">
                             {item.quantity}
                           </span>
 
                           <button
-                            onClick={() =>
-                              dispatch(incrementQuantity(item.product.id))
-                            }
-                            className="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            onClick={() => handleQuantityChange(item.product.id, item.quantity + 1)}
+                            className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors disabled:opacity-50"
                             disabled={
                               item.product.stock !== undefined &&
                               item.quantity >= item.product.stock
                             }
                             aria-label="Increase quantity"
                           >
-                            <FiPlus className="w-2 h-2 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300" />
+                            <FiPlus className="w-4 h-4 text-gray-700 dark:text-gray-300" />
                           </button>
                         </div>
 
@@ -305,9 +286,7 @@ const CartPage = () => {
 
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                  <span>
-                    {language === "ar" ? "المجموع الفرعي" : "Subtotal"}
-                  </span>
+                  <span>{language === "ar" ? "المجموع الفرعي" : "Subtotal"}</span>
                   <span className="text-gray-900 dark:text-white font-medium">
                     {subtotal.toFixed(2)} {language === "ar" ? "ج.م" : "EGP"}
                   </span>
@@ -324,9 +303,7 @@ const CartPage = () => {
 
                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
                   <span>{language === "ar" ? "التوصيل" : "Delivery"}</span>
-                  <span
-                    className={`font-medium ${deliveryFee === 0 ? "text-green-600" : ""}`}
-                  >
+                  <span className={`font-medium ${deliveryFee === 0 ? "text-green-600" : ""}`}>
                     {deliveryFee === 0
                       ? language === "ar"
                         ? "مجاني"
@@ -365,7 +342,7 @@ const CartPage = () => {
         </div>
       </div>
 
-      {/* Clear Cart Confirmation Modal */}
+      {/* Clear Cart Modal */}
       <AnimatePresence>
         {showClearConfirm && (
           <motion.div
