@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import img from "../Phoenix_10_A_vibrant_promotional_banner_showing_smart_shopping_3.jpg"
 import img2 from "../Phoenix_10_Fresh_colorful_fruits_and_vegetables_display_repres_2.jpg"
 import img3 from "../Phoenix_10_Professional_food_storage_and_preservation_concept_3.jpg"
+import { use } from 'react'; // أضف في الـ imports
+
 
 
 
@@ -317,6 +319,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const { language } = useLanguage();
   const [isDark, setIsDark] = useState(false);
   const post = blogPosts[params.slug as keyof typeof blogPosts];
+ 
 
   useEffect(() => {
     const checkDarkMode = () => {
