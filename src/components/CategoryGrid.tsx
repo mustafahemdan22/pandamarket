@@ -19,6 +19,7 @@ const CategoryGrid = () => {
       id: 'bakery',
       name: language === 'ar' ? 'المخبوزات' : 'Bakery',
       icon: FiCoffee,
+      emoji: '🍞',
       href: '/categories/bakery',
       color: 'from-orange-400 to-orange-600',
       description: language === 'ar' ? 'خبز طازج وحلويات لذيذة' : 'Fresh bread and delicious pastries'
@@ -27,6 +28,7 @@ const CategoryGrid = () => {
       id: 'spices',
       name: language === 'ar' ? 'التوابل' : 'Spices',
       icon: FiStar,
+      emoji: '🌶️',
       href: '/categories/spices',
       color: 'from-red-400 to-red-600',
       description: language === 'ar' ? 'توابل عطرية ومذاقات مميزة' : 'Aromatic spices and unique flavors'
@@ -35,6 +37,7 @@ const CategoryGrid = () => {
       id: 'dry-grocery',
       name: language === 'ar' ? 'البقالة الجافة' : 'Dry Grocery',
       icon: FiPackage,
+      emoji: '🥫',
       href: '/categories/dry-grocery',
       color: 'from-yellow-400 to-yellow-600',
       description: language === 'ar' ? 'أرز ومعكرونة وحبوب متنوعة' : 'Rice, pasta, and various grains'
@@ -43,6 +46,7 @@ const CategoryGrid = () => {
       id: 'cleaning',
       name: language === 'ar' ? 'منتجات التنظيف' : 'Cleaning Products',
       icon: FiDroplet,
+      emoji: '🧹',
       href: '/categories/cleaning',
       color: 'from-blue-400 to-blue-600',
       description: language === 'ar' ? 'منتجات نظافة عالية الجودة' : 'High-quality cleaning products'
@@ -51,6 +55,7 @@ const CategoryGrid = () => {
       id: 'bazaar',
       name: language === 'ar' ? 'البازار' : 'Bazaar',
       icon: FiShoppingBag,
+      emoji: '🛍️',
       href: '/categories/bazaar',
       color: 'from-purple-400 to-purple-600',
       description: language === 'ar' ? 'منتجات متنوعة وأسعار مميزة' : 'Varied products and special prices'
@@ -58,6 +63,7 @@ const CategoryGrid = () => {
     {
       id: 'vegetables',
       name: language === 'ar' ? 'الخضروات' : 'Vegetables',
+      emoji: '🥬',
       href: '/categories/vegetables',
       color: 'from-green-400 to-green-600',
       description: language === 'ar' ? 'خضروات طازجة من الحقل' : 'Fresh vegetables from the farm'
@@ -98,17 +104,22 @@ const CategoryGrid = () => {
           key={category.id}
           variants={itemVariants}
           whileHover={{ y: -5, scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.2 }}
         >
           <Link href={category.href}>
-            <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+            <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer">
               {/* Background Gradient */}
               <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
               
               <div className="relative p-6">
-                {/* Icon */}
+                {/* Icon with Emoji */}
                 <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${category.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  {category.icon && <category.icon className="w-8 h-8 text-white" />}
+                  {category.icon ? (
+                    <category.icon className="w-8 h-8 text-white" />
+                  ) : (
+                    <span className="text-3xl">{category.emoji}</span>
+                  )}
                 </div>
 
                 {/* Content */}
@@ -116,12 +127,12 @@ const CategoryGrid = () => {
                   {category.name}
                 </h3>
                 
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
                   {category.description}
                 </p>
 
                 {/* Arrow */}
-                <div className="flex items-center text-green-600 group-hover:translate-x-1 transition-transform duration-300">
+                <div className={`flex items-center text-green-600 dark:text-green-400 group-hover:${isRTL ? '-translate-x-1' : 'translate-x-1'} transition-transform duration-300`}>
                   <span className="text-sm font-medium">
                     {language === 'ar' ? 'تسوق الآن' : 'Shop Now'}
                   </span>
@@ -137,8 +148,8 @@ const CategoryGrid = () => {
                 </div>
               </div>
 
-              {/* Hover Effect */}
-              <div className="absolute inset-0 border-2 border-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+              {/* Hover Border Effect */}
+              <div className="absolute inset-0 border-2 border-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl pointer-events-none"></div>
             </div>
           </Link>
         </motion.div>

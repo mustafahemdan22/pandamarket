@@ -93,7 +93,7 @@ const AboutPage = () => {
                 fill 
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-[rgba(0,0,0,0.6)]"></div>
+              <div className="absolute inset-0 bg-[rgba(0,0,0,0.2)]"></div>
             </div>
           </div>
         </motion.div>

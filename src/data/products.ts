@@ -44,17 +44,23 @@ export const sampleProducts: Product[] = [
     unit: '550 جم'
   },
   {
-    id: 'bk4',
+id: 'bk4',
     name: 'توست قمح كامل',
     nameEn: 'Whole Wheat Toast',
     price: 15.00,
-    image: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=800',
+    image: '/photo/5-1086x1536.png', // ✅ من public/photo
+    images: [
+      '/photo/5-1086x1536.png',
+      '/photo/New_No-sugar-mockup-c-scaled.webp',
+      '/photo/normal-min-1086x1536.png',
+      'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600',
+    ],
     category: 'bakery',
-    description: 'توست قمح كامل صحي',
-    descriptionEn: 'Healthy whole wheat toast',
+    description: 'توست قمح كامل صحي 18 شريحة',
+    descriptionEn: 'Healthy whole wheat toast 18 slices',
     brand: 'أولكر',
     stock: 100,
-    unit: '600 جم'
+    unit: '550 جم'
   },
   {
     id: 'bk5',

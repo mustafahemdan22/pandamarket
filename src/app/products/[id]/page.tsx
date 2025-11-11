@@ -13,26 +13,31 @@ import {
   FiTruck,
   FiShield,
   FiRefreshCw,
+  FiShare2,
+  FiChevronLeft,
+  FiChevronRight,
 } from "react-icons/fi";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { addToCart, updateQuantity } from "../../../store/cartSlice";
 import { useLanguage } from "../../../contexts/LanguageProvider";
+import { useWishlist } from "../../../contexts/WishlistProvider";
 import { getProductById } from "../../../data/products";
 import { Product } from "../../../store/cartSlice";
 import ProductReviews from "../../../components/ProductReviews";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 const ProductDetailPage = () => {
   const params = useParams();
   const { language, isRTL } = useLanguage();
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector((state) => state.cart.items);
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedImage, setSelectedImage] = useState<number>(0);
-  const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -55,12 +60,32 @@ const ProductDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">
-            {language === "ar" ? "جاري التحميل..." : "Loading..."}
-          </p>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="space-y-4">
+              <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-2xl animate-pulse"></div>
+              <div className="grid grid-cols-4 gap-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"
+                  ></div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 animate-pulse"></div>
+              <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded w-1/2 animate-pulse"></div>
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/5 animate-pulse"></div>
+              </div>
+              <div className="h-14 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -70,6 +95,9 @@ const ProductDetailPage = () => {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
+          <div className="w-32 h-32 mx-auto mb-6 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
+            <span className="text-6xl">😕</span>
+          </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
             {language === "ar" ? "المنتج غير موجود" : "Product Not Found"}
           </h1>
@@ -94,13 +122,27 @@ const ProductDetailPage = () => {
     );
   }
 
-  // ✅ اختيار الاسم والوصف حسب اللغة
+  const getProductImages = () => {
+    if (product.images && product.images.length > 0) {
+      return product.images;
+    }
+    if (product.image) {
+      return [product.image];
+    }
+    return [];
+  };
+
+  const productImages = getProductImages();
+  const hasImages = productImages.length > 0;
+  const hasMultipleImages = productImages.length > 1;
+
   const productName = language === "ar" ? product.name : product.nameEn;
   const productDescription =
     language === "ar" ? product.description : product.descriptionEn;
 
   const cartItem = cartItems.find((item) => item.product.id === product.id);
   const currentQuantity = cartItem ? cartItem.quantity : 0;
+  const isWishlisted = isInWishlist(product.id);
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -112,13 +154,12 @@ const ProductDetailPage = () => {
         : `${quantity} ${productName} added to cart`,
       { icon: "🛒" }
     );
-    setQuantity(1); // ✅ إعادة تعيين الكمية
+    setQuantity(1);
   };
 
   const handleUpdateQuantity = (newQuantity: number) => {
     if (newQuantity <= 0) return;
 
-    // ✅ التحقق من المخزون
     if (product.stock && newQuantity > product.stock) {
       toast.error(
         language === "ar"
@@ -132,7 +173,7 @@ const ProductDetailPage = () => {
   };
 
   const handleWishlistToggle = () => {
-    setIsWishlisted(!isWishlisted);
+    toggleWishlist(product);
     toast.success(
       language === "ar"
         ? isWishlisted
@@ -143,6 +184,25 @@ const ProductDetailPage = () => {
           : "Added to wishlist",
       { icon: isWishlisted ? "💔" : "❤️" }
     );
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: productName,
+          text: productDescription,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.log("Error sharing:", error);
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      toast.success(
+        language === "ar" ? "تم نسخ الرابط" : "Link copied to clipboard"
+      );
+    }
   };
 
   const getProductEmoji = (category: string) => {
@@ -198,19 +258,21 @@ const ProductDetailPage = () => {
           <nav className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
             <Link
               href="/"
-              className="hover:text-green-600 dark:hover:text-green-400"
+              className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
             >
               {language === "ar" ? "الرئيسية" : "Home"}
             </Link>
             <span>/</span>
             <Link
               href="/categories"
-              className="hover:text-green-600 dark:hover:text-green-400"
+              className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
             >
               {language === "ar" ? "المنتجات" : "Products"}
             </Link>
             <span>/</span>
-            <span className="text-gray-900 dark:text-white">{productName}</span>
+            <span className="text-gray-900 dark:text-white font-medium">
+              {productName}
+            </span>
           </nav>
         </motion.div>
 
@@ -222,39 +284,122 @@ const ProductDetailPage = () => {
             transition={{ duration: 0.6 }}
             className="space-y-4"
           >
-            <div className="aspect-square bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden flex items-center justify-center">
-              {product.image ? (
-                <img
-                  src={product.image}
-                  alt={productName}
-                  className="w-full h-full object-cover"
-                />
+            {/* الصورة الرئيسية */}
+            <div className="aspect-square bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden relative group">
+              {hasImages && productImages[selectedImage] ? (
+                <>
+                  <Image
+                    src={productImages[selectedImage]}
+                    alt={`${productName} - ${selectedImage + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                    priority={selectedImage === 0}
+                  />
+
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+
+                  {/* عداد الصور */}
+                  {hasMultipleImages && (
+                    <div
+                      className={`absolute bottom-4 px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm bg-black/70 text-white z-10 ${
+                        isRTL ? "left-4" : "right-4"
+                      }`}
+                    >
+                      {selectedImage + 1} / {productImages.length}
+                    </div>
+                  )}
+
+                  {/* أزرار التنقل */}
+                  {hasMultipleImages && (
+                    <>
+                      <button
+                        onClick={() =>
+                          setSelectedImage((prev) =>
+                            prev === 0 ? productImages.length - 1 : prev - 1
+                          )
+                        }
+                        className={`absolute top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all opacity-0 group-hover:opacity-100 z-10 ${
+                          isRTL ? "right-4" : "left-4"
+                        }`}
+                        aria-label={
+                          language === "ar" ? "الصورة السابقة" : "Previous image"
+                        }
+                      >
+                        {isRTL ? (
+                          <FiChevronRight className="w-6 h-6" />
+                        ) : (
+                          <FiChevronLeft className="w-6 h-6" />
+                        )}
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          setSelectedImage((prev) =>
+                            prev === productImages.length - 1 ? 0 : prev + 1
+                          )
+                        }
+                        className={`absolute top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all opacity-0 group-hover:opacity-100 z-10 ${
+                          isRTL ? "left-4" : "right-4"
+                        }`}
+                        aria-label={
+                          language === "ar" ? "الصورة التالية" : "Next image"
+                        }
+                      >
+                        {isRTL ? (
+                          <FiChevronLeft className="w-6 h-6" />
+                        ) : (
+                          <FiChevronRight className="w-6 h-6" />
+                        )}
+                      </button>
+                    </>
+                  )}
+                </>
               ) : (
-                <span className="text-9xl">
-                  {getProductEmoji(product.category)}
-                </span>
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+                  <span className="text-9xl opacity-80">
+                    {getProductEmoji(product.category)}
+                  </span>
+                </div>
               )}
             </div>
 
-            <div className="grid grid-cols-4 gap-4">
-              {[0, 1, 2, 3].map((index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`aspect-square bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border-2 transition-colors ${
-                    selectedImage === index
-                      ? "border-green-500"
-                      : "border-transparent hover:border-gray-300 dark:hover:border-gray-600"
-                  }`}
-                >
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-2xl">
-                      {getProductEmoji(product.category)}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
+            {/* الصور المصغرة */}
+            {hasMultipleImages && (
+              <div
+                className={`grid gap-4 ${
+                  productImages.length === 2
+                    ? "grid-cols-2"
+                    : productImages.length === 3
+                      ? "grid-cols-3"
+                      : "grid-cols-4"
+                }`}
+              >
+                {productImages.map((img, index) => (
+                  <motion.button
+                    key={index}
+                    onClick={() => setSelectedImage(index)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`aspect-square bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border-2 transition-all duration-200 relative ${
+                      selectedImage === index
+                        ? "border-green-500 ring-2 ring-green-200 dark:ring-green-900"
+                        : "border-transparent hover:border-gray-300 dark:hover:border-gray-600"
+                    }`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${productName} view ${index + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="150px"
+                      loading="lazy"
+                    />
+                  </motion.button>
+                ))}
+              </div>
+            )}
           </motion.div>
 
           {/* Product Info */}
@@ -266,9 +411,6 @@ const ProductDetailPage = () => {
           >
             {/* Title & Rating */}
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">
-                {product.brand}
-              </p>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
                 {productName}
               </h1>
@@ -295,16 +437,20 @@ const ProductDetailPage = () => {
             {/* Price & Stock */}
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex items-center gap-2">
-                <span className="text-4xl font-bold text-green-600">
-                  {product.price.toFixed(2)} {language === "ar" ? "ج.م" : "EGP"}
+                <span className="text-4xl font-bold text-green-600 dark:text-green-500">
+                  {product.price.toFixed(2)}
                 </span>
-                {product.compareAtPrice &&
-                  product.compareAtPrice > product.price && (
-                    <span className="text-xl text-gray-400 line-through">
-                      {product.compareAtPrice.toFixed(2)}
-                    </span>
-                  )}
+                <span className="text-lg text-gray-600 dark:text-gray-400">
+                  {language === "ar" ? "ج.م" : "EGP"}
+                </span>
               </div>
+
+              {product.compareAtPrice &&
+                product.compareAtPrice > product.price && (
+                  <span className="text-xl text-gray-400 dark:text-gray-500 line-through">
+                    {product.compareAtPrice.toFixed(2)}
+                  </span>
+                )}
 
               {product.stock !== undefined && (
                 <span
@@ -338,87 +484,91 @@ const ProductDetailPage = () => {
               </p>
             </div>
 
-            {/* Quantity Selector & Actions */}
+            {/* Quantity & Actions - باقي الكود كما هو */}
             <div className="space-y-4">
-              <div className="flex items-center gap-3 sm:gap-4">
-  <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
-    {language === 'ar' ? 'الكمية:' : 'Quantity:'}
-  </span>
-  <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800">
-    <button 
-      onClick={() => setQuantity(Math.max(1, quantity - 1))} 
-      className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100"
-      disabled={quantity <= 1}
-      aria-label="Decrease quantity"
-    >
-      <FiMinus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-    </button>
-    <span className="px-3 py-1.5 sm:px-4 sm:py-2 min-w-[50px] sm:min-w-[60px] text-center font-medium text-sm sm:text-base text-gray-900 dark:text-white">
-      {quantity}
-    </span>
-    <button 
-      onClick={() => setQuantity(quantity + 1)} 
-      className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100"
-      disabled={product.stock !== undefined && quantity >= product.stock}
-      aria-label="Increase quantity"
-    >
-      <FiPlus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-    </button>
-  </div>
-</div>
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  {language === "ar" ? "الكمية:" : "Quantity:"}
+                </span>
+                <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 text-gray-700 dark:text-gray-300"
+                    disabled={quantity <= 1}
+                  >
+                    <FiMinus className="w-4 h-4" />
+                  </button>
+                  <span className="px-4 py-2 min-w-[60px] text-center font-medium text-gray-900 dark:text-white">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() =>
+                      setQuantity(Math.min(product.stock || Infinity, quantity + 1))
+                    }
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 text-green-600 dark:text-green-400"
+                    disabled={product.stock !== undefined && quantity >= product.stock}
+                  >
+                    <FiPlus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
 
-
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <button
                   onClick={handleAddToCart}
                   disabled={product.stock === 0}
-                  className="flex-1 bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  className="flex-1 bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed active:scale-95"
                 >
                   <FiShoppingCart className="w-5 h-5" />
                   <span>{language === "ar" ? "أضف للسلة" : "Add to Cart"}</span>
                 </button>
+
                 <button
                   onClick={handleWishlistToggle}
-                  className={`p-3 rounded-lg border-2 transition-colors duration-200 ${
+                  className={`p-3 rounded-lg border-2 transition-all duration-200 active:scale-95 ${
                     isWishlisted
                       ? "border-red-500 text-red-500 bg-red-50 dark:bg-red-900/20"
                       : "border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-red-500 hover:text-red-500"
                   }`}
                 >
-                  <FiHeart
-                    className={`w-5 h-5 ${isWishlisted ? "fill-current" : ""}`}
-                  />
+                  <FiHeart className={`w-5 h-5 ${isWishlisted ? "fill-current" : ""}`} />
+                </button>
+
+                <button
+                  onClick={handleShare}
+                  className="p-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-green-500 hover:text-green-500 transition-all duration-200 active:scale-95"
+                >
+                  <FiShare2 className="w-5 h-5" />
                 </button>
               </div>
 
               {/* In Cart Indicator */}
               {currentQuantity > 0 && (
-                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800"
+                >
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-green-800 dark:text-green-200">
-                      {language === "ar" ? "في السلة:" : "In Cart:"}{" "}
-                      {currentQuantity}
+                      {language === "ar" ? "في السلة:" : "In Cart:"} {currentQuantity}
                     </span>
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() =>
-                          handleUpdateQuantity(currentQuantity - 1)
-                        }
-                        className="p-1 rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 hover:bg-green-300 dark:hover:bg-green-700"
+                        onClick={() => handleUpdateQuantity(currentQuantity - 1)}
+                        className="p-1 rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 hover:bg-green-300 dark:hover:bg-green-700 transition-colors active:scale-95"
                       >
                         <FiMinus className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() =>
-                          handleUpdateQuantity(currentQuantity + 1)
-                        }
-                        className="p-1 rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 hover:bg-green-300 dark:hover:bg-green-700"
+                        onClick={() => handleUpdateQuantity(currentQuantity + 1)}
+                        className="p-1 rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 hover:bg-green-300 dark:hover:bg-green-700 transition-colors active:scale-95"
                       >
                         <FiPlus className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               )}
             </div>
 

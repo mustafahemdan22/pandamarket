@@ -97,6 +97,17 @@ const Navbar = () => {
             >
               <FiGlobe className="w-5 h-5" />
             </button>
+               <Link
+              href="/wishlist"
+              className="relative p-2 rounded-lg bg-pink-100 dark:bg-pink-900 text-pink-700 dark:text-pink-300"
+            >
+              <FiHeart className="w-5 h-5" />
+              {mounted && wishlist.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {wishlist.length}
+                </span>
+              )}
+            </Link>
 
             {/* Theme Toggle */}
             <button

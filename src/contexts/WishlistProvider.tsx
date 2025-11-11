@@ -1,12 +1,13 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { Product } from '../store/cartSlice';
 
 interface WishlistContextType {
   wishlist: Product[];
   addToWishlist: (product: Product) => void;
   removeFromWishlist: (productId: string) => void;
+  clearWishlist: () => void;
   isInWishlist: (productId: string) => boolean;
   toggleWishlist: (product: Product) => void;
 }
@@ -27,8 +28,8 @@ interface WishlistProviderProps {
 
 export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) => {
   const [wishlist, setWishlist] = useState<Product[]>([]);
+  const [isHydrated, setIsHydrated] = useState(false);
 
-  // Load wishlist from localStorage on mount
   useEffect(() => {
     const savedWishlist = localStorage.getItem('panda-wishlist');
     if (savedWishlist) {
@@ -36,47 +37,58 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
         setWishlist(JSON.parse(savedWishlist));
       } catch (error) {
         console.error('Error loading wishlist from localStorage:', error);
+        localStorage.removeItem('panda-wishlist');
       }
     }
+    setIsHydrated(true);
   }, []);
 
-  // Save wishlist to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('panda-wishlist', JSON.stringify(wishlist));
-  }, [wishlist]);
+    if (isHydrated) {
+      localStorage.setItem('panda-wishlist', JSON.stringify(wishlist));
+    }
+  }, [wishlist, isHydrated]);
 
-  const addToWishlist = (product: Product) => {
+  // ✅ استخدم useCallback للدوال
+  const addToWishlist = useCallback((product: Product) => {
     setWishlist(prev => {
       if (prev.find(item => item.id === product.id)) {
-        return prev; // Already in wishlist
+        return prev;
       }
       return [...prev, product];
     });
-  };
+  }, []);
 
-  const removeFromWishlist = (productId: string) => {
+  const removeFromWishlist = useCallback((productId: string) => {
     setWishlist(prev => prev.filter(item => item.id !== productId));
-  };
+  }, []);
 
-  const isInWishlist = (productId: string) => {
+  const clearWishlist = useCallback(() => {
+    setWishlist([]);
+  }, []);
+
+  const isInWishlist = useCallback((productId: string) => {
     return wishlist.some(item => item.id === productId);
-  };
+  }, [wishlist]); // ✅ يعتمد على wishlist
 
-  const toggleWishlist = (product: Product) => {
-    if (isInWishlist(product.id)) {
-      removeFromWishlist(product.id);
-    } else {
-      addToWishlist(product);
-    }
-  };
+  const toggleWishlist = useCallback((product: Product) => {
+    setWishlist(prev => {
+      if (prev.some(item => item.id === product.id)) {
+        return prev.filter(item => item.id !== product.id);
+      }
+      return [...prev, product];
+    });
+  }, []); // ✅ مش محتاج dependencies لأن بيستخدم prev
 
-  const value: WishlistContextType = {
+  // ✅ دلوقتي كل الـ dependencies موجودة
+  const value = useMemo<WishlistContextType>(() => ({
     wishlist,
     addToWishlist,
     removeFromWishlist,
+    clearWishlist,
     isInWishlist,
     toggleWishlist,
-  };
+  }), [wishlist, addToWishlist, removeFromWishlist, clearWishlist, isInWishlist, toggleWishlist]);
 
   return (
     <WishlistContext.Provider value={value}>

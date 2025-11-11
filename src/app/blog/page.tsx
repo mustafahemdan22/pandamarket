@@ -4,6 +4,9 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '../../contexts/LanguageProvider';
+import img from "../blog/Phoenix_10_A_vibrant_promotional_banner_showing_smart_shopping_3.jpg";
+import img2 from "../blog/Phoenix_10_Fresh_colorful_fruits_and_vegetables_display_repres_2.jpg";
+import img3 from "../blog/Phoenix_10_Professional_food_storage_and_preservation_concept_3.jpg"; // غيرها لصورة مختلفة
 
 const BlogPage = () => {
   const { language } = useLanguage();
@@ -15,7 +18,7 @@ const BlogPage = () => {
       excerpt: language === 'ar'
         ? 'تعرف على أفضل الطرق لتوفير المال أثناء التسوق وشراء منتجات عالية الجودة.'
         : 'Learn how to save money while buying high-quality groceries.',
-      image: '/images/blog1.jpg',
+      image: img, // ✅ بدون أقواس {}
       href: '/blog/smart-shopping'
     },
     {
@@ -24,7 +27,7 @@ const BlogPage = () => {
       excerpt: language === 'ar'
         ? 'الفواكه والخضروات الطازجة جزء أساسي من حياة صحية متوازنة.'
         : 'Fresh fruits and vegetables are essential for a healthy, balanced life.',
-      image: '/images/blog2.jpg',
+      image: img2, // ✅ بدون أقواس {}
       href: '/blog/fresh-produce'
     },
     {
@@ -33,7 +36,7 @@ const BlogPage = () => {
       excerpt: language === 'ar'
         ? 'تعرف على الطرق المثلى لتخزين الطعام والحفاظ على نكهته وجودته لأطول فترة.'
         : 'Discover the best ways to store food and preserve its freshness.',
-      image: '/images/blog3.jpg',
+      image: img3, // ✅ بدون أقواس {}
       href: '/blog/food-storage'
     }
   ];
@@ -75,10 +78,13 @@ const BlogPage = () => {
             >
               <div className="relative h-56 w-full overflow-hidden">
                 <Image
-                  src={post.image}
+                  src={post.image} // ✅ استخدم post.image مش img
                   alt={post.title}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  placeholder="blur" // ✅ يشتغل أوتوماتيك مع static imports
+                  priority={index === 0} // للصورة الأولى فقط
                 />
               </div>
 

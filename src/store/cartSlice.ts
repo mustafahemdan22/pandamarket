@@ -21,6 +21,8 @@ export interface Product {
   tags?: string[];          // ['حلال', 'عضوي']
   rating?: number;          // تقييم المنتج
   reviews?: number;         // عدد التقييمات
+    images?: string[]; // ✅ أضف هذا السطر - صور إضافية للمنتج
+
 }
 
 export interface CartItem {
