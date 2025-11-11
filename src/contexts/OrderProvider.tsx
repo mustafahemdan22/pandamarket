@@ -98,10 +98,13 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
 
   // ✅ Cleanup timeouts on unmount
   useEffect(() => {
-    return () => {
-      timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
-    };
-  }, []);
+  const timeouts = timeoutsRef.current;
+
+  return () => {
+    timeouts.forEach((timeout) => clearTimeout(timeout));
+  };
+}, []);
+
 
   const generateOrderNumber = () => {
     const timestamp = Date.now().toString().slice(-6);

@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 import img from "../Phoenix_10_A_vibrant_promotional_banner_showing_smart_shopping_3.jpg"
 import img2 from "../Phoenix_10_Fresh_colorful_fruits_and_vegetables_display_repres_2.jpg"
 import img3 from "../Phoenix_10_Professional_food_storage_and_preservation_concept_3.jpg"
-import { use } from 'react'; // أضف في الـ imports
 
 
 
@@ -319,17 +318,16 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const { language } = useLanguage();
   const [isDark, setIsDark] = useState(false);
   const post = blogPosts[params.slug as keyof typeof blogPosts];
- 
 
   useEffect(() => {
     const checkDarkMode = () => {
       setIsDark(document.documentElement.classList.contains('dark'));
     };
-    
+
     checkDarkMode();
     const observer = new MutationObserver(checkDarkMode);
     observer.observe(document.documentElement, { attributes: true });
-    
+
     return () => observer.disconnect();
   }, []);
 
@@ -351,13 +349,13 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   return (
     <div className={`${styles.container} ${isDark ? styles.dark : ''}`}>
       <article className={styles.article}>
-        {/* Back Button */}
+        {/* زر الرجوع */}
         <Link href="/blog" className={styles.backButton}>
           <ArrowIcon className={styles.backIcon} />
           {language === 'ar' ? 'العودة إلى المدونة' : 'Back to Blog'}
         </Link>
 
-        {/* Header Image */}
+        {/* الصورة الرئيسية */}
         <div className={`${styles.headerImage} ${styles.fadeIn}`}>
           <Image
             src={post.image}
@@ -368,12 +366,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           />
         </div>
 
-        {/* Title */}
-        <h1 className={styles.title}>
-          {post.title[language]}
-        </h1>
+        {/* العنوان */}
+        <h1 className={styles.title}>{post.title[language]}</h1>
 
-        {/* Meta Info */}
+        {/* بيانات الكاتب والتاريخ */}
         <div className={styles.metaInfo}>
           <div className={styles.metaItem}>
             <FiUser className={styles.metaIcon} />
@@ -385,8 +381,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </div>
         </div>
 
-        {/* Content */}
-        <div 
+        {/* المحتوى */}
+        <div
           className={styles.content}
           dangerouslySetInnerHTML={{ __html: post.content[language] }}
         />

@@ -41,18 +41,18 @@ const CartPage = () => {
 
   const [showClearConfirm, setShowClearConfirm] = useState(false);
 
-  const handleUpdateQuantity = (id: string, quantity: number) => {
-    if (quantity <= 0) {
-      dispatch(removeFromCart(id));
-      toast.success(
-        language === "ar"
-          ? "تم إزالة المنتج من السلة"
-          : "Product removed from cart"
-      );
-    } else {
-      dispatch(updateQuantity({ id, quantity }));
-    }
-  };
+  // const handleUpdateQuantity = (id: string, quantity: number) => {
+  //   if (quantity <= 0) {
+  //     dispatch(removeFromCart(id));
+  //     toast.success(
+  //       language === "ar"
+  //         ? "تم إزالة المنتج من السلة"
+  //         : "Product removed from cart"
+  //     );
+  //   } else {
+  //     dispatch(updateQuantity({ id, quantity }));
+  //   }
+  // };
 
   const handleRemoveItem = (id: string) => {
     dispatch(removeFromCart(id));
