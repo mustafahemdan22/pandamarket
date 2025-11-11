@@ -311,7 +311,7 @@ const blogPosts = {
   }
 };
 
-// 👇 هذا هو التعديل الأساسي: تحديد نوع params بشكل صحيح
+// ✅ التعديل الوحيد: استخدام نوع محلي دون ربطه بـ PageProps
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const { language } = useLanguage();
   const [isDark, setIsDark] = useState(false);
