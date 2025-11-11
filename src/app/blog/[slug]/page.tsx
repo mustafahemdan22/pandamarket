@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useLanguage } from '../../../contexts/LanguageProvider';
 import { FiArrowLeft, FiArrowRight, FiCalendar, FiUser } from 'react-icons/fi';
 import styles from './BlogPost.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,use } from 'react';
 import img from "../Phoenix_10_A_vibrant_promotional_banner_showing_smart_shopping_3.jpg";
 import img2 from "../Phoenix_10_Fresh_colorful_fruits_and_vegetables_display_repres_2.jpg";
 import img3 from "../Phoenix_10_Professional_food_storage_and_preservation_concept_3.jpg";
@@ -310,58 +310,54 @@ const blogPosts = {
     }
   }
 };
-
-// ✅ التعديل الوحيد: استخدام نوع محلي دون ربطه بـ PageProps
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default function BlogPostPage({ 
+  params 
+}: { 
+  params: Promise<{ slug: string }> 
+}) {
+  const { slug } = use(params);
   const { language } = useLanguage();
   const [isDark, setIsDark] = useState(false);
-
-  const post = blogPosts[params.slug as keyof typeof blogPosts];
+  const post = blogPosts[slug as keyof typeof blogPosts];
 
   useEffect(() => {
     const checkDarkMode = () => {
-      setIsDark(document.documentElement.classList.contains("dark"));
+      setIsDark(document.documentElement.classList.contains('dark'));
     };
-
+    
     checkDarkMode();
     const observer = new MutationObserver(checkDarkMode);
     observer.observe(document.documentElement, { attributes: true });
-
+    
     return () => observer.disconnect();
   }, []);
 
   if (!post) {
     return (
       <div className={styles.container}>
-        <div className="text-center pt-32">
-          <h1 className="text-2xl font-bold">
-            {language === "ar" ? "المقال غير موجود" : "Post not found"}
-          </h1>
-          <Link
-            href="/blog"
-            className="mt-4 inline-block text-green-600 hover:text-green-700 font-medium"
-          >
-            {language === "ar" ? "العودة إلى المدونة" : "Back to Blog"}
+        <div style={{ textAlign: 'center', paddingTop: '8rem' }}>
+          <h1>{language === 'ar' ? 'المقال غير موجود' : 'Post not found'}</h1>
+          <Link href="/blog" className={styles.backButton}>
+            {language === 'ar' ? 'العودة إلى المدونة' : 'Back to Blog'}
           </Link>
         </div>
       </div>
     );
   }
 
-  const ArrowIcon = language === "ar" ? FiArrowRight : FiArrowLeft;
+  const ArrowIcon = language === 'ar' ? FiArrowRight : FiArrowLeft;
 
   return (
-    <div className={`${styles.container} ${isDark ? styles.dark : ""}`}>
+    <div className={`${styles.container} ${isDark ? styles.dark : ''}`}>
       <article className={styles.article}>
-        <Link
-          href="/blog"
-          className="flex items-center gap-2 text-green-600 hover:text-green-700 font-medium mb-6"
-        >
-          <ArrowIcon className="w-5 h-5" />
-          {language === "ar" ? "العودة إلى المدونة" : "Back to Blog"}
+        {/* Back Button */}
+        <Link href="/blog" className={styles.backButton}>
+          <ArrowIcon className={styles.backIcon} />
+          {language === 'ar' ? 'العودة إلى المدونة' : 'Back to Blog'}
         </Link>
 
-        <div className={`${styles.headerImage} ${styles.fadeIn} relative w-full h-80 sm:h-96 md:h-[500px] rounded-lg overflow-hidden mb-6`}>
+        {/* Header Image */}
+        <div className={`${styles.headerImage} ${styles.fadeIn}`}>
           <Image
             src={post.image}
             alt={post.title[language]}
@@ -371,21 +367,26 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           />
         </div>
 
-        <h1 className="text-3xl font-bold mb-4">{post.title[language]}</h1>
+        {/* Title */}
+        <h1 className={styles.title}>
+          {post.title[language]}
+        </h1>
 
-        <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-8">
-          <div className="flex items-center gap-2">
-            <FiUser className="w-5 h-5" />
+        {/* Meta Info */}
+        <div className={styles.metaInfo}>
+          <div className={styles.metaItem}>
+            <FiUser className={styles.metaIcon} />
             <span>{post.author[language]}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <FiCalendar className="w-5 h-5" />
+          <div className={styles.metaItem}>
+            <FiCalendar className={styles.metaIcon} />
             <span>{post.date[language]}</span>
           </div>
         </div>
 
-        <div
-          className="prose dark:prose-invert max-w-none"
+        {/* Content */}
+        <div 
+          className={styles.content}
           dangerouslySetInnerHTML={{ __html: post.content[language] }}
         />
       </article>
