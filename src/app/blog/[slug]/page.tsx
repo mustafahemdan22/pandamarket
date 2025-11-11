@@ -319,7 +319,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = blogPosts[params.slug as keyof typeof blogPosts];
 
   useEffect(() => {
-    // تحقق من dark mode
     const checkDarkMode = () => {
       setIsDark(document.documentElement.classList.contains('dark'));
     };
@@ -362,6 +361,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             alt={post.title[language]}
             fill
             priority
+            className="object-cover"
           />
         </div>
 
