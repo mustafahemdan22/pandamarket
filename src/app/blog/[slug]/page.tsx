@@ -6,12 +6,9 @@ import { useLanguage } from '../../../contexts/LanguageProvider';
 import { FiArrowLeft, FiArrowRight, FiCalendar, FiUser } from 'react-icons/fi';
 import styles from './BlogPost.module.css';
 import { useEffect, useState } from 'react';
-import img from "../Phoenix_10_A_vibrant_promotional_banner_showing_smart_shopping_3.jpg"
-import img2 from "../Phoenix_10_Fresh_colorful_fruits_and_vegetables_display_repres_2.jpg"
-import img3 from "../Phoenix_10_Professional_food_storage_and_preservation_concept_3.jpg"
-
-
-
+import img from "../Phoenix_10_A_vibrant_promotional_banner_showing_smart_shopping_3.jpg";
+import img2 from "../Phoenix_10_Fresh_colorful_fruits_and_vegetables_display_repres_2.jpg";
+import img3 from "../Phoenix_10_Professional_food_storage_and_preservation_concept_3.jpg";
 
 // بيانات المقالات
 const blogPosts = {
@@ -20,7 +17,7 @@ const blogPosts = {
       ar: 'نصائح للتسوق الذكي في السوبر ماركت',
       en: 'Smart Shopping Tips at the Supermarket'
     },
-    image:img,
+    image: img,
     author: {
       ar: 'فريق باندا ماركت',
       en: 'Panda Market Team'
@@ -29,7 +26,7 @@ const blogPosts = {
       ar: '١٠ نوفمبر ٢٠٢٥',
       en: 'November 10, 2025'
     },
-   content: {
+    content: {
       ar: `
         <h2>كيف توفر المال أثناء التسوق؟</h2>
         <p>التسوق الذكي لا يعني فقط البحث عن أرخص الأسعار، بل يتعلق باتخاذ قرارات مدروسة تساعدك على توفير المال دون التضحية بجودة المنتجات التي تشتريها. في هذا المقال، سنشارك معك أفضل النصائح لتوفير المال أثناء التسوق.</p>
@@ -91,7 +88,7 @@ const blogPosts = {
         <p><strong>Conclusion:</strong> Smart shopping is a skill that can be easily learned. Once you start applying these tips, you'll notice a big difference in your monthly grocery bill. Start today and make every dollar count!</p>
       `
     }
-   },
+  },
   'fresh-produce': {
     title: {
       ar: 'أهمية المنتجات الطازجة في نظامك الغذائي',
@@ -191,7 +188,7 @@ const blogPosts = {
       ar: '٨ نوفمبر ٢٠٢٥',
       en: 'November 8, 2025'
     },
-   content: {
+    content: {
       ar: `
         <h2>دليلك الشامل لتخزين الطعام بطريقة صحيحة</h2>
         <p>التخزين الصحيح للطعام ليس فقط يحافظ على نكهته وجودته لفترة أطول، بل يقلل أيضاً من الهدر ويوفر لك المال. في هذا المقال، سنشارك معك أفضل طرق تخزين الأطعمة المختلفة.</p>
@@ -314,15 +311,13 @@ const blogPosts = {
   }
 };
 
-
-
+// 👇 هذا هو التعديل الأساسي: تحديد نوع params بشكل صحيح
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const { language } = useLanguage();
   const [isDark, setIsDark] = useState(false);
 
   const post = blogPosts[params.slug as keyof typeof blogPosts];
 
-  // مراقبة وضع الداكن
   useEffect(() => {
     const checkDarkMode = () => {
       setIsDark(document.documentElement.classList.contains("dark"));
@@ -358,7 +353,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   return (
     <div className={`${styles.container} ${isDark ? styles.dark : ""}`}>
       <article className={styles.article}>
-        {/* زر الرجوع */}
         <Link
           href="/blog"
           className="flex items-center gap-2 text-green-600 hover:text-green-700 font-medium mb-6"
@@ -367,7 +361,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           {language === "ar" ? "العودة إلى المدونة" : "Back to Blog"}
         </Link>
 
-        {/* الصورة الرئيسية */}
         <div className={`${styles.headerImage} ${styles.fadeIn} relative w-full h-80 sm:h-96 md:h-[500px] rounded-lg overflow-hidden mb-6`}>
           <Image
             src={post.image}
@@ -378,10 +371,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           />
         </div>
 
-        {/* العنوان */}
         <h1 className="text-3xl font-bold mb-4">{post.title[language]}</h1>
 
-        {/* بيانات الكاتب والتاريخ */}
         <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-8">
           <div className="flex items-center gap-2">
             <FiUser className="w-5 h-5" />
@@ -393,7 +384,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </div>
         </div>
 
-        {/* المحتوى */}
         <div
           className="prose dark:prose-invert max-w-none"
           dangerouslySetInnerHTML={{ __html: post.content[language] }}
