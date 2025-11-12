@@ -27,7 +27,7 @@
     bottom: -8px;
     width: 0;
     height: 1px;
-    background-color: rgb(102, 230, 145);
+    background-color: rgb(41, 177, 87);
     transition: 0.3s ease-in-out;
 }
 .logo:hover::before{

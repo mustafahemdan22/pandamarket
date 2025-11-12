@@ -40,7 +40,11 @@ const CartPage = () => {
 
   const [showClearConfirm, setShowClearConfirm] = useState(false);
 
-  const notify = (msgAr: string, msgEn: string, type: "success" | "error" = "success") => {
+  const notify = (
+    msgAr: string,
+    msgEn: string,
+    type: "success" | "error" = "success"
+  ) => {
     toast[type](language === "ar" ? msgAr : msgEn);
   };
 
@@ -114,7 +118,10 @@ const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16" dir={isRTL ? "rtl" : "ltr"}>
+    <div
+      className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16"
+      dir={isRTL ? "rtl" : "ltr"}
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -135,12 +142,11 @@ const CartPage = () => {
             </span>
           </div>
         </motion.div>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-              <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center flex-wrap gap-3">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                   {language === "ar" ? "المنتجات" : "Products"}
                 </h2>
@@ -158,9 +164,14 @@ const CartPage = () => {
               <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 <AnimatePresence mode="popLayout">
                   {items.map((item, index) => {
-                    const productName = language === "ar" ? item.product.name : item.product.nameEn;
+                    const productName =
+                      language === "ar"
+                        ? item.product.name
+                        : item.product.nameEn;
                     const productDescription =
-                      language === "ar" ? item.product.description : item.product.descriptionEn;
+                      language === "ar"
+                        ? item.product.description
+                        : item.product.descriptionEn;
 
                     return (
                       <motion.div
@@ -170,10 +181,10 @@ const CartPage = () => {
                         exit={{ opacity: 0, x: isRTL ? -20 : 20, height: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.05 }}
                         layout
-                        className="p-6 flex items-center gap-4"
+                        className="p-6 flex flex-wrap items-center gap-4"
                       >
                         {/* Product Image */}
-                        <div className="flex-shrink-0 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden">
+                        <div className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden">
                           <Image
                             src={item.product.image}
                             alt={productName}
@@ -185,7 +196,7 @@ const CartPage = () => {
                         </div>
 
                         {/* Product Info */}
-                        <div className="flex-1 min-w-0">
+                        <div className="flex-1 min-w-[150px]">
                           <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1">
                             {productName}
                           </h3>
@@ -194,20 +205,21 @@ const CartPage = () => {
                               {productDescription}
                             </p>
                           )}
-                          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                            <span>{item.product.brand}</span>
-                            <span>•</span>
-                            <span>{item.product.unit}</span>
-                          </div>
                           <p className="text-green-600 font-semibold mt-1">
-                            {item.product.price} {language === "ar" ? "ج.م" : "EGP"}
+                            {item.product.price}{" "}
+                            {language === "ar" ? "ج.م" : "EGP"}
                           </p>
                         </div>
 
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => handleQuantityChange(item.product.id, item.quantity - 1)}
+                            onClick={() =>
+                              handleQuantityChange(
+                                item.product.id,
+                                item.quantity - 1
+                              )
+                            }
                             className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                             aria-label="Decrease quantity"
                           >
@@ -219,7 +231,12 @@ const CartPage = () => {
                           </span>
 
                           <button
-                            onClick={() => handleQuantityChange(item.product.id, item.quantity + 1)}
+                            onClick={() =>
+                              handleQuantityChange(
+                                item.product.id,
+                                item.quantity + 1
+                              )
+                            }
                             className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors disabled:opacity-50"
                             disabled={
                               item.product.stock !== undefined &&
@@ -232,7 +249,7 @@ const CartPage = () => {
                         </div>
 
                         {/* Price & Remove */}
-                        <div className="flex flex-col items-end gap-2">
+                        <div className="flex flex-col items-end gap-2 mt-2 sm:mt-0">
                           <div className="text-lg font-bold text-gray-900 dark:text-white">
                             {(item.product.price * item.quantity).toFixed(2)}{" "}
                             {language === "ar" ? "ج.م" : "EGP"}
@@ -286,7 +303,9 @@ const CartPage = () => {
 
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                  <span>{language === "ar" ? "المجموع الفرعي" : "Subtotal"}</span>
+                  <span>
+                    {language === "ar" ? "المجموع الفرعي" : "Subtotal"}
+                  </span>
                   <span className="text-gray-900 dark:text-white font-medium">
                     {subtotal.toFixed(2)} {language === "ar" ? "ج.م" : "EGP"}
                   </span>
@@ -303,7 +322,9 @@ const CartPage = () => {
 
                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
                   <span>{language === "ar" ? "التوصيل" : "Delivery"}</span>
-                  <span className={`font-medium ${deliveryFee === 0 ? "text-green-600" : ""}`}>
+                  <span
+                    className={`font-medium ${deliveryFee === 0 ? "text-green-600" : ""}`}
+                  >
                     {deliveryFee === 0
                       ? language === "ar"
                         ? "مجاني"

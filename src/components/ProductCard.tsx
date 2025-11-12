@@ -32,7 +32,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       spices: '🌶️',
       'dry-grocery': '🥫',
       cleaning: '🧹',
-      bazaar: '🛍️',
+      grocery: '🛍️',
       vegetables: '🥬',
     };
     return emojiMap[category] || '🛒';

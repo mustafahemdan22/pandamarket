@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import style from './Navbar.module.css';
-import { 
-  FiShoppingCart, 
-  FiMenu, 
-  FiX, 
-  FiSun, 
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import style from "./Navbar.module.css";
+import {
+  FiShoppingCart,
+  FiMenu,
+  FiX,
+  FiSun,
   FiMoon,
   FiGlobe,
   FiHome,
@@ -19,13 +19,13 @@ import {
   FiLogIn,
   FiUserPlus,
   FiHeart,
-  FiPackage
-} from 'react-icons/fi';
-import { useAppSelector } from '../hooks/redux';
-import { useTheme } from '../contexts/ThemeProvider';
-import { useLanguage } from '../contexts/LanguageProvider';
-import { useWishlist } from '../contexts/WishlistProvider';
-import { useAuth } from '../contexts/AuthProvider';
+  FiPackage,
+} from "react-icons/fi";
+import { useAppSelector } from "../hooks/redux";
+import { useTheme } from "../contexts/ThemeProvider";
+import { useLanguage } from "../contexts/LanguageProvider";
+import { useWishlist } from "../contexts/WishlistProvider";
+import { useAuth } from "../contexts/AuthProvider";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,17 +43,49 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { href: '/', icon: FiHome, text: language === 'ar' ? 'الرئيسية' : 'Home' },
-    { href: '/about', icon: FiInfo, text: language === 'ar' ? 'من نحن' : 'About' },
-    { href: '/blog', icon: FiBookOpen, text: language === 'ar' ? 'المدونة' : 'Blog' },
-    { href: '/contact', icon: FiMail, text: language === 'ar' ? 'اتصل بنا' : 'Contact' },
-    { href: '/categories', icon: FiGrid, text: language === 'ar' ? 'الفئات' : 'Categories' },
-    ...(user ? [{ href: '/orders', icon: FiPackage, text: language === 'ar' ? 'طلباتي' : 'My Orders' }] : []),
+    { href: "/", icon: FiHome, text: language === "ar" ? "الرئيسية" : "Home" },
+    {
+      href: "/about",
+      icon: FiInfo,
+      text: language === "ar" ? "من نحن" : "About",
+    },
+    {
+      href: "/blog",
+      icon: FiBookOpen,
+      text: language === "ar" ? "المدونة" : "Blog",
+    },
+    {
+      href: "/contact",
+      icon: FiMail,
+      text: language === "ar" ? "اتصل بنا" : "Contact",
+    },
+    {
+      href: "/categories",
+      icon: FiGrid,
+      text: language === "ar" ? "الفئات" : "Categories",
+    },
+    ...(user
+      ? [
+          {
+            href: "/orders",
+            icon: FiPackage,
+            text: language === "ar" ? "طلباتي" : "My Orders",
+          },
+        ]
+      : []),
   ];
 
   const authItems = [
-    { href: '/login', icon: FiLogIn, text: language === 'ar' ? 'تسجيل الدخول' : 'Login' },
-    { href: '/signup', icon: FiUserPlus, text: language === 'ar' ? 'إنشاء حساب' : 'Sign Up' },
+    {
+      href: "/login",
+      icon: FiLogIn,
+      text: language === "ar" ? "تسجيل الدخول" : "Login",
+    },
+    {
+      href: "/signup",
+      icon: FiUserPlus,
+      text: language === "ar" ? "إنشاء حساب" : "Sign Up",
+    },
   ];
 
   return (
@@ -69,7 +101,7 @@ const Navbar = () => {
           >
             <Link href="/" className="flex items-center gap-2">
               <span className={style.logo}>
-                {language === 'ar' ? 'ماركت باندا' : 'Panda Market'}
+                {language === "ar" ? "ماركت باندا" : "Panda Market"}
               </span>
             </Link>
           </motion.div>
@@ -93,11 +125,13 @@ const Navbar = () => {
             <button
               onClick={toggleLanguage}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
-              title={language === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
+              title={
+                language === "ar" ? "Switch to English" : "التبديل إلى العربية"
+              }
             >
               <FiGlobe className="w-5 h-5" />
             </button>
-               <Link
+            <Link
               href="/wishlist"
               className="relative p-2 rounded-lg bg-pink-100 dark:bg-pink-900 text-pink-700 dark:text-pink-300"
             >
@@ -113,9 +147,17 @@ const Navbar = () => {
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
-              title={theme === 'light' ? 'Switch to Dark Mode' : 'التبديل إلى الوضع الفاتح'}
+              title={
+                theme === "light"
+                  ? "Switch to Dark Mode"
+                  : "التبديل إلى الوضع الفاتح"
+              }
             >
-              {theme === 'light' ? <FiMoon className="w-5 h-5" /> : <FiSun className="w-5 h-5" />}
+              {theme === "light" ? (
+                <FiMoon className="w-5 h-5" />
+              ) : (
+                <FiSun className="w-5 h-5" />
+              )}
             </button>
 
             {/* Cart - ✅ الحل هنا */}
@@ -136,13 +178,15 @@ const Navbar = () => {
               {user ? (
                 <div className="flex items-center gap-2">
                   <div className="text-sm text-gray-700 dark:text-gray-300">
-                    {language === 'ar' ? `مرحباً، ${user.firstName}` : `Hi, ${user.firstName}`}
+                    {language === "ar"
+                      ? `مرحباً، ${user.firstName}`
+                      : `Hi, ${user.firstName}`}
                   </div>
                   <button
                     onClick={logout}
                     className="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 text-sm"
                   >
-                    {language === 'ar' ? 'تسجيل الخروج' : 'Logout'}
+                    {language === "ar" ? "تسجيل الخروج" : "Logout"}
                   </button>
                 </div>
               ) : (
@@ -172,7 +216,11 @@ const Navbar = () => {
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
             >
-              {theme === 'light' ? <FiMoon className="w-5 h-5" /> : <FiSun className="w-5 h-5" />}
+              {theme === "light" ? (
+                <FiMoon className="w-5 h-5" />
+              ) : (
+                <FiSun className="w-5 h-5" />
+              )}
             </button>
             <Link
               href="/wishlist"
@@ -200,7 +248,11 @@ const Navbar = () => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
             >
-              {isMenuOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
+              {isMenuOpen ? (
+                <FiX className="w-6 h-6" />
+              ) : (
+                <FiMenu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -210,7 +262,7 @@ const Navbar = () => {
           {isMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
               className="md:hidden border-t border-gray-200 dark:border-gray-700"
@@ -221,9 +273,9 @@ const Navbar = () => {
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                    className={`${style.navLink} flex justify-center items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200`}
                   >
-                    <item.icon className="w-4 h-4" />
+                    <item.icon className="w-4 h-4 bg" />
                     <span>{item.text}</span>
                   </Link>
                 ))}
@@ -231,7 +283,9 @@ const Navbar = () => {
                   {user ? (
                     <div className="px-4 py-2">
                       <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                        {language === 'ar' ? `مرحباً، ${user.firstName}` : `Hi, ${user.firstName}`}
+                        {language === "ar"
+                          ? `مرحباً، ${user.firstName}`
+                          : `Hi, ${user.firstName}`}
                       </div>
                       <button
                         onClick={() => {
@@ -240,7 +294,7 @@ const Navbar = () => {
                         }}
                         className="w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                       >
-                        {language === 'ar' ? 'تسجيل الخروج' : 'Logout'}
+                        {language === "ar" ? "تسجيل الخروج" : "Logout"}
                       </button>
                     </div>
                   ) : (

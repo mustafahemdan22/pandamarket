@@ -30,7 +30,7 @@ const CheckoutPage = () => {
     city: '',
     state: '',
     zipCode: '',
-    country: language === 'ar' ? 'السعودية' : 'Saudi Arabia',
+    country: language === 'ar' ? 'مصر' : 'egypt',
     paymentMethod: 'credit-card'
   });
 

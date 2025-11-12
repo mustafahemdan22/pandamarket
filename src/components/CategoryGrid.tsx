@@ -52,11 +52,11 @@ const CategoryGrid = () => {
       description: language === 'ar' ? 'منتجات نظافة عالية الجودة' : 'High-quality cleaning products'
     },
     {
-      id: 'bazaar',
-      name: language === 'ar' ? 'البازار' : 'Bazaar',
+      id: 'grocery',
+      name: language === 'ar' ? 'البازار' : 'grocery',
       icon: FiShoppingBag,
       emoji: '🛍️',
-      href: '/categories/bazaar',
+      href: '/categories/grocery',
       color: 'from-purple-400 to-purple-600',
       description: language === 'ar' ? 'منتجات متنوعة وأسعار مميزة' : 'Varied products and special prices'
     },
@@ -108,17 +108,17 @@ const CategoryGrid = () => {
           transition={{ duration: 0.2 }}
         >
           <Link href={category.href}>
-            <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer">
+            <div className="relative text-center bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer">
               {/* Background Gradient */}
               <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
               
-              <div className="relative p-6">
+              <div className="relative p-6 ">
                 {/* Icon with Emoji */}
                 <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${category.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                   {category.icon ? (
                     <category.icon className="w-8 h-8 text-white" />
                   ) : (
-                    <span className="text-3xl">{category.emoji}</span>
+                    <span className="text-3xl ">{category.emoji}</span>
                   )}
                 </div>
 

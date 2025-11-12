@@ -14,9 +14,9 @@ import Link from 'next/link';
 const categoryNames: Record<string, { ar: string; en: string; icon: string }> = {
   bakery: { ar: 'المخبوزات', en: 'Bakery', icon: '🍞' },
   spices: { ar: 'التوابل', en: 'Spices', icon: '🌶️' },
-  'dry-grocery': { ar: 'البقالة الجافة', en: 'Dry Grocery', icon: '🥫' },
+  dry: { ar: 'البقالة الجافة', en: 'Dry', icon: '🥫' },
   cleaning: { ar: 'منتجات التنظيف', en: 'Cleaning Products', icon: '🧹' },
-  bazaar: { ar: 'البازار', en: 'Bazaar', icon: '🛍️' },
+  grocery: { ar: 'البازار', en: 'grocery', icon: '🛍️' },
   vegetables: { ar: 'الخضروات والفواكه', en: 'Vegetables & Fruits', icon: '🥬' },
 };
 

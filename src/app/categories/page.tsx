@@ -166,8 +166,8 @@ const CategoriesPage = () => {
       icon: "🧹",
     },
     {
-      id: "bazaar",
-      name: language === "ar" ? "البازار" : "Bazaar",
+      id: "grocery",
+      name: language === "ar" ? "البازار" : "grocery",
       icon: "🛍️",
     },
     {

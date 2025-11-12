@@ -209,9 +209,9 @@ const ProductDetailPage = () => {
     const emojiMap: Record<string, string> = {
       bakery: "🍞",
       spices: "🌶️",
-      "dry-grocery": "🥫",
+      dry: "🥫",
       cleaning: "🧹",
-      bazaar: "🛍️",
+      grocery: "🛍️",
       vegetables: "🥬",
     };
     return emojiMap[category] || "🛒";
@@ -237,8 +237,8 @@ const ProductDetailPage = () => {
       title: language === "ar" ? "إرجاع مجاني" : "Free Returns",
       description:
         language === "ar"
-          ? "إرجاع مجاني خلال 7 أيام"
-          : "Free returns within 7 days",
+          ? "إرجاع مجاني خلال 3 أيام"
+          : "Free returns within 3 days",
     },
   ];
 
@@ -493,10 +493,10 @@ const ProductDetailPage = () => {
                 <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 text-gray-700 dark:text-gray-300"
+                    className="p-2 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 text-green-600 dark:text-green-400"
                     disabled={quantity <= 1}
                   >
-                    <FiMinus className="w-4 h-4" />
+                    <FiMinus className="w-3 h-3 hover:scale-150 transition-all duration-800" />
                   </button>
                   <span className="px-4 py-2 min-w-[60px] text-center font-medium text-gray-900 dark:text-white">
                     {quantity}
@@ -505,10 +505,10 @@ const ProductDetailPage = () => {
                     onClick={() =>
                       setQuantity(Math.min(product.stock || Infinity, quantity + 1))
                     }
-                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 text-green-600 dark:text-green-400"
+                    className="p-2  dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 text-green-600 dark:text-green-400"
                     disabled={product.stock !== undefined && quantity >= product.stock}
                   >
-                    <FiPlus className="w-4 h-4" />
+                    <FiPlus className="w-3 h-3 hover:scale-150 transition-all duration-800" />
                   </button>
                 </div>
               </div>
