@@ -11,13 +11,13 @@ import { FiArrowLeft, FiPackage } from 'react-icons/fi';
 import Link from 'next/link';
 
 // أسماء الفئات بالعربي والإنجليزي
-const categoryNames: Record<string, { ar: string; en: string; icon: string }> = {
-  bakery: { ar: 'المخبوزات', en: 'Bakery', icon: '🍞' },
-  spices: { ar: 'التوابل', en: 'Spices', icon: '🌶️' },
-  dry: { ar: 'البقالة الجافة', en: 'Dry', icon: '🥫' },
-  cleaning: { ar: 'منتجات التنظيف', en: 'Cleaning Products', icon: '🧹' },
-  grocery: { ar: 'البازار', en: 'grocery', icon: '🛍️' },
-  vegetables: { ar: 'الخضروات والفواكه', en: 'Vegetables & Fruits', icon: '🥬' },
+const categoryNames: Record<string, { ar: string; en: string;  }> = {
+  bakery: { ar: 'المخبوزات', en: 'Bakery', },
+  spices: { ar: 'التوابل', en: 'Spices', },
+  dry: { ar: 'البقالة الجافة', en: 'Dry', },
+  cleaning: { ar: 'منتجات التنظيف', en: 'Cleaning Products', },
+  grocery: { ar: 'البازار', en: 'grocery',  },
+  vegetables: { ar: 'الخضروات والفواكه', en: 'Vegetables & Fruits', },
 };
 
 export default function CategoryPage() {
@@ -122,10 +122,7 @@ export default function CategoryPage() {
         >
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
             <div className="flex items-center gap-4">
-              {/* Category Icon */}
-              <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-3xl">{categoryInfo.icon}</span>
-              </div>
+
 
               {/* Category Title */}
               <div>

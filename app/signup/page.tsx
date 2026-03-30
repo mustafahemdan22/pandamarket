@@ -9,7 +9,7 @@ import { useLanguage } from '../../contexts/LanguageProvider';
 import { useAuth } from '../../contexts/AuthProvider';
 import Link from 'next/link';
 import { useMutation } from 'convex/react';
-import { api } from '../../../convex/_generated/api';
+import { api } from '../../convex/_generated/api';
 import toast from 'react-hot-toast';
 import { SignInButton } from '@clerk/nextjs'; // ← Clerk للـ OAuth
 

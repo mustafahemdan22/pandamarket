@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation } from "convex/react";
-import { api } from "../../../convex/_generated/api"; // ✅ استخدم الـ api المتولد
+import { api } from "../../convex/_generated/api"; // ✅ استخدم الـ api المتولد
 
 export default function UploadImageButton() {
   // ⚡ هنا ناخد الدالة بالشكل الصحيح
