@@ -11,22 +11,32 @@ export default defineSchema({
     createdAt: v.optional(v.number()),
   }).index("by_email", ["email"]),
 
-  images: defineTable({
-    storageId: v.string(),
-    title: v.optional(v.string()),
-    uploadedBy: v.optional(v.string()),
+  // 🏷️ جدول الفئات
+  categories: defineTable({
+    name: v.string(),
+    nameEn: v.string(),
+    slug: v.string(),
+    description: v.optional(v.string()),
+    descriptionEn: v.optional(v.string()),
+    imagePublicId: v.optional(v.string()),
+    sortOrder: v.optional(v.number()),
+    active: v.boolean(),
     createdAt: v.optional(v.number()),
-  }),
+  })
+    .index("by_slug", ["slug"])
+    .index("by_active", ["active"]),
 
-  // 🛒 جدول المنتجات (محسّن)
+  // 🛒 جدول المنتجات (محسّن لـ Cloudinary)
   products: defineTable({
     name: v.string(),
     nameEn: v.string(),
+    slug: v.string(),
     price: v.number(),
     compareAtPrice: v.optional(v.number()),
-    image: v.string(),
-    images: v.optional(v.array(v.string())), // ✅ صور متعددة
-    category: v.string(),
+    // Cloudinary public IDs only - no full URLs stored
+    imagePublicId: v.string(),
+    imagePublicIds: v.array(v.string()), // 3-5 images per product
+    categoryId: v.id("categories"),
     brand: v.string(),
     unit: v.string(),
     description: v.optional(v.string()),
@@ -36,14 +46,20 @@ export default defineSchema({
     tags: v.optional(v.array(v.string())),
     rating: v.optional(v.number()),
     reviews: v.optional(v.number()),
+    isActive: v.boolean(),
     createdAt: v.optional(v.number()),
+    updatedAt: v.optional(v.number()),
   })
-    .index("by_category", ["category"])
-    .index("by_brand", ["brand"]),
+    .index("by_category", ["categoryId"])
+    .index("by_brand", ["brand"])
+    .index("by_slug", ["slug"])
+    .index("by_active", ["isActive"])
+    .index("by_discount", ["discount"])
+    .index("by_rating", ["rating"]),
 
   // ⭐ جدول المراجعات
   reviews: defineTable({
-    productId: v.id("products"), // ✅ Reference للمنتج
+    productId: v.id("products"),
     userId: v.string(),
     userName: v.string(),
     rating: v.number(),
@@ -63,7 +79,7 @@ export default defineSchema({
     userId: v.optional(v.string()),
     items: v.array(
       v.object({
-        productId: v.string(),
+        productId: v.id("products"),
         productName: v.string(),
         quantity: v.number(),
         price: v.number(),
@@ -126,7 +142,7 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_user_and_product", ["userId", "productId"]),
 
-  // 🛒 جدول السلة (اختياري - لو عايز sync بين الأجهزة)
+  // 🛒 جدول السلة
   cart: defineTable({
     userId: v.string(),
     productId: v.id("products"),
@@ -135,4 +151,13 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_user_and_product", ["userId", "productId"]),
+
+  // 🖼️ جدول الصور
+  images: defineTable({
+    storageId: v.string(),
+    title: v.optional(v.string()),
+    uploadedBy: v.optional(v.string()),
+    createdAt: v.optional(v.number()),
+  })
+    .index("by_uploadedBy", ["uploadedBy"]),
 });

@@ -1,7 +1,7 @@
 // src/app/layout.tsx
 'use client';
 
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from 'react-hot-toast';
@@ -19,21 +19,25 @@ import Footer from '../components/Footer';
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const inter = Inter({
+  variable: '--font-inter',
   subsets: ['latin'],
+  display: 'swap',
+  fallback: ['system-ui', 'Arial', 'sans-serif'],
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const robotoMono = Roboto_Mono({
+  variable: '--font-roboto-mono',
   subsets: ['latin'],
+  display: 'swap',
+  fallback: ['monospace'],
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 transition-colors duration-300`}
+        className={`${inter.variable} ${robotoMono.variable} antialiased bg-white dark:bg-gray-900 transition-colors duration-300`}
       >
         <ClerkProvider>
           <ConvexProvider client={convex}>

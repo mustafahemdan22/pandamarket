@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Product } from '../store/cartSlice';
 import { useAppDispatch } from '../hooks/redux';
 import { addToCart } from '../store/cartSlice';
@@ -10,7 +9,7 @@ import { FiShoppingCart, FiHeart, FiStar } from 'react-icons/fi';
 import { useLanguage } from '../contexts/LanguageProvider';
 import { useWishlist } from '../contexts/WishlistProvider';
 import toast from 'react-hot-toast';
-import { useState } from 'react';
+import { ProductCardImage } from './ProductImageGallery';
 
 interface ProductCardProps {
   product: Product;
@@ -20,32 +19,19 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const dispatch = useAppDispatch();
   const { language } = useLanguage();
   const { isInWishlist, toggleWishlist } = useWishlist();
-  const [imageError, setImageError] = useState(false);
 
   const productName = language === 'ar' ? product.name : product.nameEn;
   const productDescription = language === 'ar' ? product.description : product.descriptionEn;
   const isWishlisted = isInWishlist(product.id);
 
-  const getProductEmoji = (category: string) => {
-    const emojiMap: Record<string, string> = {
-      bakery: '🍞',
-      spices: '🌶️',
-      'dry-grocery': '🥫',
-      cleaning: '🧹',
-      grocery: '🛍️',
-      vegetables: '🥬',
-    };
-    return emojiMap[category] || '🛒';
-  };
-
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     dispatch(addToCart(product));
     toast.success(
-      language === 'ar' 
-        ? `تم إضافة ${productName} إلى السلة` 
+      language === 'ar'
+        ? `تم إضافة ${productName} إلى السلة`
         : `${productName} added to cart`,
       { icon: '🛒' }
     );
@@ -54,7 +40,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     toggleWishlist(product);
     toast.success(
       language === 'ar'
@@ -68,6 +54,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
     );
   };
 
+  const mainImagePublicId = product.imagePublicId || product.image;
+
   return (
     <Link href={`/products/${product.id}`}>
       <motion.div
@@ -78,25 +66,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
         whileHover={{ y: -8 }}
         className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 dark:border-gray-700"
       >
-        {/* Product Image */}
+        {/* Product Image with Gallery */}
         <div className="relative h-56 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
-          {product.image && !imageError ? (
-            <Image
-              src={product.image}
-              alt={productName}
-              fill
-              className="object-cover group-hover:scale-110 transition-transform duration-500"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              onError={() => setImageError(true)}
-              loading="lazy"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
-              <span className="text-7xl opacity-80">
-                {getProductEmoji(product.category)}
-              </span>
-            </div>
-          )}
+          <ProductCardImage
+            imagePublicId={mainImagePublicId || ''}
+            alt={productName}
+            priority
+          />
 
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
@@ -146,11 +122,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Product Info */}
         <div className="p-4">
-          {/* Brand */}
-          {/* <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wide font-medium">
-            {product.brand}
-          </p> */}
-
           {/* Product Name */}
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[3.5rem] group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
             {productName}

@@ -7,7 +7,9 @@ export interface Product {
   name: string;
   nameEn: string;
   price: number;
-  image: string;
+  image?: string; // Legacy: Cloudinary URL for backward compatibility
+  imagePublicId?: string; // New: Cloudinary public ID
+  imagePublicIds?: string[]; // New: Array of Cloudinary public IDs (3-5 images)
   category: string;
   brand: string;
   unit: string;
@@ -21,8 +23,6 @@ export interface Product {
   tags?: string[];          // ['حلال', 'عضوي']
   rating?: number;          // تقييم المنتج
   reviews?: number;         // عدد التقييمات
-    images?: string[]; // ✅ أضف هذا السطر - صور إضافية للمنتج
-
 }
 
 export interface CartItem {

@@ -14,8 +14,6 @@ import {
   FiShield,
   FiRefreshCw,
   FiShare2,
-  FiChevronLeft,
-  FiChevronRight,
 } from "react-icons/fi";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { addToCart, updateQuantity } from "../../../store/cartSlice";
@@ -26,7 +24,7 @@ import { Product } from "../../../store/cartSlice";
 import ProductReviews from "../../../components/ProductReviews";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import Image from "next/image";
+import { ProductImageGallery } from "../../../components/ProductImageGallery";
 
 const ProductDetailPage = () => {
   const params = useParams();
@@ -37,7 +35,6 @@ const ProductDetailPage = () => {
 
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
-  const [selectedImage, setSelectedImage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -122,20 +119,6 @@ const ProductDetailPage = () => {
     );
   }
 
-  const getProductImages = () => {
-    if (product.images && product.images.length > 0) {
-      return product.images;
-    }
-    if (product.image) {
-      return [product.image];
-    }
-    return [];
-  };
-
-  const productImages = getProductImages();
-  const hasImages = productImages.length > 0;
-  const hasMultipleImages = productImages.length > 1;
-
   const productName = language === "ar" ? product.name : product.nameEn;
   const productDescription =
     language === "ar" ? product.description : product.descriptionEn;
@@ -205,18 +188,6 @@ const ProductDetailPage = () => {
     }
   };
 
-  const getProductEmoji = (category: string) => {
-    const emojiMap: Record<string, string> = {
-      bakery: "🍞",
-      spices: "🌶️",
-      dry: "🥫",
-      cleaning: "🧹",
-      grocery: "🛍️",
-      vegetables: "🥬",
-    };
-    return emojiMap[category] || "🛒";
-  };
-
   const features = [
     {
       icon: FiTruck,
@@ -277,129 +248,19 @@ const ProductDetailPage = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Product Images */}
+          {/* Product Images - Using New Cloudinary Gallery */}
           <motion.div
             initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className="space-y-4"
           >
-            {/* الصورة الرئيسية */}
-            <div className="aspect-square bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden relative group">
-              {hasImages && productImages[selectedImage] ? (
-                <>
-                  <Image
-                    src={productImages[selectedImage]}
-                    alt={`${productName} - ${selectedImage + 1}`}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                    priority={selectedImage === 0}
-                  />
-
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-
-                  {/* عداد الصور */}
-                  {hasMultipleImages && (
-                    <div
-                      className={`absolute bottom-4 px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm bg-black/70 text-white z-10 ${
-                        isRTL ? "left-4" : "right-4"
-                      }`}
-                    >
-                      {selectedImage + 1} / {productImages.length}
-                    </div>
-                  )}
-
-                  {/* أزرار التنقل */}
-                  {hasMultipleImages && (
-                    <>
-                      <button
-                        onClick={() =>
-                          setSelectedImage((prev) =>
-                            prev === 0 ? productImages.length - 1 : prev - 1
-                          )
-                        }
-                        className={`absolute top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all opacity-0 group-hover:opacity-100 z-10 ${
-                          isRTL ? "right-4" : "left-4"
-                        }`}
-                        aria-label={
-                          language === "ar" ? "الصورة السابقة" : "Previous image"
-                        }
-                      >
-                        {isRTL ? (
-                          <FiChevronRight className="w-6 h-6" />
-                        ) : (
-                          <FiChevronLeft className="w-6 h-6" />
-                        )}
-                      </button>
-
-                      <button
-                        onClick={() =>
-                          setSelectedImage((prev) =>
-                            prev === productImages.length - 1 ? 0 : prev + 1
-                          )
-                        }
-                        className={`absolute top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all opacity-0 group-hover:opacity-100 z-10 ${
-                          isRTL ? "left-4" : "right-4"
-                        }`}
-                        aria-label={
-                          language === "ar" ? "الصورة التالية" : "Next image"
-                        }
-                      >
-                        {isRTL ? (
-                          <FiChevronLeft className="w-6 h-6" />
-                        ) : (
-                          <FiChevronRight className="w-6 h-6" />
-                        )}
-                      </button>
-                    </>
-                  )}
-                </>
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
-                  <span className="text-9xl opacity-80">
-                    {getProductEmoji(product.category)}
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* الصور المصغرة */}
-            {hasMultipleImages && (
-              <div
-                className={`grid gap-4 ${
-                  productImages.length === 2
-                    ? "grid-cols-2"
-                    : productImages.length === 3
-                      ? "grid-cols-3"
-                      : "grid-cols-4"
-                }`}
-              >
-                {productImages.map((img, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`aspect-square bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border-2 transition-all duration-200 relative ${
-                      selectedImage === index
-                        ? "border-green-500 ring-2 ring-green-200 dark:ring-green-900"
-                        : "border-transparent hover:border-gray-300 dark:hover:border-gray-600"
-                    }`}
-                  >
-                    <Image
-                      src={img}
-                      alt={`${productName} view ${index + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="150px"
-                      loading="lazy"
-                    />
-                  </motion.button>
-                ))}
-              </div>
-            )}
+            <ProductImageGallery
+              mainImagePublicId={product.imagePublicId || product.image || ''}
+              galleryImagePublicIds={product.imagePublicIds?.slice(1) || []}
+              alt={productName}
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden"
+            />
           </motion.div>
 
           {/* Product Info */}
@@ -484,7 +345,15 @@ const ProductDetailPage = () => {
               </p>
             </div>
 
-            {/* Quantity & Actions - باقي الكود كما هو */}
+            {/* Unit */}
+            <div>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                {language === "ar" ? "الوحدة: " : "Unit: "}
+                {product.unit}
+              </span>
+            </div>
+
+            {/* Quantity & Actions */}
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">

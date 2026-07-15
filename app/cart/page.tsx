@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import Image from "next/image";
+import { buildImageUrl } from "../../lib/cloudinary";
 
 const CartPage = () => {
   const { language, isRTL } = useLanguage();
@@ -186,7 +187,7 @@ const CartPage = () => {
                         {/* Product Image */}
                         <div className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden">
                           <Image
-                            src={item.product.image}
+                            src={buildImageUrl(item.product.imagePublicId || item.product.image || '', { width: 200, height: 200, crop: 'fill' })}
                             alt={productName}
                             width={500}
                             height={300}
