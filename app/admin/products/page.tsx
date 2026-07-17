@@ -18,7 +18,8 @@ import {
   FiLayers, 
   FiShoppingBag,
   FiX,
-  FiCheck
+  FiCheck,
+  FiZap
 } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageProvider';
 import { sampleProducts, categories as sampleCategories } from '@/data/products';
@@ -204,11 +205,23 @@ export default function AdminProductsPage() {
     }
   };
 
-  // Delete product
-  const handleDeleteProduct = async (id: Id<"products">) => {
+  // Delete product - also delete Cloudinary images
+  const handleDeleteProduct = async (product: AdminProduct) => {
     if (confirm(language === 'ar' ? 'هل أنت متأكد من الحذف؟' : 'Are you sure you want to delete this product?')) {
       try {
-        await deleteProductMutation({ id });
+        // 1. Delete all images from Cloudinary
+        const deleteResponse = await fetch(
+          `/api/cloudinary/upload?categorySlug=${product.categorySlug}&productSlug=${product.slug}`,
+          { method: 'DELETE' }
+        );
+        
+        if (!deleteResponse.ok) {
+          const error = await deleteResponse.json();
+          console.error('Cloudinary delete failed:', error);
+        }
+
+        // 2. Delete product from Convex
+        await deleteProductMutation({ id: product._id });
         toast.success(language === 'ar' ? 'تم حذف المنتج' : 'Product deleted');
       } catch {
         toast.error(language === 'ar' ? 'فشل الحذف' : 'Delete failed');
@@ -329,6 +342,13 @@ export default function AdminProductsPage() {
               {isSeeding ? <FiLoader className="animate-spin text-emerald-400" /> : <FiDatabase className="text-emerald-400" />}
               <span>{language === 'ar' ? 'تهيئة قاعدة البيانات' : 'Seed Database'}</span>
             </button>
+            <a
+              href="/admin/bulk-ai-generate"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-600 text-white font-semibold hover:from-violet-400 hover:to-fuchsia-500 transition duration-300 shadow-lg shadow-violet-500/20"
+            >
+              <FiZap />
+              <span>{language === 'ar' ? 'مولد AI الشامل' : 'Bulk AI Generator'}</span>
+            </a>
             <button
               onClick={() => setIsCreateModalOpen(true)}
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold hover:from-emerald-400 hover:to-teal-500 transition duration-300 shadow-lg shadow-emerald-500/20"
@@ -546,7 +566,7 @@ export default function AdminProductsPage() {
                               </button>
                               
                               <button
-                                onClick={() => handleDeleteProduct(product._id)}
+                                onClick={() => handleDeleteProduct(product)}
                                 className="p-2 text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 rounded-lg transition"
                                 title="Delete"
                               >

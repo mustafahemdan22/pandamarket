@@ -129,11 +129,28 @@ async function generateImageBuffer(prompt: string, seed: number): Promise<Buffer
   // Fallback to Pollinations AI (Flux)
   const encodedPrompt = encodeURIComponent(prompt);
   const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=2000&height=2000&nologo=true&seed=${seed}`;
-  const res = await fetch(pollinationsUrl);
+  console.log(`Pollinations URL: ${pollinationsUrl}`);
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 60000);
+  const res = await fetch(pollinationsUrl, { 
+    signal: controller.signal,
+    headers: { 'User-Agent': 'Mozilla/5.0' }
+  });
+  clearTimeout(timeoutId);
+  console.log(`Pollinations response: ${res.status} ${res.statusText}`);
   if (!res.ok) {
-    throw new Error(`AI generation failed (Pollinations: ${res.statusText})`);
+    const errorText = await res.text();
+    console.error(`Pollinations error: ${errorText}`);
+    throw new Error(`AI generation failed (Pollinations: ${res.status} ${res.statusText})`);
   }
-  return Buffer.from(await res.arrayBuffer());
+  const buffer = Buffer.from(await res.arrayBuffer());
+  console.log(`Pollinations image size: ${buffer.length} bytes`);
+  if (buffer.length < 1000) {
+    const text = buffer.toString('utf8').substring(0, 200);
+    console.error(`Pollinations returned small response (likely error): ${text}`);
+    throw new Error(`AI generation failed - invalid image data`);
+  }
+  return buffer;
 }
 
 async function uploadToCloudinary(

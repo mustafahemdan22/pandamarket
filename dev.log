@@ -1,0 +1,29 @@
+
+> panda-supermarket@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.10 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.5:3000
+- Environments: .env.local
+✓ Ready in 475ms
+
+⚠ Slow filesystem detected. The benchmark took 497ms. If D:\next-react\pandamarket\.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+ GET / 200 in 1003ms (next.js: 528ms, application-code: 476ms)
+ POST / 200 in 40ms (next.js: 6ms, application-code: 33ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 12ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+ GET /categories/bakery 200 in 2.5s (next.js: 2.5s, application-code: 47ms)
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404

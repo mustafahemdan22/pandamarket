@@ -1,0 +1,131 @@
+{
+  "generatedAt": "2026-07-17T19:50:31.606Z",
+  "totalProducts": 36,
+  "productsNeedingImages": 3,
+  "results": [
+    {
+      "productId": "jd7d6efm6mpyd2v5bghzbf4ft98aq9a9",
+      "productName": "Juhayna Full Cream Milk 1L",
+      "slug": "juhayna-full-cream-milk-1l",
+      "category": "dairy",
+      "status": "success",
+      "publicIds": [
+        "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/1",
+        "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/2",
+        "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/3",
+        "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/4"
+      ],
+      "localFiles": [
+        {
+          "publicId": "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/1",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\dairy\\juhayna-full-cream-milk-1l\\1.webp",
+          "view": "front",
+          "size": 23829
+        },
+        {
+          "publicId": "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/2",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\dairy\\juhayna-full-cream-milk-1l\\2.webp",
+          "view": "angle",
+          "size": 30698
+        },
+        {
+          "publicId": "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/3",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\dairy\\juhayna-full-cream-milk-1l\\3.webp",
+          "view": "side",
+          "size": 26870
+        },
+        {
+          "publicId": "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/4",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\dairy\\juhayna-full-cream-milk-1l\\4.webp",
+          "view": "detail",
+          "size": 19297
+        }
+      ],
+      "imageCount": 4
+    },
+    {
+      "productId": "jd71pe95jebmsdxy1k9c38zj2d8aq1tk",
+      "productName": "Heinz Tomato Ketchup 397g",
+      "slug": "heinz-tomato-ketchup-397g",
+      "category": "sauces",
+      "status": "success",
+      "publicIds": [
+        "pandamarket/categories/sauces/products/heinz-tomato-ketchup-397g/1",
+        "pandamarket/categories/sauces/products/heinz-tomato-ketchup-397g/2",
+        "pandamarket/categories/sauces/products/heinz-tomato-ketchup-397g/3",
+        "pandamarket/categories/sauces/products/heinz-tomato-ketchup-397g/4"
+      ],
+      "localFiles": [
+        {
+          "publicId": "pandamarket/categories/sauces/products/heinz-tomato-ketchup-397g/1",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\sauces\\heinz-tomato-ketchup-397g\\1.webp",
+          "view": "front",
+          "size": 37311
+        },
+        {
+          "publicId": "pandamarket/categories/sauces/products/heinz-tomato-ketchup-397g/2",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\sauces\\heinz-tomato-ketchup-397g\\2.webp",
+          "view": "angle",
+          "size": 41443
+        },
+        {
+          "publicId": "pandamarket/categories/sauces/products/heinz-tomato-ketchup-397g/3",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\sauces\\heinz-tomato-ketchup-397g\\3.webp",
+          "view": "side",
+          "size": 41742
+        },
+        {
+          "publicId": "pandamarket/categories/sauces/products/heinz-tomato-ketchup-397g/4",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\sauces\\heinz-tomato-ketchup-397g\\4.webp",
+          "view": "detail",
+          "size": 40691
+        }
+      ],
+      "imageCount": 4
+    },
+    {
+      "productId": "jd754k8ztq16v6k24046vq2w2h8apyzg",
+      "productName": "Al Afia Yellow Lentils 500g",
+      "slug": "al-afia-yellow-lentils-500g",
+      "category": "legumes",
+      "status": "success",
+      "publicIds": [
+        "pandamarket/categories/legumes/products/al-afia-yellow-lentils-500g/1",
+        "pandamarket/categories/legumes/products/al-afia-yellow-lentils-500g/2",
+        "pandamarket/categories/legumes/products/al-afia-yellow-lentils-500g/3",
+        "pandamarket/categories/legumes/products/al-afia-yellow-lentils-500g/4"
+      ],
+      "localFiles": [
+        {
+          "publicId": "pandamarket/categories/legumes/products/al-afia-yellow-lentils-500g/1",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\legumes\\al-afia-yellow-lentils-500g\\1.webp",
+          "view": "front",
+          "size": 63167
+        },
+        {
+          "publicId": "pandamarket/categories/legumes/products/al-afia-yellow-lentils-500g/2",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\legumes\\al-afia-yellow-lentils-500g\\2.webp",
+          "view": "angle",
+          "size": 71553
+        },
+        {
+          "publicId": "pandamarket/categories/legumes/products/al-afia-yellow-lentils-500g/3",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\legumes\\al-afia-yellow-lentils-500g\\3.webp",
+          "view": "side",
+          "size": 63725
+        },
+        {
+          "publicId": "pandamarket/categories/legumes/products/al-afia-yellow-lentils-500g/4",
+          "localPath": "D:\\next-react\\pandamarket\\generated-images\\legumes\\al-afia-yellow-lentils-500g\\4.webp",
+          "view": "detail",
+          "size": 68850
+        }
+      ],
+      "imageCount": 4
+    }
+  ],
+  "summary": {
+    "success": 3,
+    "failed": 0
+  }
+}

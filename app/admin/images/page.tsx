@@ -18,7 +18,9 @@ import {
   FiArrowUp, 
   FiArrowDown, 
   FiRefreshCw, 
-  FiLoader
+  FiLoader,
+  FiCpu,
+  FiZap
 } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageProvider';
 import { buildImageUrl } from '@/lib/cloudinary';
@@ -59,6 +61,8 @@ export default function AdminImageUpload() {
   const [isUploading, setIsUploading] = useState(false);
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+  const [aiGenerationStep, setAIGenerationStep] = useState('');
 
   // Get active product details
   const activeProduct = products?.find((p) => p._id === selectedProductId);
@@ -208,6 +212,76 @@ export default function AdminImageUpload() {
     }
   };
 
+  // Handle AI Image Generation
+  const handleGenerateAIImages = async () => {
+    if (!activeProduct) {
+      toast.error(language === 'ar' ? 'حدد المنتج أولاً' : 'Select a product first');
+      return;
+    }
+
+    setIsGeneratingAI(true);
+    setAIGenerationStep(language === 'ar' ? 'بدء توليد الصور...' : 'Initializing generator...');
+
+    try {
+      const steps = [
+        language === 'ar' ? 'توليد لقطة الواجهة الأمامية...' : 'Generating front view...',
+        language === 'ar' ? 'توليد لقطة زاوية 45 درجة...' : 'Generating 45° angle view...',
+        language === 'ar' ? 'توليد لقطة الجانب التفصيلي...' : 'Generating side detail view...',
+        language === 'ar' ? 'توليد لقطة مقربة للتغليف...' : 'Generating close-up packaging view...',
+        language === 'ar' ? 'رفع الصور إلى Cloudinary وحفظها في Convex...' : 'Uploading to Cloudinary & saving in Convex...'
+      ];
+
+      let stepIndex = 0;
+      const interval = setInterval(() => {
+        if (stepIndex < steps.length - 1) {
+          setAIGenerationStep(steps[stepIndex]);
+          stepIndex++;
+        }
+      }, 5000);
+
+      const response = await fetch('/api/ai/generate-images', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productId: activeProduct._id,
+          categorySlug: activeProduct.categorySlug,
+          productSlug: activeProduct.slug,
+          nameEn: activeProduct.nameEn,
+          descriptionEn: activeProduct.descriptionEn,
+          brand: activeProduct.brand,
+          unit: activeProduct.unit,
+          count: 4
+        })
+      });
+
+      clearInterval(interval);
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to generate');
+      }
+
+      setAIGenerationStep(steps[steps.length - 1]);
+      
+      toast.success(
+        language === 'ar'
+          ? 'تم توليد صور الذكاء الاصطناعي بنجاح!'
+          : 'AI product images generated successfully!'
+      );
+    } catch (error: unknown) {
+      console.error(error);
+      const errorMessage = error instanceof Error ? error.message : 'Generation failed';
+      toast.error(
+        language === 'ar'
+          ? `فشل التوليد: ${errorMessage}`
+          : `Generation failed: ${errorMessage}`
+      );
+    } finally {
+      setIsGeneratingAI(false);
+      setAIGenerationStep('');
+    }
+  };
+
   // Drag & Drop Handlers
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -272,16 +346,27 @@ export default function AdminImageUpload() {
           className="p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 opacity-30 pointer-events-none" />
-          <div className="space-y-2 z-10">
-            <h1 className="text-3xl font-extrabold bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent flex items-center gap-3">
-              <FiImage className="text-emerald-400" />
-              {language === 'ar' ? 'إدارة صور المنتجات المحترفة' : 'Professional Product Image Manager'}
-            </h1>
-            <p className="text-sm text-slate-400">
-              {language === 'ar'
-                ? 'ارفع، استبدل، احذف، ورتب صور منتجاتك - يتم حفظ معرفات صور Cloudinary فقط في قاعدة البيانات'
-                : 'Upload, replace, delete, and reorder images - Only Cloudinary Public IDs are saved in database'}
-            </p>
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 z-10">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-extrabold bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent flex items-center gap-3">
+                <FiImage className="text-emerald-400" />
+                {language === 'ar' ? 'إدارة صور المنتجات المحترفة' : 'Professional Product Image Manager'}
+              </h1>
+              <p className="text-sm text-slate-400 max-w-2xl">
+                {language === 'ar'
+                  ? 'ارفع، استبدل، احذف، ورتب صور منتجاتك - يتم حفظ معرفات صور Cloudinary فقط في قاعدة البيانات'
+                  : 'Upload, replace, delete, and reorder images - Only Cloudinary Public IDs are saved in database'}
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => window.location.href = '/admin/bulk-ai-generate'}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-400 hover:to-fuchsia-500 text-white font-semibold transition shadow-lg shadow-violet-500/20"
+              >
+                <FiZap />
+                <span>{language === 'ar' ? 'مولد AI الشامل' : 'Bulk AI Generator'}</span>
+              </button>
+            </div>
           </div>
         </motion.div>
 
@@ -321,9 +406,9 @@ export default function AdminImageUpload() {
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-4 p-4 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between"
+              className="mt-4 p-4 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between flex-wrap gap-4"
             >
-              <div className="space-y-1">
+              <div className="space-y-1 flex-1 min-w-[200px]">
                 <p className="text-sm text-slate-400">
                   <strong>{language === 'ar' ? 'مسار مجلد Cloudinary:' : 'Cloudinary Folder Path:'}</strong>
                 </p>
@@ -331,9 +416,27 @@ export default function AdminImageUpload() {
                   pandamarket/categories/{activeProduct.categorySlug}/products/{activeProduct.slug}/
                 </code>
               </div>
-              <div className="text-xs text-slate-500 text-right">
-                <p>{language === 'ar' ? 'المعرف الفريد للمنتج:' : 'Product Slug:'}</p>
-                <p className="font-bold text-slate-300">{activeProduct.slug}</p>
+              <div className="flex gap-3 flex-wrap">
+                <div className="text-xs text-slate-500 text-right">
+                  <p>{language === 'ar' ? 'المعرف الفريد للمنتج:' : 'Product Slug:'}</p>
+                  <p className="font-bold text-slate-300">{activeProduct.slug}</p>
+                </div>
+                <button
+                  onClick={handleGenerateAIImages}
+                  disabled={isGeneratingAI || isUploading}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-400 hover:to-fuchsia-500 text-white font-semibold rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-violet-500/20"
+                >
+                  {isGeneratingAI ? (
+                    <FiLoader className="animate-spin" />
+                  ) : (
+                    <FiCpu />
+                  )}
+                  <span>
+                    {isGeneratingAI
+                      ? (language === 'ar' ? 'جاري التوليد...' : 'Generating...')
+                      : (language === 'ar' ? 'توليد صور AI' : 'Generate AI Images')}
+                  </span>
+                </button>
               </div>
             </motion.div>
           )}
