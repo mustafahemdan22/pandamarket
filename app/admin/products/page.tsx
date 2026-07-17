@@ -481,7 +481,7 @@ export default function AdminProductsPage() {
                               <div className="relative w-14 h-14 bg-slate-800 rounded-lg overflow-hidden border border-slate-700 flex-shrink-0 flex items-center justify-center">
                                 {product.imagePublicId ? (
                                   <Image
-                                    src={buildImageUrl(product.imagePublicId, { width: 100, height: 100, crop: 'fill' })}
+                                    src={buildImageUrl(product.imagePublicId, { width: 100, height: 100, crop: 'fill' }).primary}
                                     alt={product.nameEn}
                                     fill
                                     className="object-cover"
@@ -525,7 +525,7 @@ export default function AdminProductsPage() {
                                 {product.imagePublicIds.map((img: string, idx: number) => (
                                   <div key={idx} className="relative w-8 h-8 rounded border border-white/10 overflow-hidden flex-shrink-0">
                                     <Image
-                                      src={buildImageUrl(img, { width: 50, height: 50, crop: 'fill' })}
+                                      src={buildImageUrl(img, { width: 50, height: 50, crop: 'fill' }).primary}
                                       alt={`View ${idx + 1}`}
                                       fill
                                       className="object-cover"

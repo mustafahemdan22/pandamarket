@@ -558,7 +558,7 @@ export default function AdminImageUpload() {
                         {/* Image Preview Container */}
                         <div className="aspect-square relative bg-slate-950 flex items-center justify-center">
                           <Image
-                            src={buildImageUrl(imagePublicId, { width: 400, height: 400, crop: 'fill' })}
+                            src={buildImageUrl(imagePublicId, { width: 400, height: 400, crop: 'fill' }).primary}
                             alt={`Image ${viewNum}`}
                             fill
                             className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -655,7 +655,7 @@ export default function AdminImageUpload() {
                     <FiX className="w-6 h-6" />
                   </button>
                   <Image
-                    src={buildImageUrl(activeProduct.imagePublicIds[previewIndex], { width: 1000, height: 1000, crop: 'pad' })}
+                    src={buildImageUrl(activeProduct.imagePublicIds[previewIndex], { width: 1000, height: 1000, crop: 'pad' }).primary}
                     alt={`Preview image`}
                     fill
                     className="object-contain"

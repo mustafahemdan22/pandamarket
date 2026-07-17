@@ -512,7 +512,7 @@ export default function BulkAIImageGenerator() {
                       <div className="flex items-center gap-3">
                         {job.publicIds[0] && (
                           <img 
-                            src={buildImageUrl(job.publicIds[0], { width: 50, height: 50, crop: 'fill' })} 
+                            src={buildImageUrl(job.publicIds[0], { width: 50, height: 50, crop: 'fill' }).primary} 
                             alt={job.productName}
                             className="w-10 h-10 rounded-lg object-cover border border-white/10"
                             loading="lazy"

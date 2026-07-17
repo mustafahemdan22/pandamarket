@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { buildImageUrl, CloudinaryTransformations } from '../lib/cloudinary';
+import { buildImageUrl, CloudinaryTransformations, ImageUrlResult } from '../lib/cloudinary';
 
 interface ProductImageGalleryProps {
   mainImagePublicId: string;
@@ -39,13 +39,17 @@ export function ProductImageGallery({
     format: 'auto',
   };
 
+  const getImageUrls = (publicId: string, transformations: CloudinaryTransformations): ImageUrlResult => {
+    return buildImageUrl(publicId, transformations);
+  };
+
   return (
     <div className={`product-image-gallery ${className}`}>
       {/* Main Image */}
       <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800">
         {!imageError.has(selectedIndex) ? (
           <Image
-            src={buildImageUrl(currentPublicId, mainTransformations)}
+            src={getImageUrls(currentPublicId, mainTransformations).primary}
             alt={`${alt} - Image ${selectedIndex + 1}`}
             fill
             className="object-cover transition-transform duration-300 hover:scale-105"
@@ -54,9 +58,14 @@ export function ProductImageGallery({
             onError={() => setImageError((prev) => new Set(prev).add(selectedIndex))}
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700">
-            <span className="text-6xl opacity-50">📦</span>
-          </div>
+          <Image
+            src={getImageUrls(currentPublicId, mainTransformations).fallback}
+            alt={`${alt} - Image ${selectedIndex + 1}`}
+            fill
+            className="object-cover transition-transform duration-300 hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={selectedIndex === 0}
+          />
         )}
 
         {/* Gallery Indicators */}
@@ -95,16 +104,20 @@ export function ProductImageGallery({
             >
               {!imageError.has(index) ? (
                 <Image
-                  src={buildImageUrl(publicId, thumbTransformations)}
+                  src={getImageUrls(publicId, thumbTransformations).primary}
                   alt={`${alt} - Thumbnail ${index + 1}`}
                   fill
                   className="object-cover"
                   sizes="80px"
                 />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700">
-                  <span className="text-2xl opacity-50">📦</span>
-                </div>
+                <Image
+                  src={getImageUrls(publicId, thumbTransformations).fallback}
+                  alt={`${alt} - Thumbnail ${index + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                />
               )}
             </button>
           ))}
@@ -131,19 +144,35 @@ export function CategoryImage({
 }: CategoryImageProps) {
   const [imageError, setImageError] = useState(false);
 
-  if (!imagePublicId || imageError) {
+  if (!imagePublicId) {
+    const urls = buildImageUrl('', transformations);
     return (
-      <div className={`relative aspect-[3/2] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-xl overflow-hidden ${className}`}>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-6xl opacity-50">📦</span>
-        </div>
-      </div>
+      <Image
+        src={urls.fallback}
+        alt={alt}
+        fill
+        className={`object-cover ${className}`}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      />
+    );
+  }
+
+  if (imageError) {
+    const urls = buildImageUrl(imagePublicId, transformations);
+    return (
+      <Image
+        src={urls.fallback}
+        alt={alt}
+        fill
+        className={`object-cover ${className}`}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      />
     );
   }
 
   return (
     <Image
-      src={buildImageUrl(imagePublicId, transformations)}
+      src={buildImageUrl(imagePublicId, transformations).primary}
       alt={alt}
       fill
       className={`object-cover ${className}`}
@@ -171,12 +200,22 @@ export function ProductCardImage({
   const [imageError, setImageError] = useState(false);
 
   if (imageError) {
+    const urls = buildImageUrl(imagePublicId, {
+      width: 400,
+      height: 400,
+      crop: 'fill',
+      quality: 'auto',
+      format: 'auto',
+    });
     return (
-      <div className={`relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden ${className}`}>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-4xl opacity-50">📦</span>
-        </div>
-      </div>
+      <Image
+        src={urls.fallback}
+        alt={alt}
+        fill
+        className={`object-cover group-hover:scale-110 transition-transform duration-500 ${className}`}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        priority={priority}
+      />
     );
   }
 
@@ -188,7 +227,7 @@ export function ProductCardImage({
         crop: 'fill',
         quality: 'auto',
         format: 'auto',
-      })}
+      }).primary}
       alt={alt}
       fill
       className={`object-cover group-hover:scale-110 transition-transform duration-500 ${className}`}
@@ -212,6 +251,29 @@ export function HeroImage({
   alt,
   className = '',
 }: HeroImageProps) {
+  const [imageError, setImageError] = useState(false);
+
+  if (imageError) {
+    const urls = buildImageUrl(imagePublicId, {
+      width: 1920,
+      height: 600,
+      crop: 'fill',
+      quality: 'auto',
+      format: 'auto',
+      gravity: 'center',
+    });
+    return (
+      <Image
+        src={urls.fallback}
+        alt={alt}
+        fill
+        className={`object-cover ${className}`}
+        priority
+        sizes="100vw"
+      />
+    );
+  }
+
   return (
     <Image
       src={buildImageUrl(imagePublicId, {
@@ -221,12 +283,13 @@ export function HeroImage({
         quality: 'auto',
         format: 'auto',
         gravity: 'center',
-      })}
+      }).primary}
       alt={alt}
       fill
       className={`object-cover ${className}`}
       priority
       sizes="100vw"
+      onError={() => setImageError(true)}
     />
   );
 }

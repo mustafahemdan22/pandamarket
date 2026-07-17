@@ -15,6 +15,11 @@ export interface CloudinaryTransformations {
   radius?: number | 'max';
 }
 
+export interface ImageUrlResult {
+  primary: string;
+  fallback: string;
+}
+
 export const DEFAULT_TRANSFORMATIONS: CloudinaryTransformations = {
   width: 800,
   height: 800,
@@ -118,12 +123,15 @@ export const HERO_TRANSFORMATIONS: CloudinaryTransformations = {
 export function buildImageUrl(
   publicId: string,
   transformations: CloudinaryTransformations = DEFAULT_TRANSFORMATIONS
-): string {
-  if (!publicId) return '';
+): ImageUrlResult {
+  if (!publicId) {
+    const fallback = getPlaceholderUrl('', transformations.width || 400, transformations.height || 400);
+    return { primary: '', fallback };
+  }
 
   // If it's already a full URL, return as-is (backward compatibility)
   if (publicId.startsWith('http://') || publicId.startsWith('https://')) {
-    return publicId;
+    return { primary: publicId, fallback: publicId };
   }
 
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dfq1xxerr';
@@ -146,7 +154,15 @@ export function buildImageUrl(
 
   const transformationString = params.join(',');
 
-  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationString}/${publicId}`;
+  const primary = `https://res.cloudinary.com/${cloudName}/image/upload/${transformationString}/${publicId}`;
+  const fallback = getPlaceholderUrl(publicId, transformations.width || 400, transformations.height || 400);
+
+  return { primary, fallback };
+}
+
+function getPlaceholderUrl(publicId: string, width: number, height: number): string {
+  const seed = encodeURIComponent(publicId).replace(/[^a-zA-Z0-9]/g, '');
+  return `https://picsum.photos/seed/${seed}/${width}/${height}.jpg`;
 }
 
 export function buildSrcSet(
@@ -157,7 +173,7 @@ export function buildSrcSet(
   return widths
     .map((w) => {
       const url = buildImageUrl(publicId, { ...baseTransformations, width: w });
-      return `${url} ${w}w`;
+      return `${url.primary} ${w}w`;
     })
     .join(', ');
 }
@@ -193,6 +209,6 @@ export function validateImageCount(count: number): boolean {
   return count >= 3 && count <= 5;
 }
 
-export function getCloudinaryUrl(publicId: string, options?: CloudinaryTransformations): string {
+export function getCloudinaryUrl(publicId: string, options?: CloudinaryTransformations): ImageUrlResult {
   return buildImageUrl(publicId, options);
 }
