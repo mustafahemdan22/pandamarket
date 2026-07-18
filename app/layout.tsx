@@ -37,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
+        suppressHydrationWarning
         className={`${inter.variable} ${robotoMono.variable} antialiased bg-white dark:bg-gray-900 transition-colors duration-300`}
       >
         <ClerkProvider>

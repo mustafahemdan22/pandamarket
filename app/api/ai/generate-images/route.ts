@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import { ConvexHttpClient } from 'convex/browser';
 import { api } from '@/convex/_generated/api';
+import { requirePermission } from '@/lib/auth';
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!,
@@ -183,6 +184,12 @@ async function uploadToCloudinary(
 }
 
 export async function POST(request: NextRequest) {
+  try {
+    await requirePermission('products');
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || 'Forbidden' }, { status: 403 });
+  }
+
   try {
     const body = await request.json();
     const {

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
+import { auth, createClerkClient } from '@clerk/nextjs/server';
 
 const PROTECTED_ROUTES = [
   '/admin',
@@ -13,10 +13,6 @@ function isProtectedRoute(pathname: string): boolean {
   return PROTECTED_ROUTES.some((route) => pathname === route || pathname.startsWith(`${route}/`));
 }
 
-function isPublicAuthRoute(pathname: string): boolean {
-  return pathname === '/login' || pathname === '/signup';
-}
-
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -24,12 +20,54 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const { userId, redirectToSignIn } = await auth();
+  const { userId } = await auth();
 
   if (!userId) {
     const signInUrl = new URL('/login', request.url);
     signInUrl.searchParams.set('redirect_url', pathname);
     return NextResponse.redirect(signInUrl);
+  }
+
+  // Admin route protection based on Clerk Private Metadata
+  if (pathname.startsWith('/admin')) {
+    try {
+      const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+      const user = await clerk.users.getUser(userId);
+      const metadata = (user?.privateMetadata || {}) as { role?: string; permissions?: string[] };
+
+      if (metadata.role !== 'admin') {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+
+      const permissions = metadata.permissions || [];
+
+      // Check sub-routes permissions
+      if ((pathname.startsWith('/admin/products') || 
+           pathname.startsWith('/admin/bulk-ai-generate') || 
+           pathname.startsWith('/admin/images')) && 
+          !permissions.includes('products')) {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+
+      if (pathname.startsWith('/admin/categories') && !permissions.includes('categories')) {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+
+      if (pathname.startsWith('/admin/orders') && !permissions.includes('orders')) {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+
+      if (pathname.startsWith('/admin/users') && !permissions.includes('users')) {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+
+      if (pathname.startsWith('/admin/settings') && !permissions.includes('settings')) {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+    } catch (error) {
+      console.error('Clerk authorization check failed in proxy:', error);
+      return NextResponse.redirect(new URL('/', request.url));
+    }
   }
 
   const response = NextResponse.next();

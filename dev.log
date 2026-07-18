@@ -293,3 +293,630 @@ https://react.dev/link/hydration-mismatch
 ⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
 ⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
 ⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/categorie..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <ClientSegmentRoot Component={function RootLayout} slots={{children:{...}}} ...>
+                        <RootLayout params={Promise}>
+                          <html lang="en">
+                            <body
+                              className="inter_296f98f4-module__kC2Hba__variable roboto_mono_9868555a-module__BF1myG__..."
+-                             cz-shortcut-listen="true"
+                            >
+                  ...
+ 
+[browser] Uncaught Error: Invalid src prop (https://picsum.photos/seed/pandamarket2Fcategories2Fbakery2Fproducts2Fbaladybread2F1/400/400.jpg) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at Array.map (<anonymous>)
+    at ProductCardImage (components/ProductImageGallery.tsx:223:5)
+    at ProductCard (components/ProductCard.tsx:71:11)
+    at <unknown> (app/categories/[category]/page.tsx:177:15)
+    at Array.map (<anonymous>)
+    at CategoryPage (app/categories/[category]/page.tsx:170:29)
+  221 |
+  222 |   return (
+> 223 |     <Image
+      |     ^
+  224 |       src={buildImageUrl(imagePublicId, {
+  225 |         width: 400,
+  226 |         height: 400,
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+ GET /categories/bakery 200 in 110ms (next.js: 36ms, application-code: 73ms)
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+ POST /categories/bakery 200 in 55ms (next.js: 38ms, application-code: 17ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 1ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+[browser] Uncaught Error: Invalid src prop (https://picsum.photos/seed/pandamarket2Fcategories2Fbakery2Fproducts2Fbaladybread2F1/400/400.jpg) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at Array.map (<anonymous>)
+    at ProductCardImage (components/ProductImageGallery.tsx:223:5)
+    at ProductCard (components/ProductCard.tsx:71:11)
+    at <unknown> (app/categories/[category]/page.tsx:177:15)
+    at Array.map (<anonymous>)
+    at CategoryPage (app/categories/[category]/page.tsx:170:29)
+  221 |
+  222 |   return (
+> 223 |     <Image
+      |     ^
+  224 |       src={buildImageUrl(imagePublicId, {
+  225 |         width: 400,
+  226 |         height: 400,
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+ GET /categories/bakery 200 in 94ms (next.js: 27ms, application-code: 67ms)
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+ POST /categories/bakery 200 in 55ms (next.js: 23ms, application-code: 31ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 3ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/categorie..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <ClientSegmentRoot Component={function RootLayout} slots={{children:{...}}} ...>
+                        <RootLayout params={Promise}>
+                          <html
+                            lang="en"
+-                           className="mdl-js"
+                          >
+                            <body
+                              className="inter_296f98f4-module__kC2Hba__variable roboto_mono_9868555a-module__BF1myG__..."
+-                             cz-shortcut-listen="true"
+                            >
+                  ...
+ 
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+[browser] Uncaught Error: Invalid src prop (https://picsum.photos/seed/pandamarket2Fcategories2Fbakery2Fproducts2Fvanillacroissant2F1/400/400.jpg) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at Array.map (<anonymous>)
+    at ProductCardImage (components/ProductImageGallery.tsx:223:5)
+    at ProductCard (components/ProductCard.tsx:71:11)
+    at <unknown> (app/categories/[category]/page.tsx:177:15)
+    at Array.map (<anonymous>)
+    at CategoryPage (app/categories/[category]/page.tsx:170:29)
+  221 |
+  222 |   return (
+> 223 |     <Image
+      |     ^
+  224 |       src={buildImageUrl(imagePublicId, {
+  225 |         width: 400,
+  226 |         height: 400,
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+ GET / 200 in 71ms (next.js: 39ms, application-code: 31ms)
+ GET / 200 in 84ms (next.js: 3ms, application-code: 81ms)
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+ POST / 200 in 14ms (next.js: 4ms, application-code: 10ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 1ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+ GET /categories/bakery 200 in 47ms (next.js: 25ms, application-code: 22ms)
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+[browser] Uncaught Error: Invalid src prop (https://picsum.photos/seed/pandamarket2Fcategories2Fbakery2Fproducts2Fchocolatecroissant2F1/400/400.jpg) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at Array.map (<anonymous>)
+    at ProductCardImage (components/ProductImageGallery.tsx:223:5)
+    at ProductCard (components/ProductCard.tsx:71:11)
+    at <unknown> (app/categories/[category]/page.tsx:177:15)
+    at Array.map (<anonymous>)
+    at CategoryPage (app/categories/[category]/page.tsx:170:29)
+  221 |
+  222 |   return (
+> 223 |     <Image
+      |     ^
+  224 |       src={buildImageUrl(imagePublicId, {
+  225 |         width: 400,
+  226 |         height: 400,
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✓ Compiled in 7ms
+ GET /categories/bakery 200 in 519ms (next.js: 135ms, application-code: 383ms)
+ POST /categories/bakery 200 in 64ms (next.js: 33ms, application-code: 31ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 8ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/categorie..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <ClientSegmentRoot Component={function RootLayout} slots={{children:{...}}} ...>
+                        <RootLayout params={Promise}>
+                          <html lang="en">
+                            <body
+                              className="inter_296f98f4-module__kC2Hba__variable roboto_mono_9868555a-module__BF1myG__..."
+-                             cz-shortcut-listen="true"
+                            >
+                  ...
+ 
+[browser] Uncaught Error: Invalid src prop (https://picsum.photos/seed/pandamarket2Fcategories2Fbakery2Fproducts2Fbaladyb/400/400.jpg) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at Array.map (<anonymous>)
+    at ProductCardImage (components/ProductImageGallery.tsx:223:5)
+    at ProductCard (components/ProductCard.tsx:71:11)
+    at <unknown> (app/categories/[category]/page.tsx:177:15)
+    at Array.map (<anonymous>)
+    at CategoryPage (app/categories/[category]/page.tsx:170:29)
+  221 |
+  222 |   return (
+> 223 |     <Image
+      |     ^
+  224 |       src={buildImageUrl(imagePublicId, {
+  225 |         width: 400,
+  226 |         height: 400,
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+ GET /categories/bakery 200 in 110ms (next.js: 43ms, application-code: 67ms)
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+ POST /categories/bakery 200 in 25ms (next.js: 6ms, application-code: 19ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 1ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/categorie..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <ClientSegmentRoot Component={function RootLayout} slots={{children:{...}}} ...>
+                        <RootLayout params={Promise}>
+                          <html
+                            lang="en"
+-                           className="mdl-js"
+                          >
+                            <body
+                              className="inter_296f98f4-module__kC2Hba__variable roboto_mono_9868555a-module__BF1myG__..."
+-                             cz-shortcut-listen="true"
+                            >
+                  ...
+ 
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+[browser] Uncaught Error: Invalid src prop (https://picsum.photos/seed/pandamarket2Fcategories2Fbakery2Fproducts2Fchocola/400/400.jpg) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at Array.map (<anonymous>)
+    at ProductCardImage (components/ProductImageGallery.tsx:223:5)
+    at ProductCard (components/ProductCard.tsx:71:11)
+    at <unknown> (app/categories/[category]/page.tsx:177:15)
+    at Array.map (<anonymous>)
+    at CategoryPage (app/categories/[category]/page.tsx:170:29)
+  221 |
+  222 |   return (
+> 223 |     <Image
+      |     ^
+  224 |       src={buildImageUrl(imagePublicId, {
+  225 |         width: 400,
+  226 |         height: 400,
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✓ Compiled in 927ms
+ GET /categories/bakery 200 in 501ms (next.js: 116ms, application-code: 385ms)
+ POST /categories/bakery 200 in 49ms (next.js: 23ms, application-code: 26ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 6ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+[browser] Uncaught Error: Invalid src prop (https://picsum.photos/seed/pandamarket2Fcategories2Fbakery2Fproducts2Ffinefin/400/400.jpg) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at Array.map (<anonymous>)
+    at ProductCardImage (components/ProductImageGallery.tsx:223:5)
+    at ProductCard (components/ProductCard.tsx:71:11)
+    at <unknown> (app/categories/[category]/page.tsx:177:15)
+    at Array.map (<anonymous>)
+    at CategoryPage (app/categories/[category]/page.tsx:170:29)
+  221 |
+  222 |   return (
+> 223 |     <Image
+      |     ^
+  224 |       src={buildImageUrl(imagePublicId, {
+  225 |         width: 400,
+  226 |         height: 400,
+ GET /categories/bakery 200 in 108ms (next.js: 40ms, application-code: 68ms)
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/categorie..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <script>
+                      <ClientSegmentRoot Component={function RootLayout} slots={{children:{...}}} ...>
+                        <RootLayout params={Promise}>
+                          <html
+                            lang="en"
+-                           className="mdl-js"
+                          >
+                  ...
+ 
+ POST /categories/bakery 200 in 47ms (next.js: 27ms, application-code: 20ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 1ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+[browser] Uncaught Error: Invalid src prop (https://picsum.photos/seed/pandamarket2Fcategories2Fbakery2Fproducts2Fbaladyb/400/400.jpg) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at Array.map (<anonymous>)
+    at ProductCardImage (components/ProductImageGallery.tsx:223:5)
+    at ProductCard (components/ProductCard.tsx:71:11)
+    at <unknown> (app/categories/[category]/page.tsx:177:15)
+    at Array.map (<anonymous>)
+    at CategoryPage (app/categories/[category]/page.tsx:170:29)
+  221 |
+  222 |   return (
+> 223 |     <Image
+      |     ^
+  224 |       src={buildImageUrl(imagePublicId, {
+  225 |         width: 400,
+  226 |         height: 400,
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.2.10 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.5:3000
+- Environments: .env.local
+✓ Ready in 477ms
+⚠ Slow filesystem detected. The benchmark took 380ms. If D:\next-react\pandamarket\.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+
+ GET /categories/bakery 200 in 1061ms (next.js: 654ms, application-code: 407ms)
+ POST /categories/bakery 200 in 79ms (next.js: 18ms, application-code: 61ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 9ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+ GET /categories 200 in 1264ms (next.js: 1238ms, application-code: 27ms)
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/black-pepper/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/cinnamon/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/coriander/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/turmeric/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/cumin/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/black-pepper/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/cinnamon/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/cumin/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/turmeric/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/coriander/1 404
+ GET / 200 in 92ms (next.js: 62ms, application-code: 30ms)
+ GET /categories 200 in 39ms (next.js: 5ms, application-code: 33ms)
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+ GET /categories 200 in 20ms (next.js: 3ms, application-code: 17ms)
+ GET /categories 200 in 20ms (next.js: 3ms, application-code: 17ms)
+ GET /contact 200 in 845ms (next.js: 822ms, application-code: 23ms)
+ GET /categories 200 in 24ms (next.js: 5ms, application-code: 19ms)
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/cumin/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/black-pepper/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/turmeric/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/cinnamon/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/spices/products/coriander/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/balady-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/fine-fino-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/whole-wheat-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/ulker-white-toast/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/vanilla-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/oat-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/bran-bread/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/french-baguette/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/burger-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/hot-dog-buns/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/chocolate-croissant/1 404
+⨯ upstream image response failed for https://res.cloudinary.com/dfq1xxerr/image/upload/w_400,h_400,c_fill,q_auto,f_auto/pandamarket/categories/bakery/products/sesame-bagel/1 404
+ GET /categories 200 in 149ms (next.js: 98ms, application-code: 51ms)
+✓ Compiled in 461ms
+ GET /categories 200 in 184ms (next.js: 80ms, application-code: 105ms)
+ GET /categories 200 in 49ms (next.js: 4ms, application-code: 45ms)
+✓ Compiled in 134ms
+ GET /categories 200 in 186ms (next.js: 87ms, application-code: 99ms)
+ GET /categories 200 in 68ms (next.js: 3ms, application-code: 64ms)
+ GET /categories 200 in 29ms (next.js: 3ms, application-code: 26ms)
+ GET /products/clean-2 200 in 1402ms (next.js: 1375ms, application-code: 27ms)
+✓ Compiled in 2.1s
+ GET /products/clean-2 200 in 126ms (next.js: 83ms, application-code: 43ms)
+✓ Compiled in 102ms
+ GET /products/clean-2 200 in 127ms (next.js: 86ms, application-code: 40ms)
+✓ Compiled in 68ms
+ GET /products/clean-2 200 in 123ms (next.js: 81ms, application-code: 42ms)
+ GET /categories 200 in 90ms (next.js: 67ms, application-code: 23ms)
+ GET / 200 in 53ms (next.js: 33ms, application-code: 20ms)
+✓ Compiled in 22ms
+ GET / 200 in 216ms (next.js: 109ms, application-code: 107ms)
+ GET / 200 in 75ms (next.js: 3ms, application-code: 71ms)
+ GET / 200 in 24ms (next.js: 4ms, application-code: 20ms)
+ GET / 200 in 344ms (next.js: 4ms, application-code: 340ms)
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://settled-wren-26.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:19:7048)
+ POST / 200 in 40ms (next.js: 4ms, application-code: 36ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 11ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+  Reload env: .env.local
+✓ Compiled in 882ms
+ GET / 200 in 517ms (next.js: 431ms, application-code: 86ms)
+ GET / 200 in 52ms (next.js: 5ms, application-code: 47ms)
+  Reload env: .env.local
+ GET / 200 in 112ms (next.js: 81ms, application-code: 32ms)

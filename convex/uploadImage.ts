@@ -1,5 +1,6 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { requireAdmin } from "./auth";
 
 export const uploadImage = mutation({
   args: {
@@ -8,6 +9,7 @@ export const uploadImage = mutation({
     uploadedBy: v.string(),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     await ctx.db.insert("images", {
       storageId: args.storageId,
       title: args.title,

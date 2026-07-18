@@ -1,5 +1,6 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { requireAdmin } from "./auth";
 
 export const seedDatabase = mutation({
   args: {
@@ -32,6 +33,7 @@ export const seedDatabase = mutation({
     ),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     const categoryMap = new Map<string, any>();
 
     // 1. Seed Categories

@@ -1,5 +1,6 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { requirePermission } from "./auth";
 
 // ===== CATEGORIES =====
 
@@ -43,6 +44,7 @@ export const addCategory = mutation({
     active: v.boolean(),
   },
   handler: async (ctx, args) => {
+    await requirePermission(ctx, "categories");
     const id = await ctx.db.insert("categories", {
       ...args,
       createdAt: Date.now(),
@@ -64,6 +66,7 @@ export const updateCategory = mutation({
     active: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
+    await requirePermission(ctx, "categories");
     const { id, ...updates } = args;
     await ctx.db.patch(id, updates);
     return id;
@@ -73,6 +76,7 @@ export const updateCategory = mutation({
 export const deleteCategory = mutation({
   args: { id: v.id("categories") },
   handler: async (ctx, args) => {
+    await requirePermission(ctx, "categories");
     await ctx.db.delete(args.id);
     return args.id;
   },
@@ -102,6 +106,7 @@ export const addProduct = mutation({
     isActive: v.boolean(),
   },
   handler: async (ctx, args) => {
+    await requirePermission(ctx, "products");
     const id = await ctx.db.insert("products", {
       ...args,
       createdAt: Date.now(),
@@ -294,6 +299,7 @@ export const updateProduct = mutation({
     isActive: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
+    await requirePermission(ctx, "products");
     const { id, ...updates } = args;
     await ctx.db.patch(id, { ...updates, updatedAt: Date.now() });
     return id;
@@ -303,6 +309,7 @@ export const updateProduct = mutation({
 export const deleteProduct = mutation({
   args: { id: v.id("products") },
   handler: async (ctx, args) => {
+    await requirePermission(ctx, "products");
     await ctx.db.delete(args.id);
     return args.id;
   },
@@ -314,6 +321,7 @@ export const updateStock = mutation({
     quantity: v.number(),
   },
   handler: async (ctx, args) => {
+    await requirePermission(ctx, "products");
     const product = await ctx.db.get(args.id);
     if (!product) throw new Error("Product not found");
 

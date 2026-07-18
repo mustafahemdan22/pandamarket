@@ -175,6 +175,41 @@ const CategoriesPage = () => {
       name: language === "ar" ? "الخضروات والفواكه" : "Vegetables & Fruits",
       icon: "🥬",
     },
+    {
+      id: "oils",
+      name: language === "ar" ? "الزيوت والسمن" : "Oils & Ghee",
+      icon: "🛢️",
+    },
+    {
+      id: "rice",
+      name: language === "ar" ? "الأرز والمعكرونة" : "Rice & Pasta",
+      icon: "🍚",
+    },
+    {
+      id: "legumes",
+      name: language === "ar" ? "البقوليات" : "Legumes",
+      icon: "🫘",
+    },
+    {
+      id: "sauces",
+      name: language === "ar" ? "الصلصات" : "Sauces",
+      icon: "🥫",
+    },
+    {
+      id: "snacks",
+      name: language === "ar" ? "السناكس" : "Snacks",
+      icon: "🍿",
+    },
+    {
+      id: "beverages",
+      name: language === "ar" ? "المشروبات" : "Beverages",
+      icon: "🥤",
+    },
+    {
+      id: "dairy",
+      name: language === "ar" ? "الألبان" : "Dairy",
+      icon: "🥛",
+    },
   ];
 
   // ✅ فلترة المنتجات مع البحث بكلا اللغتين

@@ -134,6 +134,11 @@ export function buildImageUrl(
     return { primary: publicId, fallback: publicId };
   }
 
+  // If it's a local path (starts with /), return as-is for Next.js Image
+  if (publicId.startsWith('/')) {
+    return { primary: publicId, fallback: publicId };
+  }
+
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dfq1xxerr';
   const params: string[] = [];
 
@@ -161,7 +166,7 @@ export function buildImageUrl(
 }
 
 function getPlaceholderUrl(publicId: string, width: number, height: number): string {
-  const seed = encodeURIComponent(publicId).replace(/[^a-zA-Z0-9]/g, '');
+  const seed = encodeURIComponent(publicId).replace(/[^a-zA-Z0-9]/g, '').slice(0, 50);
   return `https://picsum.photos/seed/${seed}/${width}/${height}.jpg`;
 }
 
