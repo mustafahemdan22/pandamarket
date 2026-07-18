@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as auth from "../auth.js";
 import type * as files from "../files.js";
 import type * as functions_createUser from "../functions/createUser.js";
 import type * as functions_login from "../functions/login.js";
@@ -22,6 +23,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  auth: typeof auth;
   files: typeof files;
   "functions/createUser": typeof functions_createUser;
   "functions/login": typeof functions_login;
