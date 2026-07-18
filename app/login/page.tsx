@@ -54,7 +54,11 @@ const LoginPage = () => {
         toast.success(
           language === "ar" ? "تم تسجيل الدخول بنجاح!" : "Login successful"
         );
-        setTimeout(() => router.push("/"), 1500);
+        
+        const isAdmin = formData.email.toLowerCase().trim() === "mustafa.hemdan22@gmail.com";
+        const redirectPath = isAdmin ? "/admin" : "/";
+        
+        setTimeout(() => router.push(redirectPath), 1500);
       } else {
         // احتياطي في حال لم يُرمَ خطأ (نادر، لكن آمن)
         toast.error(

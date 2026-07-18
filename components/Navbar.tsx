@@ -37,14 +37,16 @@ const Navbar = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
+  const isAdmin = user?.role === 'admin' || user?.email === 'mustafa.hemdan22@gmail.com';
+
   const navItems = [
     { href: '/', icon: FiHome, text: language === 'ar' ? 'الرئيسية' : 'Home' },
     { href: '/about', icon: FiInfo, text: language === 'ar' ? 'من نحن' : 'About' },
     { href: '/blog', icon: FiBookOpen, text: language === 'ar' ? 'المدونة' : 'Blog' },
     { href: '/contact', icon: FiMail, text: language === 'ar' ? 'اتصل بنا' : 'Contact' },
     { href: '/categories', icon: FiGrid, text: language === 'ar' ? 'الفئات' : 'Categories' },
-    ...(user && user.role === 'admin' ? [{ href: '/admin', icon: FiSliders, text: language === 'ar' ? 'لوحة التحكم' : 'Dashboard' }] : []),
-    ...(user && user.role !== 'admin' ? [{ href: '/orders', icon: FiPackage, text: language === 'ar' ? 'طلباتي' : 'My Orders' }] : []),
+    ...(isAdmin ? [{ href: '/admin', icon: FiSliders, text: language === 'ar' ? 'لوحة التحكم' : 'Dashboard' }] : []),
+    ...(user && !isAdmin ? [{ href: '/orders', icon: FiPackage, text: language === 'ar' ? 'طلباتي' : 'My Orders' }] : []),
   ];
 
   const authItems = [
