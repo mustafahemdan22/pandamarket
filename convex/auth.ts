@@ -21,10 +21,11 @@ export async function getViewerAuthDetails(
   }
 
   // Retrieve role and permissions from JWT custom claims or top-level properties
-  const role = (identity.customClaims?.role || (identity as any).role) as string | undefined;
+  const customClaims = (identity.customClaims || {}) as any;
+  const role = (customClaims.role || (identity as any).role) as string | undefined;
   
   let permissions: string[] = [];
-  const rawPermissions = identity.customClaims?.permissions || (identity as any).permissions;
+  const rawPermissions = customClaims.permissions || (identity as any).permissions;
   if (Array.isArray(rawPermissions)) {
     permissions = rawPermissions;
   } else if (typeof rawPermissions === "string") {
