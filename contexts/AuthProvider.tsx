@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useMutation } from 'convex/react';
 import { api } from '../convex/_generated/api';
+import { useUser, useClerk } from '@clerk/nextjs';
 
 // ===== Types =====
 export interface User {
@@ -71,6 +72,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Clerk hooks
+  const { user: clerkUser, isLoaded: clerkLoaded } = useUser();
+  const { signOut } = useClerk();
+
   // Convex mutations
   const createUser = useMutation(api.functions.createUser.createUser);
   const loginUser = useMutation(api.functions.login.loginUser);
@@ -93,6 +98,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     loadUserFromStorage();
   }, []);
+
+  // Sync Clerk user to state
+  useEffect(() => {
+    if (clerkLoaded) {
+      if (clerkUser) {
+        setUser({
+          id: clerkUser.id,
+          email: clerkUser.primaryEmailAddress?.emailAddress || '',
+          firstName: clerkUser.firstName || '',
+          lastName: clerkUser.lastName || '',
+        });
+      } else {
+        setUser((prevUser) => {
+          if (prevUser && prevUser.id.startsWith('user_')) {
+            return null;
+          }
+          return prevUser;
+        });
+      }
+    }
+  }, [clerkUser, clerkLoaded]);
 
   // Save user to localStorage whenever it changes
   useEffect(() => {
@@ -184,6 +210,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     clearError();
     const storageKeys: Array<string> = ['panda-cart', 'panda-wishlist', 'panda-user'];
     storageKeys.forEach((key: string) => localStorage.removeItem(key));
+    if (clerkUser) {
+      signOut();
+    }
   };
 
   const contextValue: AuthContextType = {
