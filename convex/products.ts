@@ -461,6 +461,7 @@ export const getRelatedProducts = query({
 
 export const getAllProductsAdmin = query({
   handler: async (ctx) => {
+    await requirePermission(ctx, "products");
     const products = await ctx.db.query("products").order("desc").collect();
     const productsWithCategory = [];
     for (const product of products) {
