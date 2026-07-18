@@ -12,6 +12,8 @@ export interface User {
   firstName: string;
   lastName: string;
   phone?: string;
+  role?: string;
+  permissions?: string[];
 }
 
 export interface RegisterData {
@@ -101,14 +103,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Sync Clerk user to state
   useEffect(() => {
+    const fetchMetadata = async (userId: string, email: string, first: string, last: string) => {
+      try {
+        const res = await fetch('/api/auth/metadata');
+        const data = await res.json();
+        setUser({
+          id: userId,
+          email,
+          firstName: first,
+          lastName: last,
+          role: data.role || undefined,
+          permissions: data.permissions || [],
+        });
+      } catch (err) {
+        setUser({
+          id: userId,
+          email,
+          firstName: first,
+          lastName: last,
+        });
+      }
+    };
+
     if (clerkLoaded) {
       if (clerkUser) {
-        setUser({
-          id: clerkUser.id,
-          email: clerkUser.primaryEmailAddress?.emailAddress || '',
-          firstName: clerkUser.firstName || '',
-          lastName: clerkUser.lastName || '',
-        });
+        fetchMetadata(
+          clerkUser.id,
+          clerkUser.primaryEmailAddress?.emailAddress || '',
+          clerkUser.firstName || '',
+          clerkUser.lastName || ''
+        );
       } else {
         setUser((prevUser) => {
           if (prevUser && prevUser.id.startsWith('user_')) {

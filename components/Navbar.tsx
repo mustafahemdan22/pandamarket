@@ -19,7 +19,8 @@ import {
   FiLogIn,
   FiUserPlus,
   FiHeart,
-  FiPackage
+  FiPackage,
+  FiSliders
 } from 'react-icons/fi';
 import { useAppSelector } from '../hooks/redux';
 import { useTheme } from '../contexts/ThemeProvider';
@@ -42,7 +43,8 @@ const Navbar = () => {
     { href: '/blog', icon: FiBookOpen, text: language === 'ar' ? 'المدونة' : 'Blog' },
     { href: '/contact', icon: FiMail, text: language === 'ar' ? 'اتصل بنا' : 'Contact' },
     { href: '/categories', icon: FiGrid, text: language === 'ar' ? 'الفئات' : 'Categories' },
-    ...(user ? [{ href: '/orders', icon: FiPackage, text: language === 'ar' ? 'طلباتي' : 'My Orders' }] : []),
+    ...(user && user.role === 'admin' ? [{ href: '/admin', icon: FiSliders, text: language === 'ar' ? 'لوحة التحكم' : 'Dashboard' }] : []),
+    ...(user && user.role !== 'admin' ? [{ href: '/orders', icon: FiPackage, text: language === 'ar' ? 'طلباتي' : 'My Orders' }] : []),
   ];
 
   const authItems = [
