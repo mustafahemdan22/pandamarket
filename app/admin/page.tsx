@@ -47,13 +47,12 @@ export default function AdminDashboard() {
       permission: 'products'
     },
     {
-      title: language === 'ar' ? 'إدارة الفئات (قريباً)' : 'Category Management (Soon)',
+      title: language === 'ar' ? 'إدارة الفئات' : 'Category Management',
       description: language === 'ar' ? 'إدارة فئات السوبرماركت والتصنيفات المختلفة' : 'Manage supermarket categories and classifications',
-      href: '#',
+      href: '/admin/categories',
       icon: FiFolder,
       color: 'from-emerald-500 to-teal-600',
-      permission: 'categories',
-      disabled: true
+      permission: 'categories'
     },
     {
       title: language === 'ar' ? 'إدارة الطلبات (قريباً)' : 'Order Management (Soon)',

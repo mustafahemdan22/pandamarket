@@ -36,6 +36,16 @@ export async function getViewerAuthDetails(
     }
   }
 
+  const bootstrapEmail = process.env.ADMIN_BOOTSTRAP_EMAIL;
+  if (bootstrapEmail && identity.email === bootstrapEmail) {
+    return {
+      userId: identity.subject,
+      email: identity.email,
+      role: "admin",
+      permissions: ["dashboard", "products", "categories", "orders", "users", "inventory", "coupons", "ai_generation", "cloudinary", "upload", "settings", "reports"],
+    };
+  }
+
   return {
     userId: identity.subject,
     email: identity.email,

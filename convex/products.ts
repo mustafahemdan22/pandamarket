@@ -474,3 +474,9 @@ export const getAllProductsAdmin = query({
     return productsWithCategory;
   },
 });
+
+export const getAllCategoriesAdmin = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("categories").collect();
+  },
+});

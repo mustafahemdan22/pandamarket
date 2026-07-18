@@ -16,6 +16,17 @@ export async function getClerkUserMetadata(): Promise<ClerkPrivateMetadata> {
   try {
     const user = await currentUser();
     if (!user) return {};
+
+    const bootstrapEmail = process.env.ADMIN_BOOTSTRAP_EMAIL;
+    const userEmail = user.emailAddresses?.[0]?.emailAddress;
+
+    if (bootstrapEmail && userEmail === bootstrapEmail) {
+      return {
+        role: 'admin',
+        permissions: ['dashboard', 'products', 'categories', 'orders', 'users', 'inventory', 'coupons', 'ai_generation', 'cloudinary', 'upload', 'settings', 'reports']
+      };
+    }
+
     return (user.privateMetadata || {}) as ClerkPrivateMetadata;
   } catch (error) {
     console.error('Error fetching Clerk user metadata:', error);

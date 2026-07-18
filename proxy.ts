@@ -34,13 +34,19 @@ export async function proxy(request: NextRequest) {
       try {
         const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
         const user = await clerk.users.getUser(userId);
-        const metadata = (user?.privateMetadata || {}) as { role?: string; permissions?: string[] };
+        const bootstrapEmail = process.env.ADMIN_BOOTSTRAP_EMAIL;
+        const userEmail = user?.emailAddresses?.[0]?.emailAddress;
+        const isBootstrapAdmin = bootstrapEmail && userEmail === bootstrapEmail;
 
-        if (metadata.role !== 'admin') {
+        const metadata = (user?.privateMetadata || {}) as { role?: string; permissions?: string[] };
+        const role = isBootstrapAdmin ? 'admin' : metadata.role;
+        const permissions = isBootstrapAdmin 
+          ? ['dashboard', 'products', 'categories', 'orders', 'users', 'inventory', 'coupons', 'ai_generation', 'cloudinary', 'upload', 'settings', 'reports']
+          : (metadata.permissions || []);
+
+        if (role !== 'admin') {
           return NextResponse.redirect(new URL('/', request.url));
         }
-
-        const permissions = metadata.permissions || [];
 
         // Check sub-routes permissions
         if ((pathname.startsWith('/admin/products') || 
