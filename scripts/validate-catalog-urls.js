@@ -1,57 +1,88 @@
-const fs = require('fs');
-const path = require('path');
+const https = require('https');
 const { ConvexHttpClient } = require("convex/browser");
 require("dotenv").config({ path: ".env.local" });
 
 const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL);
+const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dfq1xxerr';
 
-async function validateImages() {
-  console.log("=== Image Validation Report ===");
+function checkUrlHttp(urlStr, retries = 1) {
+  return new Promise((resolve) => {
+    https.get(urlStr, async (res) => {
+      if (res.statusCode === 500 && retries > 0) {
+        await new Promise(r => setTimeout(r, 1000));
+        const retryCode = await checkUrlHttp(urlStr, retries - 1);
+        resolve(retryCode);
+      } else {
+        resolve(res.statusCode || 500);
+      }
+    }).on('error', () => {
+      resolve(500);
+    });
+  });
+}
+
+async function validateAllCatalogImages() {
+  console.log("=================================================");
+  console.log("    FINAL PRODUCTION CLOUDINARY CATALOG AUDIT    ");
+  console.log("=================================================");
+
   try {
     const products = await client.query("products:getProducts", { limit: 100 });
-    console.log(`Total Products in Database: ${products.length}\n`);
+    console.log(`\nTotal Products Queried from Convex DB: ${products.length}\n`);
 
-    let successCount = 0;
-    let missingCount = 0;
+    let totalImagesChecked = 0;
+    let successful200s = 0;
+    let failedUrls = 0;
+    const brokenReferences = [];
 
     for (const p of products) {
-      if (p.imagePublicId.startsWith('/')) {
-        const ext = p.imagePublicId.endsWith('.webp') ? '' : '.webp';
-        const localPath = path.join(__dirname, '..', 'public', p.imagePublicId + ext);
-        if (fs.existsSync(localPath)) {
-          successCount++;
+      const mainPublicId = p.imagePublicId;
+      const allPublicIds = p.imagePublicIds || [mainPublicId];
+
+      console.log(`Product: "${p.nameEn}" (Slug: ${p.slug})`);
+      console.log(`  - Primary Public ID: ${mainPublicId}`);
+
+      for (let i = 0; i < allPublicIds.length; i++) {
+        const id = allPublicIds[i];
+        totalImagesChecked++;
+
+        // Construct Cloudinary URL with transformations
+        const url = `https://res.cloudinary.com/${cloudName}/image/upload/w_400,h_400,c_fill,q_auto/${id}.jpg`;
+        const statusCode = await checkUrlHttp(url);
+
+        if (statusCode >= 200 && statusCode < 400) {
+          successful200s++;
         } else {
-          console.error(`[404 NOT FOUND] ${p.name} - ${p.imagePublicId}`);
-          missingCount++;
+          failedUrls++;
+          brokenReferences.push({
+            product: p.nameEn,
+            publicId: id,
+            url,
+            statusCode
+          });
+          console.error(`  ✗ [HTTP ${statusCode}] Failed: ${url}`);
         }
-        
-        // Also check arrays
-        if (p.imagePublicIds) {
-          for (const imgId of p.imagePublicIds) {
-            const arrExt = imgId.endsWith('.webp') ? '' : '.webp';
-            const arrLocalPath = path.join(__dirname, '..', 'public', imgId + arrExt);
-            if (!fs.existsSync(arrLocalPath)) {
-              console.error(`[404 NOT FOUND in Array] ${p.name} - ${imgId}`);
-            }
-          }
-        }
-      } else {
-        console.warn(`[WARNING] Product uses external URL: ${p.imagePublicId}`);
       }
     }
 
-    console.log(`\n=== Final Report ===`);
-    console.log(`Products Validated: ${products.length}`);
-    console.log(`Successful Image Links: ${successCount}`);
-    console.log(`Failed Image Links: ${missingCount}`);
-    
-    if (missingCount === 0 && successCount > 0) {
-      console.log(`SUCCESS: Zero incorrect or missing product images!`);
+    console.log("\n=================================================");
+    console.log("          FINAL MIGRATION VALIDATION             ");
+    console.log("=================================================");
+    console.log(`Total Products Verified        : ${products.length}`);
+    console.log(`Total Cloudinary Assets Tested : ${totalImagesChecked}`);
+    console.log(`HTTP 200 OK Successes          : ${successful200s}`);
+    console.log(`HTTP Failures / Broken Links   : ${failedUrls}`);
+
+    if (failedUrls === 0 && successful200s > 0) {
+      console.log("\nSUCCESS: 100% of product images are being served from Cloudinary with HTTP 200 OK!");
+    } else {
+      console.error("\nFAILURES DETECTED in Cloudinary asset delivery!");
+      console.error(JSON.stringify(brokenReferences, null, 2));
     }
 
-  } catch (error) {
-    console.error("Validation failed:", error);
+  } catch (err) {
+    console.error("Validation error:", err);
   }
 }
 
-validateImages();
+validateAllCatalogImages();

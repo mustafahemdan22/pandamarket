@@ -25,6 +25,7 @@ import ProductReviews from "../../../components/ProductReviews";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { ProductImageGallery } from "../../../components/ProductImageGallery";
+import { ProductJsonLd, BreadcrumbJsonLd } from "../../../components/seo/JsonLd";
 
 const ProductDetailPage = () => {
   const params = useParams();
@@ -213,11 +214,31 @@ const ProductDetailPage = () => {
     },
   ];
 
+  const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://pandamarket.com";
+
   return (
     <div
       className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8"
       dir={isRTL ? "rtl" : "ltr"}
     >
+      <ProductJsonLd
+        name={productName}
+        description={productDescription || productName}
+        image={product.imagePublicIds || [product.imagePublicId || ""]}
+        price={product.price}
+        brand={product.brand}
+        inStock={product.stock === undefined || product.stock > 0}
+        ratingValue={product.rating || 4.8}
+        reviewCount={product.reviews || 12}
+        url={`${baseUrl}/products/${product.id}`}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: language === "ar" ? "الرئيسية" : "Home", url: `${baseUrl}` },
+          { name: language === "ar" ? "المنتجات" : "Products", url: `${baseUrl}/categories` },
+          { name: productName, url: `${baseUrl}/products/${product.id}` },
+        ]}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <motion.div

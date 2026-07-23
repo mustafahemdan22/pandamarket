@@ -1,51 +1,46 @@
 'use client';
 
 import React from 'react';
-import { ClerkProvider } from '@clerk/nextjs';
-import { ConvexProvider, ConvexReactClient } from 'convex/react';
+import { ClerkProvider, useAuth } from '@clerk/nextjs';
 import { Toaster } from 'react-hot-toast';
-
-// 🧩 استيراد كل الـ Providers بتاعتك
-import { AuthProvider } from '../contexts/AuthProvider';
-import { WishlistProvider } from '../contexts/WishlistProvider';
-import { ThemeProvider } from '../contexts/ThemeProvider';
 import { LanguageProvider } from '../contexts/LanguageProvider';
+import { ThemeProvider } from '../contexts/ThemeProvider';
+import { WishlistProvider } from '../contexts/WishlistProvider';
+import { AuthProvider } from '../contexts/AuthProvider';
+import { Provider } from 'react-redux';
+import { store } from '../store';
+import { ConvexReactClient } from 'convex/react';
+import { ConvexProviderWithClerk } from 'convex/react-clerk';
+import { OrderProvider } from '../contexts/OrderProvider';
+import { ReviewProvider } from '../contexts/ReviewProvider';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
-// ✅ إنشاء عميل Convex
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export default function ClientProviders({ children }: Props) {
-  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
-  const content = (
-    <ConvexProvider client={convex}>
-      <ThemeProvider>
-        <LanguageProvider>
-          <AuthProvider>
-            <WishlistProvider>
-              {children}
-              <Toaster position="top-center" />
-            </WishlistProvider>
-          </AuthProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </ConvexProvider>
-  );
-
-  if (!publishableKey) {
-    if (typeof window !== 'undefined') {
-      console.warn('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is not defined — ClerkProvider disabled.');
-    }
-    return content;
-  }
-
+export default function ClientProviders({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider publishableKey={publishableKey}>
-      {content}
+    <ClerkProvider>
+      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+        <Provider store={store}>
+          <ThemeProvider>
+            <LanguageProvider>
+              <AuthProvider>
+                <WishlistProvider>
+                  <OrderProvider>
+                    <ReviewProvider>
+                      <Navbar />
+                      {children}
+                      <Footer />
+                    </ReviewProvider>
+                  </OrderProvider>
+                </WishlistProvider>
+              </AuthProvider>
+            </LanguageProvider>
+          </ThemeProvider>
+        </Provider>
+        <Toaster position="top-center" />
+      </ConvexProviderWithClerk>
     </ClerkProvider>
   );
 }

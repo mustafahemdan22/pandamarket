@@ -12,6 +12,7 @@ import type * as auth from "../auth.js";
 import type * as files from "../files.js";
 import type * as functions_createUser from "../functions/createUser.js";
 import type * as functions_login from "../functions/login.js";
+import type * as orders from "../orders.js";
 import type * as products from "../products.js";
 import type * as seed from "../seed.js";
 import type * as updateImages from "../updateImages.js";
@@ -30,6 +31,7 @@ declare const fullApi: ApiFromModules<{
   files: typeof files;
   "functions/createUser": typeof functions_createUser;
   "functions/login": typeof functions_login;
+  orders: typeof orders;
   products: typeof products;
   seed: typeof seed;
   updateImages: typeof updateImages;
