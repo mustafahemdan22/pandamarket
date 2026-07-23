@@ -11,6 +11,7 @@ export interface Product {
   imagePublicId?: string; // New: Cloudinary public ID
   imagePublicIds?: string[]; // New: Array of Cloudinary public IDs (3-5 images)
   category: string;
+  subcategory?: string;
   brand: string;
   unit: string;
   

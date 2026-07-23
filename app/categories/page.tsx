@@ -154,44 +154,49 @@ const CategoriesPage = () => {
       icon: FiGrid,
     },
     {
-      id: "dairy",
-      name: language === "ar" ? "الألبان والبيض" : "Dairy & Eggs",
-      icon: FiCoffee,
-    },
-    {
-      id: "beverages",
-      name: language === "ar" ? "المشروبات" : "Beverages",
-      icon: FiDroplet,
-    },
-    {
-      id: "produce",
-      name: language === "ar" ? "الخضروات والفواكه الطازجة" : "Fresh Produce",
+      id: "fresh-food",
+      name: language === "ar" ? "الأطعمة الطازجة" : "Fresh Food",
       icon: FiSun,
     },
     {
+      id: "dairy-eggs",
+      name: language === "ar" ? "الألبان والبيض والجبن" : "Dairy, Eggs & Cheese",
+      icon: FiCoffee,
+    },
+    {
       id: "bakery",
-      name: language === "ar" ? "المخبوزات والخبز" : "Bakery & Bread",
+      name: language === "ar" ? "المخبوزات والحلويات" : "Bakery & Pastry",
       icon: FiGrid,
     },
     {
       id: "pantry",
-      name: language === "ar" ? "الأرز والمكرونة والبقوليات" : "Pantry & Grains",
+      name: language === "ar" ? "البقالة ومستلزمات الطبخ" : "Food Cupboard",
       icon: FiLayers,
     },
     {
-      id: "condiments",
-      name: language === "ar" ? "الزيوت والصلصات والتوابل" : "Oils, Sauces & Spices",
-      icon: FiBox,
+      id: "breakfast-beverages",
+      name: language === "ar" ? "الإفطار والمشروبات" : "Breakfast & Beverages",
+      icon: FiDroplet,
     },
     {
       id: "snacks",
-      name: language === "ar" ? "الوجبات الخفيفة والحلويات" : "Snacks & Sweets",
+      name: language === "ar" ? "السناكس والحلويات" : "Snacks & Confectionery",
       icon: FiHeart,
     },
     {
+      id: "frozen",
+      name: language === "ar" ? "المجمدات" : "Frozen Food",
+      icon: FiBox,
+    },
+    {
       id: "cleaning",
-      name: language === "ar" ? "العناية والمنظفات المنزلية" : "Household & Cleaning",
+      name: language === "ar" ? "المنظفات والأدوات المنزلية" : "Cleaning & Household",
       icon: FiShield,
+    },
+    {
+      id: "personal-baby-care",
+      name: language === "ar" ? "العناية الشخصية والأطفال" : "Personal & Baby Care",
+      icon: FiHeart,
     },
   ];
 
@@ -200,33 +205,7 @@ const CategoriesPage = () => {
     let products = sampleProducts;
 
     if (selectedCategory !== "all") {
-      products = sampleProducts.filter((product) => {
-        if (selectedCategory === "produce") {
-          return (
-            product.category === "produce" ||
-            product.category === "vegetables" ||
-            product.category === "fruits"
-          );
-        }
-        if (selectedCategory === "pantry") {
-          return (
-            product.category === "pantry" ||
-            product.category === "rice" ||
-            product.category === "legumes" ||
-            product.category === "dry-grocery" ||
-            product.category === "grocery"
-          );
-        }
-        if (selectedCategory === "condiments") {
-          return (
-            product.category === "condiments" ||
-            product.category === "oils" ||
-            product.category === "sauces" ||
-            product.category === "spices"
-          );
-        }
-        return product.category === selectedCategory;
-      });
+      products = sampleProducts.filter((product) => product.category === selectedCategory);
     }
 
     if (searchQuery.trim()) {

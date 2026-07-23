@@ -37,6 +37,7 @@ export default defineSchema({
     imagePublicId: v.string(),
     imagePublicIds: v.array(v.string()), // 3-5 images per product
     categoryId: v.id("categories"),
+    subcategory: v.optional(v.string()),
     brand: v.string(),
     unit: v.string(),
     description: v.optional(v.string()),
