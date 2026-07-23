@@ -136,7 +136,8 @@ export function buildImageUrl(
 
   // If it's a local path (starts with /), return as-is for Next.js Image
   if (publicId.startsWith('/')) {
-    return { primary: publicId, fallback: publicId };
+    const localSrc = publicId.endsWith('.webp') ? publicId : `${publicId}.webp`;
+    return { primary: localSrc, fallback: getPlaceholderUrl('', 400, 400) };
   }
 
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dfq1xxerr';
@@ -166,8 +167,8 @@ export function buildImageUrl(
 }
 
 function getPlaceholderUrl(publicId: string, width: number, height: number): string {
-  const seed = encodeURIComponent(publicId).replace(/[^a-zA-Z0-9]/g, '').slice(0, 50);
-  return `https://picsum.photos/seed/${seed}/${width}/${height}.jpg`;
+  // Use a reliable local fallback image instead of a random landscape generator.
+  return `/images/image-missing.svg`;
 }
 
 export function buildSrcSet(

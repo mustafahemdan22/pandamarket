@@ -16,7 +16,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Juhayna Full Cream Milk 1L',
     price: 22.00,
     image: '/images/dairy/juhayna-full-cream-milk-1l/1.webp',
-    imagePublicId: 'pandamarket/categories/dairy-eggs/products/juhayna-full-cream-milk-1l/1',
+    imagePublicId: '/pandamarket/categories/dairy-eggs/products/juhayna-full-cream-milk-1l/1',
     imagePublicIds: [
       'pandamarket/categories/dairy-eggs/products/juhayna-full-cream-milk-1l/1',
       'pandamarket/categories/dairy-eggs/products/juhayna-full-cream-milk-1l/2',
@@ -37,7 +37,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Almarai Natural Yogurt 4pcs',
     price: 18.00,
     image: '/images/dairy/almarai-natural-yogurt-4pcs/1.webp',
-    imagePublicId: 'pandamarket/categories/dairy-eggs/products/almarai-natural-yogurt-4pcs/1',
+    imagePublicId: '/pandamarket/categories/dairy-eggs/products/almarai-natural-yogurt-4pcs/1',
     imagePublicIds: [
       'pandamarket/categories/dairy-eggs/products/almarai-natural-yogurt-4pcs/1',
       'pandamarket/categories/dairy-eggs/products/almarai-natural-yogurt-4pcs/2',
@@ -58,7 +58,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Puck Triangle Cheese 8pcs',
     price: 28.00,
     image: '/images/dairy/puck-triangle-cheese-8pcs/1.webp',
-    imagePublicId: 'pandamarket/categories/dairy-eggs/products/puck-triangle-cheese-8pcs/1',
+    imagePublicId: '/pandamarket/categories/dairy-eggs/products/puck-triangle-cheese-8pcs/1',
     imagePublicIds: [
       'pandamarket/categories/dairy-eggs/products/puck-triangle-cheese-8pcs/1',
       'pandamarket/categories/dairy-eggs/products/puck-triangle-cheese-8pcs/2',
@@ -83,7 +83,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Coca Cola 1L',
     price: 18.00,
     image: '/images/beverages/coca-cola-1l/1.webp',
-    imagePublicId: 'pandamarket/categories/breakfast-beverages/products/coca-cola-1l/1',
+    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/coca-cola-1l/1',
     imagePublicIds: [
       'pandamarket/categories/breakfast-beverages/products/coca-cola-1l/1',
       'pandamarket/categories/breakfast-beverages/products/coca-cola-1l/2',
@@ -104,7 +104,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Pepsi 1.5L',
     price: 17.00,
     image: '/images/beverages/pepsi-1-5l/1.webp',
-    imagePublicId: 'pandamarket/categories/breakfast-beverages/products/pepsi-1-5l/1',
+    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/pepsi-1-5l/1',
     imagePublicIds: [
       'pandamarket/categories/breakfast-beverages/products/pepsi-1-5l/1',
       'pandamarket/categories/breakfast-beverages/products/pepsi-1-5l/2',
@@ -125,7 +125,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Hayat Mineral Water 600ml',
     price: 3.00,
     image: '/images/beverages/hayat-mineral-water-600ml/1.webp',
-    imagePublicId: 'pandamarket/categories/breakfast-beverages/products/hayat-mineral-water-600ml/1',
+    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/hayat-mineral-water-600ml/1',
     imagePublicIds: [
       'pandamarket/categories/breakfast-beverages/products/hayat-mineral-water-600ml/1',
       'pandamarket/categories/breakfast-beverages/products/hayat-mineral-water-600ml/2',
@@ -150,7 +150,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Chipsy Chips 150g',
     price: 15.00,
     image: '/images/snacks/chipsy-chips-150g/1.webp',
-    imagePublicId: 'pandamarket/categories/snacks/products/chipsy-chips-150g/1',
+    imagePublicId: '/pandamarket/categories/snacks/products/chipsy-chips-150g/1',
     imagePublicIds: [
       'pandamarket/categories/snacks/products/chipsy-chips-150g/1',
       'pandamarket/categories/snacks/products/chipsy-chips-150g/2',
@@ -171,7 +171,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Oreo Biscuits 154g',
     price: 18.00,
     image: '/images/snacks/oreo-biscuits-154g/1.webp',
-    imagePublicId: 'pandamarket/categories/snacks/products/oreo-biscuits-154g/1',
+    imagePublicId: '/pandamarket/categories/snacks/products/oreo-biscuits-154g/1',
     imagePublicIds: [
       'pandamarket/categories/snacks/products/oreo-biscuits-154g/1',
       'pandamarket/categories/snacks/products/oreo-biscuits-154g/2',
@@ -196,7 +196,7 @@ export const sampleProducts: Product[] = [
     nameEn: "Hellmann's Mayonnaise 400ml",
     price: 45.00,
     image: '/images/sauces/hellmanns-mayonnaise-400ml/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/hellmanns-mayonnaise-400ml/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/hellmanns-mayonnaise-400ml/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/hellmanns-mayonnaise-400ml/1',
       'pandamarket/categories/pantry/products/hellmanns-mayonnaise-400ml/2',
@@ -217,7 +217,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Heinz Tomato Ketchup 397g',
     price: 35.00,
     image: '/images/sauces/heinz-tomato-ketchup-397g/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/heinz-tomato-ketchup-397g/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/heinz-tomato-ketchup-397g/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/heinz-tomato-ketchup-397g/1',
       'pandamarket/categories/pantry/products/heinz-tomato-ketchup-397g/2',
@@ -242,7 +242,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Fairy Dish Liquid 900ml',
     price: 42.00,
     image: '/images/cleaning/fairy-dish-liquid-900ml/1.webp',
-    imagePublicId: 'pandamarket/categories/cleaning/products/fairy-dish-liquid-900ml/1',
+    imagePublicId: '/pandamarket/categories/cleaning/products/fairy-dish-liquid-900ml/1',
     imagePublicIds: [
       'pandamarket/categories/cleaning/products/fairy-dish-liquid-900ml/1',
       'pandamarket/categories/cleaning/products/fairy-dish-liquid-900ml/2',
@@ -263,7 +263,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Tide Detergent 2.5kg',
     price: 85.00,
     image: '/images/cleaning/tide-detergent-2-5kg/1.webp',
-    imagePublicId: 'pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1',
+    imagePublicId: '/pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1',
     imagePublicIds: [
       'pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1',
       'pandamarket/categories/cleaning/products/tide-detergent-2-5kg/2',
@@ -288,7 +288,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Al Afia Yellow Lentils 500g',
     price: 22.00,
     image: '/images/legumes/al-afia-yellow-lentils-500g/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/al-afia-yellow-lentils-500g/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/al-afia-yellow-lentils-500g/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/al-afia-yellow-lentils-500g/1',
       'pandamarket/categories/pantry/products/al-afia-yellow-lentils-500g/2',
@@ -309,7 +309,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Kinooz Fava Beans 400g',
     price: 15.00,
     image: '/images/legumes/kinooz-fava-beans-400g/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1',
       'pandamarket/categories/pantry/products/kinooz-fava-beans-400g/2',
@@ -334,7 +334,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Cristal Oil 1.5L',
     price: 65.00,
     image: '/images/oils/cristal-oil-1-5l/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/cristal-oil-1-5l/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/cristal-oil-1-5l/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/cristal-oil-1-5l/1',
       'pandamarket/categories/pantry/products/cristal-oil-1-5l/2',
@@ -355,7 +355,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Halwani Ghee 1kg',
     price: 75.00,
     image: '/images/oils/halwani-ghee-1kg/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/halwani-ghee-1kg/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/halwani-ghee-1kg/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/halwani-ghee-1kg/1',
       'pandamarket/categories/pantry/products/halwani-ghee-1kg/2',
@@ -380,7 +380,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Al Doha Rice 5kg',
     price: 85.00,
     image: '/images/rice/al-doha-rice-5kg/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/al-doha-rice-5kg/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/al-doha-rice-5kg/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/al-doha-rice-5kg/1',
       'pandamarket/categories/pantry/products/al-doha-rice-5kg/2',
@@ -401,7 +401,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Regina Pasta 400g',
     price: 18.00,
     image: '/images/rice/regina-pasta-400g/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/regina-pasta-400g/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/regina-pasta-400g/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/regina-pasta-400g/1',
       'pandamarket/categories/pantry/products/regina-pasta-400g/2',
@@ -426,7 +426,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Fine Fino Bread',
     price: 5.00,
     image: '/images/bakery/fine-fino-bread/1.webp',
-    imagePublicId: 'pandamarket/categories/bakery/products/fine-fino-bread/1',
+    imagePublicId: '/pandamarket/categories/bakery/products/fine-fino-bread/1',
     imagePublicIds: [
       'pandamarket/categories/bakery/products/fine-fino-bread/1',
       'pandamarket/categories/bakery/products/fine-fino-bread/2',
@@ -447,7 +447,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Balady Bread',
     price: 3.00,
     image: '/images/bakery/balady-bread/1.webp',
-    imagePublicId: 'pandamarket/categories/bakery/products/balady-bread/1',
+    imagePublicId: '/pandamarket/categories/bakery/products/balady-bread/1',
     imagePublicIds: [
       'pandamarket/categories/bakery/products/balady-bread/1',
       'pandamarket/categories/bakery/products/balady-bread/2',
@@ -468,7 +468,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Ulker White Toast',
     price: 12.00,
     image: '/images/bakery/ulker-white-toast/1.webp',
-    imagePublicId: 'pandamarket/categories/bakery/products/ulker-white-toast/1',
+    imagePublicId: '/pandamarket/categories/bakery/products/ulker-white-toast/1',
     imagePublicIds: [
       'pandamarket/categories/bakery/products/ulker-white-toast/1',
       'pandamarket/categories/bakery/products/ulker-white-toast/2',
@@ -493,7 +493,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Cumin',
     price: 25.00,
     image: '/images/spices/cumin/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/cumin/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/cumin/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/cumin/1',
       'pandamarket/categories/pantry/products/cumin/2',
@@ -514,7 +514,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Black Pepper',
     price: 30.00,
     image: '/images/spices/black-pepper/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/black-pepper/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/black-pepper/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/black-pepper/1',
       'pandamarket/categories/pantry/products/black-pepper/2',
@@ -535,7 +535,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Turmeric',
     price: 20.00,
     image: '/images/spices/turmeric/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/turmeric/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/turmeric/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/turmeric/1',
       'pandamarket/categories/pantry/products/turmeric/2',
@@ -560,7 +560,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Red Tomatoes',
     price: 12.00,
     image: '/images/vegetables/red-tomatoes/1.webp',
-    imagePublicId: 'pandamarket/categories/fresh-food/products/red-tomatoes/1',
+    imagePublicId: '/pandamarket/categories/fresh-food/products/red-tomatoes/1',
     imagePublicIds: [
       'pandamarket/categories/fresh-food/products/red-tomatoes/1',
       'pandamarket/categories/fresh-food/products/red-tomatoes/2',
@@ -581,7 +581,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Local Cucumber',
     price: 10.00,
     image: '/images/vegetables/local-cucumber/1.webp',
-    imagePublicId: 'pandamarket/categories/fresh-food/products/local-cucumber/1',
+    imagePublicId: '/pandamarket/categories/fresh-food/products/local-cucumber/1',
     imagePublicIds: [
       'pandamarket/categories/fresh-food/products/local-cucumber/1',
       'pandamarket/categories/fresh-food/products/local-cucumber/2',
@@ -606,7 +606,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Imported Bananas',
     price: 15.00,
     image: '/images/fruits/imported-bananas/1.webp',
-    imagePublicId: 'pandamarket/categories/fresh-food/products/imported-bananas/1',
+    imagePublicId: '/pandamarket/categories/fresh-food/products/imported-bananas/1',
     imagePublicIds: [
       'pandamarket/categories/fresh-food/products/imported-bananas/1',
       'pandamarket/categories/fresh-food/products/imported-bananas/2',
@@ -627,7 +627,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Red Apples',
     price: 35.00,
     image: '/images/fruits/red-apples/1.webp',
-    imagePublicId: 'pandamarket/categories/fresh-food/products/red-apples/1',
+    imagePublicId: '/pandamarket/categories/fresh-food/products/red-apples/1',
     imagePublicIds: [
       'pandamarket/categories/fresh-food/products/red-apples/1',
       'pandamarket/categories/fresh-food/products/red-apples/2',
@@ -648,7 +648,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Rawabi Traditional Ghee 750g',
     price: 95.00,
     image: '/images/oils/rawabi-ghee-750g/1.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/rawabi-ghee-750g/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/rawabi-ghee-750g/1',
     imagePublicIds: [
       'pandamarket/categories/pantry/products/rawabi-ghee-750g/1',
       'pandamarket/categories/pantry/products/rawabi-ghee-750g/2',
@@ -669,7 +669,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Cadbury Dairy Milk Chocolate 90g',
     price: 40.00,
     image: '/images/snacks/cadbury-dairy-milk-90g/1.webp',
-    imagePublicId: 'pandamarket/categories/snacks/products/cadbury-dairy-milk-90g/1',
+    imagePublicId: '/pandamarket/categories/snacks/products/cadbury-dairy-milk-90g/1',
     imagePublicIds: [
       'pandamarket/categories/snacks/products/cadbury-dairy-milk-90g/1',
       'pandamarket/categories/snacks/products/cadbury-dairy-milk-90g/2',
@@ -690,7 +690,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Juhayna Pure Orange Juice 1L',
     price: 32.00,
     image: '/images/beverages/juhayna-orange-juice-1l/1.webp',
-    imagePublicId: 'pandamarket/categories/breakfast-beverages/products/juhayna-orange-juice-1l/1',
+    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/juhayna-orange-juice-1l/1',
     imagePublicIds: [
       'pandamarket/categories/breakfast-beverages/products/juhayna-orange-juice-1l/1',
       'pandamarket/categories/breakfast-beverages/products/juhayna-orange-juice-1l/2',
@@ -711,7 +711,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Domty White Feta Cheese 500g',
     price: 48.00,
     image: '/images/dairy/domty-feta-cheese-500g/1.webp',
-    imagePublicId: 'pandamarket/categories/dairy-eggs/products/domty-feta-cheese-500g/1',
+    imagePublicId: '/pandamarket/categories/dairy-eggs/products/domty-feta-cheese-500g/1',
     imagePublicIds: [
       'pandamarket/categories/dairy-eggs/products/domty-feta-cheese-500g/1',
       'pandamarket/categories/dairy-eggs/products/domty-feta-cheese-500g/2',
@@ -732,7 +732,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Ariel Automatic Liquid Gel 2L',
     price: 165.00,
     image: '/images/cleaning/ariel-automatic-gel-2l/1.webp',
-    imagePublicId: 'pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1',
+    imagePublicId: '/pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1',
     imagePublicIds: [
       'pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1',
       'pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/2',
@@ -757,7 +757,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'White Eggs 30 Pack',
     price: 150.00,
     image: '/images/placeholder.webp',
-    imagePublicId: 'pandamarket/categories/dairy-eggs/products/white-eggs-30/1',
+    imagePublicId: '/pandamarket/categories/dairy-eggs/products/white-eggs-30/1',
     imagePublicIds: ['pandamarket/categories/dairy-eggs/products/white-eggs-30/1'],
     category: 'dairy-eggs',
     subcategory: 'eggs',
@@ -773,7 +773,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Lurpak Butter 400g',
     price: 120.00,
     image: '/images/placeholder.webp',
-    imagePublicId: 'pandamarket/categories/dairy-eggs/products/lurpak-butter-400g/1',
+    imagePublicId: '/pandamarket/categories/dairy-eggs/products/lurpak-butter-400g/1',
     imagePublicIds: ['pandamarket/categories/dairy-eggs/products/lurpak-butter-400g/1'],
     category: 'dairy-eggs',
     subcategory: 'butter',
@@ -789,7 +789,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Lipton Yellow Label Tea 100 Bags',
     price: 65.00,
     image: '/images/placeholder.webp',
-    imagePublicId: 'pandamarket/categories/breakfast-beverages/products/lipton-tea-100/1',
+    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/lipton-tea-100/1',
     imagePublicIds: ['pandamarket/categories/breakfast-beverages/products/lipton-tea-100/1'],
     category: 'breakfast-beverages',
     subcategory: 'tea-coffee',
@@ -805,7 +805,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Nescafe Classic 200g',
     price: 145.00,
     image: '/images/placeholder.webp',
-    imagePublicId: 'pandamarket/categories/breakfast-beverages/products/nescafe-classic-200g/1',
+    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/nescafe-classic-200g/1',
     imagePublicIds: ['pandamarket/categories/breakfast-beverages/products/nescafe-classic-200g/1'],
     category: 'breakfast-beverages',
     subcategory: 'tea-coffee',
@@ -821,7 +821,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Al Osra Sugar 1kg',
     price: 27.00,
     image: '/images/placeholder.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/alosra-sugar-1kg/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/alosra-sugar-1kg/1',
     imagePublicIds: ['pandamarket/categories/pantry/products/alosra-sugar-1kg/1'],
     category: 'pantry',
     subcategory: 'sugar-flour',
@@ -837,7 +837,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Bono Salt 300g',
     price: 5.00,
     image: '/images/placeholder.webp',
-    imagePublicId: 'pandamarket/categories/pantry/products/bono-salt-300g/1',
+    imagePublicId: '/pandamarket/categories/pantry/products/bono-salt-300g/1',
     imagePublicIds: ['pandamarket/categories/pantry/products/bono-salt-300g/1'],
     category: 'pantry',
     subcategory: 'spices-salt',
@@ -853,7 +853,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Cooking Potatoes 1kg',
     price: 20.00,
     image: '/images/placeholder.webp',
-    imagePublicId: 'pandamarket/categories/fresh-food/products/cooking-potatoes-1kg/1',
+    imagePublicId: '/pandamarket/categories/fresh-food/products/cooking-potatoes-1kg/1',
     imagePublicIds: ['pandamarket/categories/fresh-food/products/cooking-potatoes-1kg/1'],
     category: 'fresh-food',
     subcategory: 'vegetables',
@@ -869,7 +869,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Red Onions 1kg',
     price: 25.00,
     image: '/images/placeholder.webp',
-    imagePublicId: 'pandamarket/categories/fresh-food/products/red-onions-1kg/1',
+    imagePublicId: '/pandamarket/categories/fresh-food/products/red-onions-1kg/1',
     imagePublicIds: ['pandamarket/categories/fresh-food/products/red-onions-1kg/1'],
     category: 'fresh-food',
     subcategory: 'vegetables',
@@ -885,7 +885,7 @@ export const sampleProducts: Product[] = [
     nameEn: 'Fine Toilet Paper 6 Rolls',
     price: 65.00,
     image: '/images/placeholder.webp',
-    imagePublicId: 'pandamarket/categories/cleaning/products/fine-toilet-paper-6/1',
+    imagePublicId: '/pandamarket/categories/cleaning/products/fine-toilet-paper-6/1',
     imagePublicIds: ['pandamarket/categories/cleaning/products/fine-toilet-paper-6/1'],
     category: 'cleaning',
     subcategory: 'paper-products',

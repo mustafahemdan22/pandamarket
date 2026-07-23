@@ -14,6 +14,9 @@ import type * as functions_createUser from "../functions/createUser.js";
 import type * as functions_login from "../functions/login.js";
 import type * as products from "../products.js";
 import type * as seed from "../seed.js";
+import type * as updateImages from "../updateImages.js";
+import type * as updatePaths from "../updatePaths.js";
+import type * as updatePathsToCloudinary from "../updatePathsToCloudinary.js";
 import type * as uploadImage from "../uploadImage.js";
 
 import type {
@@ -29,6 +32,9 @@ declare const fullApi: ApiFromModules<{
   "functions/login": typeof functions_login;
   products: typeof products;
   seed: typeof seed;
+  updateImages: typeof updateImages;
+  updatePaths: typeof updatePaths;
+  updatePathsToCloudinary: typeof updatePathsToCloudinary;
   uploadImage: typeof uploadImage;
 }>;
 

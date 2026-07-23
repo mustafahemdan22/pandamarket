@@ -8,37 +8,22 @@ cloudinary.config({
   secure: true,
 });
 
-console.log('Cloudinary Config:');
-console.log('  Cloud Name:', process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME);
-console.log('  API Key:', process.env.CLOUDINARY_API_KEY);
-console.log('  API Secret:', process.env.CLOUDINARY_API_SECRET ? '[SET]' : '[MISSING]');
+async function testAuth() {
+  console.log('Testing Cloudinary Credentials:');
+  console.log('Cloud Name:', process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME);
+  console.log('API Key:', process.env.CLOUDINARY_API_KEY);
+  console.log('API Secret length:', process.env.CLOUDINARY_API_SECRET ? process.env.CLOUDINARY_API_SECRET.length : 0);
 
-const testBuffer = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
-
-async function testUpload() {
   try {
-    console.log('\nTesting upload...');
-    const result = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload_stream(
-        {
-          public_id: 'test/pandamarket-test',
-          folder: 'pandamarket/test',
-          resource_type: 'image',
-          overwrite: true,
-        },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-        }
-      ).end(testBuffer);
-    });
-    console.log('Upload successful!');
-    console.log('  Public ID:', result.public_id);
-    console.log('  URL:', result.secure_url);
+    const result = await cloudinary.api.ping();
+    console.log('Ping Result:', result);
+    
+    // Also try to list folders to check admin API permissions
+    const folders = await cloudinary.api.root_folders();
+    console.log('Successfully connected to Cloudinary and fetched folders!');
   } catch (error) {
-    console.error('Upload failed:', error.message);
-    console.error('Full error:', error);
+    console.error('Cloudinary API Error:', error);
   }
 }
 
-testUpload();
+testAuth();
