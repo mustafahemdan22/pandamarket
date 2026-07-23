@@ -11,6 +11,14 @@ import {
   FiChevronRight,
   FiFilter,
   FiX,
+  FiGrid,
+  FiCoffee,
+  FiDroplet,
+  FiSun,
+  FiLayers,
+  FiBox,
+  FiHeart,
+  FiShield,
 } from "react-icons/fi";
 
 // مكون Pagination
@@ -142,84 +150,84 @@ const CategoriesPage = () => {
   const categories = [
     {
       id: "all",
-      name: language === "ar" ? "الكل" : "All Products",
-      icon: "🛒",
+      name: language === "ar" ? "جميع المنتجات" : "All Products",
+      icon: FiGrid,
     },
     {
-      id: "bakery",
-      name: language === "ar" ? "المخبوزات" : "Bakery",
-      icon: "🍞",
-    },
-    {
-      id: "spices",
-      name: language === "ar" ? "التوابل" : "Spices",
-      icon: "🌶️",
-    },
-    {
-      id: "dry-grocery",
-      name: language === "ar" ? "البقالة الجافة" : "Dry Grocery",
-      icon: "🥫",
-    },
-    {
-      id: "cleaning",
-      name: language === "ar" ? "منتجات التنظيف" : "Cleaning Products",
-      icon: "🧹",
-    },
-    {
-      id: "grocery",
-      name: language === "ar" ? "البازار" : "grocery",
-      icon: "🛍️",
-    },
-    {
-      id: "vegetables",
-      name: language === "ar" ? "الخضروات والفواكه" : "Vegetables & Fruits",
-      icon: "🥬",
-    },
-    {
-      id: "oils",
-      name: language === "ar" ? "الزيوت والسمن" : "Oils & Ghee",
-      icon: "🛢️",
-    },
-    {
-      id: "rice",
-      name: language === "ar" ? "الأرز والمعكرونة" : "Rice & Pasta",
-      icon: "🍚",
-    },
-    {
-      id: "legumes",
-      name: language === "ar" ? "البقوليات" : "Legumes",
-      icon: "🫘",
-    },
-    {
-      id: "sauces",
-      name: language === "ar" ? "الصلصات" : "Sauces",
-      icon: "🥫",
-    },
-    {
-      id: "snacks",
-      name: language === "ar" ? "السناكس" : "Snacks",
-      icon: "🍿",
+      id: "dairy",
+      name: language === "ar" ? "الألبان والبيض" : "Dairy & Eggs",
+      icon: FiCoffee,
     },
     {
       id: "beverages",
       name: language === "ar" ? "المشروبات" : "Beverages",
-      icon: "🥤",
+      icon: FiDroplet,
     },
     {
-      id: "dairy",
-      name: language === "ar" ? "الألبان" : "Dairy",
-      icon: "🥛",
+      id: "produce",
+      name: language === "ar" ? "الخضروات والفواكه الطازجة" : "Fresh Produce",
+      icon: FiSun,
+    },
+    {
+      id: "bakery",
+      name: language === "ar" ? "المخبوزات والخبز" : "Bakery & Bread",
+      icon: FiGrid,
+    },
+    {
+      id: "pantry",
+      name: language === "ar" ? "الأرز والمكرونة والبقوليات" : "Pantry & Grains",
+      icon: FiLayers,
+    },
+    {
+      id: "condiments",
+      name: language === "ar" ? "الزيوت والصلصات والتوابل" : "Oils, Sauces & Spices",
+      icon: FiBox,
+    },
+    {
+      id: "snacks",
+      name: language === "ar" ? "الوجبات الخفيفة والحلويات" : "Snacks & Sweets",
+      icon: FiHeart,
+    },
+    {
+      id: "cleaning",
+      name: language === "ar" ? "العناية والمنظفات المنزلية" : "Household & Cleaning",
+      icon: FiShield,
     },
   ];
 
-  // ✅ فلترة المنتجات مع البحث بكلا اللغتين
+  // ✅ فلترة المنتجات مع البحث بكلا اللغتين ورسم الخرائط للأقسام المحسنة
   const filteredProducts = useMemo(() => {
-    let products =
-      selectedCategory === "all"
-        ? sampleProducts
-        : sampleProducts.filter(
-            (product) => product.category === selectedCategory
+    let products = sampleProducts;
+
+    if (selectedCategory !== "all") {
+      products = sampleProducts.filter((product) => {
+        if (selectedCategory === "produce") {
+          return (
+            product.category === "produce" ||
+            product.category === "vegetables" ||
+            product.category === "fruits"
           );
+        }
+        if (selectedCategory === "pantry") {
+          return (
+            product.category === "pantry" ||
+            product.category === "rice" ||
+            product.category === "legumes" ||
+            product.category === "dry-grocery" ||
+            product.category === "grocery"
+          );
+        }
+        if (selectedCategory === "condiments") {
+          return (
+            product.category === "condiments" ||
+            product.category === "oils" ||
+            product.category === "sauces" ||
+            product.category === "spices"
+          );
+        }
+        return product.category === selectedCategory;
+      });
+    }
 
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
@@ -360,7 +368,7 @@ const CategoriesPage = () => {
                     : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700"
                 }`}
               >
-                <span className="text-lg">{category.icon}</span>
+                <category.icon className="w-5 h-5" />
                 <span>{category.name}</span>
               </motion.button>
             ))}

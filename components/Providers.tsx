@@ -12,8 +12,11 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
 
+import { useAuth } from '@clerk/nextjs';
+
 // ✅ استيراد Convex
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexReactClient } from "convex/react";
+import { ConvexProviderWithClerk } from "convex/react-clerk";
 
 // ✅ إنشاء عميل Convex
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
@@ -24,7 +27,7 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <ConvexProvider client={convex}>
+    <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
       <Provider store={store}>
         <ThemeProvider>
           <LanguageProvider>
@@ -47,6 +50,6 @@ export function Providers({ children }: ProvidersProps) {
           </LanguageProvider>
         </ThemeProvider>
       </Provider>
-    </ConvexProvider>
+    </ConvexProviderWithClerk>
   );
 }

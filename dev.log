@@ -1151,3 +1151,150 @@ For more details, see https://clerk.com/err/auth-middleware
  GET / 200 in 34ms (next.js: 5ms, application-code: 29ms)
 ✓ Compiled in 88ms
  GET / 200 in 175ms (next.js: 130ms, application-code: 45ms)
+Proxy middleware critical error: Error: Clerk: auth() was called but Clerk can't detect usage of clerkMiddleware(). Please ensure the following:
+- Your Middleware exists at ./middleware.(ts|js) or proxy.(ts|js)
+- clerkMiddleware() is used in your Next.js Middleware.
+- Your Middleware matcher is configured to match this route or page.
+- If you are using the src directory, make sure the Middleware file is inside of it.
+
+For more details, see https://clerk.com/err/auth-middleware
+
+    at async proxy (proxy.ts:24:24)
+  22 |     }
+  23 |
+> 24 |     const { userId } = await auth();
+     |                        ^
+  25 |
+  26 |     if (!userId) {
+  27 |       const signInUrl = new URL('/login', request.url);
+ GET /admin 200 in 1759ms (next.js: 1546ms, proxy.ts: 186ms, application-code: 26ms)
+Proxy middleware critical error: Error: Clerk: auth() was called but Clerk can't detect usage of clerkMiddleware(). Please ensure the following:
+- Your Middleware exists at ./middleware.(ts|js) or proxy.(ts|js)
+- clerkMiddleware() is used in your Next.js Middleware.
+- Your Middleware matcher is configured to match this route or page.
+- If you are using the src directory, make sure the Middleware file is inside of it.
+
+For more details, see https://clerk.com/err/auth-middleware
+
+    at async proxy (proxy.ts:24:24)
+  22 |     }
+  23 |
+> 24 |     const { userId } = await auth();
+     |                        ^
+  25 |
+  26 |     if (!userId) {
+  27 |       const signInUrl = new URL('/login', request.url);
+○ Compiling /admin/products ...
+ GET /admin/products 200 in 3.4s (next.js: 3.3s, proxy.ts: 38ms, application-code: 25ms)
+[browser] Uncaught Error: [CONVEX Q(products:getAllProductsAdmin)] [Request ID: 9eaa2e2f2a2f36ff] Server Error
+  Called by client
+    at AdminProductsPage (app/admin/products/page.tsx:66:28)
+  64 |   
+  65 |   // Queries & Mutations from Convex
+> 66 |   const products = useQuery(api.products.getAllProductsAdmin) as AdminProduct[] | undefined;
+     |                            ^
+  67 |   const categories = useQuery(api.products.getCategories);
+  68 |   const seedMutation = useMutation(api.seed.seedDatabase);
+  69 |   const deleteProductMutation = useMutation(api.products.deleteProduct);
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✓ Compiled in 444ms
+Proxy middleware critical error: Error: Clerk: auth() was called but Clerk can't detect usage of clerkMiddleware(). Please ensure the following:
+- Your Middleware exists at ./middleware.(ts|js) or proxy.(ts|js)
+- clerkMiddleware() is used in your Next.js Middleware.
+- Your Middleware matcher is configured to match this route or page.
+- If you are using the src directory, make sure the Middleware file is inside of it.
+
+For more details, see https://clerk.com/err/auth-middleware
+
+    at async proxy (proxy.ts:24:24)
+  22 |     }
+  23 |
+> 24 |     const { userId } = await auth();
+     |                        ^
+  25 |
+  26 |     if (!userId) {
+  27 |       const signInUrl = new URL('/login', request.url);
+⨯ ReferenceError: ConvexProvider is not defined
+    at RootLayout (app\layout.tsx:45:12)
+  43 |       >
+  44 |         <ClerkProvider>
+> 45 |           <ConvexProvider client={convex}>
+     |            ^
+  46 |             <Provider store={store}>
+  47 |               <ThemeProvider>
+  48 |                 <LanguageProvider> {
+  digest: '3488184930'
+}
+ GET /admin/products 500 in 617ms (next.js: 90ms, proxy.ts: 159ms, application-code: 368ms)
+Proxy middleware critical error: Error: Clerk: auth() was called but Clerk can't detect usage of clerkMiddleware(). Please ensure the following:
+- Your Middleware exists at ./middleware.(ts|js) or proxy.(ts|js)
+- clerkMiddleware() is used in your Next.js Middleware.
+- Your Middleware matcher is configured to match this route or page.
+- If you are using the src directory, make sure the Middleware file is inside of it.
+
+For more details, see https://clerk.com/err/auth-middleware
+
+    at async proxy (proxy.ts:24:24)
+  22 |     }
+  23 |
+> 24 |     const { userId } = await auth();
+     |                        ^
+  25 |
+  26 |     if (!userId) {
+  27 |       const signInUrl = new URL('/login', request.url);
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✓ Compiled in 557ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+Proxy middleware critical error: Error: Clerk: auth() was called but Clerk can't detect usage of clerkMiddleware(). Please ensure the following:
+- Your Middleware exists at ./middleware.(ts|js) or proxy.(ts|js)
+- clerkMiddleware() is used in your Next.js Middleware.
+- Your Middleware matcher is configured to match this route or page.
+- If you are using the src directory, make sure the Middleware file is inside of it.
+
+For more details, see https://clerk.com/err/auth-middleware
+
+    at async proxy (proxy.ts:24:24)
+  22 |     }
+  23 |
+> 24 |     const { userId } = await auth();
+     |                        ^
+  25 |
+  26 |     if (!userId) {
+  27 |       const signInUrl = new URL('/login', request.url);
+ GET /admin/products 200 in 488ms (next.js: 3ms, proxy.ts: 406ms, application-code: 78ms)
+Proxy middleware critical error: Error: Clerk: auth() was called but Clerk can't detect usage of clerkMiddleware(). Please ensure the following:
+- Your Middleware exists at ./middleware.(ts|js) or proxy.(ts|js)
+- clerkMiddleware() is used in your Next.js Middleware.
+- Your Middleware matcher is configured to match this route or page.
+- If you are using the src directory, make sure the Middleware file is inside of it.
+
+For more details, see https://clerk.com/err/auth-middleware
+
+    at async proxy (proxy.ts:24:24)
+  22 |     }
+  23 |
+> 24 |     const { userId } = await auth();
+     |                        ^
+  25 |
+  26 |     if (!userId) {
+  27 |       const signInUrl = new URL('/login', request.url);
+ POST /admin/products 200 in 73ms (next.js: 12ms, proxy.ts: 33ms, application-code: 28ms)
+  └─ ƒ detectKeylessEnvDriftAction() in 5ms node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js
+Failed to get auth metadata: Error: Clerk: auth() was called but Clerk can't detect usage of clerkMiddleware(). Please ensure the following:
+- Your Middleware exists at ./middleware.(ts|js) or proxy.(ts|js)
+- clerkMiddleware() is used in your Next.js Middleware.
+- Your Middleware matcher is configured to match this route or page.
+- If you are using the src directory, make sure the Middleware file is inside of it.
+
+For more details, see https://clerk.com/err/auth-middleware
+
+    at async getClerkUserMetadata (lib\auth.ts:13:22)
+    at async GET (app\api\auth\metadata\route.ts:6:22)
+  11 |  */
+  12 | export async function getClerkUserMetadata(): Promise<ClerkPrivateMetadata> {
+> 13 |   const { userId } = await auth();
+     |                      ^
+  14 |   if (!userId) return {};
+  15 |
+  16 |   try {
+ GET /api/auth/metadata 500 in 176ms (next.js: 56ms, application-code: 120ms)

@@ -52,24 +52,42 @@ async function uploadAllImages() {
   for (const category of categories) {
     const categoryPath = path.join(IMAGES_DIR, category);
     if (!fs.statSync(categoryPath).isDirectory()) continue;
+
+    // Upload Category Banner if present
+    const bannerPng = path.join(categoryPath, 'banner.png');
+    const bannerWebp = path.join(categoryPath, 'banner.webp');
+    const bannerPath = fs.existsSync(bannerPng) ? bannerPng : (fs.existsSync(bannerWebp) ? bannerWebp : null);
+    if (bannerPath) {
+      const bannerPublicId = `pandamarket/categories/${category}/banner`;
+      try {
+        const result = await uploadToCloudinary(bannerPath, bannerPublicId);
+        console.log(`\n  [Banner] ✓ ${category} -> ${result.secure_url}`);
+        totalUploaded++;
+      } catch (error) {
+        console.error(`  [Banner] ✗ ${category} banner failed: ${error.message}`);
+        totalFailed++;
+      }
+    }
     
-    const products = fs.readdirSync(categoryPath);
-    console.log(`\nCategory: ${category} (${products.length} products)`);
+    const products = fs.readdirSync(categoryPath).filter(f => fs.statSync(path.join(categoryPath, f)).isDirectory());
+    if (products.length > 0) {
+      console.log(`\nCategory: ${category} (${products.length} products)`);
+    }
 
     for (const productSlug of products) {
       const productPath = path.join(categoryPath, productSlug);
       if (!fs.statSync(productPath).isDirectory()) continue;
 
-      const files = fs.readdirSync(productPath).filter(f => f.endsWith('.webp')).sort((a, b) => {
-        const numA = parseInt(a.replace('.webp', ''));
-        const numB = parseInt(b.replace('.webp', ''));
+      const files = fs.readdirSync(productPath).filter(f => f.endsWith('.webp') || f.endsWith('.png')).sort((a, b) => {
+        const numA = parseInt(a.replace(/\.(webp|png)$/, '')) || 0;
+        const numB = parseInt(b.replace(/\.(webp|png)$/, '')) || 0;
         return numA - numB;
       });
 
       console.log(`  ${productSlug}: ${files.length} images`);
 
       for (const file of files) {
-        const index = file.replace('.webp', '');
+        const index = file.replace(/\.(webp|png)$/, '');
         const localPath = path.join(productPath, file);
         const publicId = `pandamarket/categories/${category}/products/${productSlug}/${index}`;
 

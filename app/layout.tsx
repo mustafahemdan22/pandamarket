@@ -3,7 +3,7 @@
 
 import { Inter, Roboto_Mono } from 'next/font/google';
 import './globals.css';
-import { ClerkProvider } from '@clerk/nextjs';
+import { ClerkProvider, useAuth } from '@clerk/nextjs';
 import { Toaster } from 'react-hot-toast';
 import { LanguageProvider } from '../contexts/LanguageProvider';
 import { ThemeProvider } from '../contexts/ThemeProvider';
@@ -11,7 +11,8 @@ import { WishlistProvider } from '../contexts/WishlistProvider';
 import { AuthProvider } from '../contexts/AuthProvider';
 import { Provider } from 'react-redux';
 import { store } from '../store';
-import { ConvexProvider, ConvexReactClient } from 'convex/react';
+import { ConvexReactClient } from 'convex/react';
+import { ConvexProviderWithClerk } from 'convex/react-clerk';
 import { OrderProvider } from '../contexts/OrderProvider';
 import { ReviewProvider } from '../contexts/ReviewProvider'; // ← أضف هذا
 import Navbar from '../components/Navbar';
@@ -41,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${inter.variable} ${robotoMono.variable} antialiased bg-white dark:bg-gray-900 transition-colors duration-300`}
       >
         <ClerkProvider>
-          <ConvexProvider client={convex}>
+          <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
             <Provider store={store}>
               <ThemeProvider>
                 <LanguageProvider>
@@ -60,7 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </ThemeProvider>
             </Provider>
             <Toaster position="top-center" />
-          </ConvexProvider>
+          </ConvexProviderWithClerk>
         </ClerkProvider>
       </body>
     </html>
