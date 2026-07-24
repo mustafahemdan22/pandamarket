@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { requirePermission } from "./auth";
 
 export const createOrder = mutation({
   args: {
@@ -130,5 +131,82 @@ export const getOrdersByUser = query({
       .withIndex("by_user", (q) => q.eq("userId", args.userId))
       .order("desc")
       .collect();
+  },
+});
+
+// ===== ADMIN ORDER OPERATIONS =====
+
+export const getAllOrdersAdmin = query({
+  args: {
+    status: v.optional(v.string()),
+    search: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    let orders = await ctx.db.query("orders").order("desc").collect();
+
+    if (args.status && args.status !== "all") {
+      orders = orders.filter((o) => o.status === args.status);
+    }
+
+    if (args.search) {
+      const searchLower = args.search.toLowerCase();
+      orders = orders.filter(
+        (o) =>
+          o.orderNumber.toLowerCase().includes(searchLower) ||
+          o.customerInfo.firstName.toLowerCase().includes(searchLower) ||
+          o.customerInfo.lastName.toLowerCase().includes(searchLower) ||
+          o.customerInfo.email.toLowerCase().includes(searchLower)
+      );
+    }
+
+    return orders;
+  },
+});
+
+export const updateOrderStatusAdmin = mutation({
+  args: {
+    id: v.id("orders"),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("confirmed"),
+      v.literal("processing"),
+      v.literal("shipped"),
+      v.literal("delivered"),
+      v.literal("cancelled")
+    ),
+    trackingNumber: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await requirePermission(ctx, "orders");
+    const updates: Record<string, any> = { status: args.status };
+    if (args.trackingNumber !== undefined) {
+      updates.trackingNumber = args.trackingNumber;
+    }
+    await ctx.db.patch(args.id, updates);
+    return args.id;
+  },
+});
+
+export const cancelOrderAdmin = mutation({
+  args: { id: v.id("orders") },
+  handler: async (ctx, args) => {
+    await requirePermission(ctx, "orders");
+    const order = await ctx.db.get(args.id);
+    if (!order) throw new Error("Order not found");
+
+    // Restore inventory if not already cancelled
+    if (order.status !== "cancelled") {
+      for (const item of order.items) {
+        const product = await ctx.db.get(item.productId);
+        if (product && product.stock !== undefined) {
+          await ctx.db.patch(product._id, {
+            stock: product.stock + item.quantity,
+            updatedAt: Date.now(),
+          });
+        }
+      }
+      await ctx.db.patch(args.id, { status: "cancelled" });
+    }
+    return args.id;
   },
 });
