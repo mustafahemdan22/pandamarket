@@ -152,10 +152,10 @@ export const getAllOrdersAdmin = query({
       const searchLower = args.search.toLowerCase();
       orders = orders.filter(
         (o) =>
-          o.orderNumber.toLowerCase().includes(searchLower) ||
-          o.customerInfo.firstName.toLowerCase().includes(searchLower) ||
-          o.customerInfo.lastName.toLowerCase().includes(searchLower) ||
-          o.customerInfo.email.toLowerCase().includes(searchLower)
+          (o.orderNumber || "").toLowerCase().includes(searchLower) ||
+          (o.customerInfo?.firstName || "").toLowerCase().includes(searchLower) ||
+          (o.customerInfo?.lastName || "").toLowerCase().includes(searchLower) ||
+          (o.customerInfo?.email || "").toLowerCase().includes(searchLower)
       );
     }
 

@@ -513,11 +513,11 @@ export const getAdminOverviewStats = query({
 
     const recentOrders = orders.slice(0, 6).map((o) => ({
       _id: o._id,
-      orderNumber: o.orderNumber,
-      customerName: `${o.customerInfo.firstName} ${o.customerInfo.lastName}`,
-      total: o.total,
-      status: o.status,
-      itemCount: o.items.length,
+      orderNumber: o.orderNumber || "PANDA-000",
+      customerName: o.customerInfo ? `${o.customerInfo.firstName || ''} ${o.customerInfo.lastName || ''}`.trim() || "Customer" : "Customer",
+      total: o.total || 0,
+      status: o.status || "pending",
+      itemCount: Array.isArray(o.items) ? o.items.length : 0,
       createdAt: o.createdAt || Date.now(),
     }));
 
@@ -557,16 +557,20 @@ export const getAnalyticsReportData = query({
 
     const categorySalesMap: Record<string, number> = {};
     for (const cat of categories) {
-      categorySalesMap[cat.nameEn] = 0;
+      if (cat.nameEn) categorySalesMap[cat.nameEn] = 0;
     }
 
     for (const order of orders) {
-      for (const item of order.items) {
-        const product = products.find((p) => p._id === item.productId);
-        if (product) {
-          const category = categories.find((c) => c._id === product.categoryId);
-          const catName = category?.nameEn || "Other";
-          categorySalesMap[catName] = (categorySalesMap[catName] || 0) + item.price * item.quantity;
+      if (Array.isArray(order.items)) {
+        for (const item of order.items) {
+          if (item && item.productId) {
+            const product = products.find((p) => p._id === item.productId);
+            if (product) {
+              const category = categories.find((c) => c._id === product.categoryId);
+              const catName = category?.nameEn || "Other";
+              categorySalesMap[catName] = (categorySalesMap[catName] || 0) + (item.price || 0) * (item.quantity || 1);
+            }
+          }
         }
       }
     }
