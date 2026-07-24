@@ -3,6 +3,8 @@ import { Metadata } from 'next';
 import AdminGuard from '@/components/admin/AdminGuard';
 import AdminLayoutClient from '@/components/admin/AdminLayoutClient';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'PandaMarket | Admin Control Panel',
   description: 'Enterprise Operational Control Panel for PandaMarket Supermarket',

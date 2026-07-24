@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ClerkProvider, useAuth } from '@clerk/nextjs';
 import { Toaster } from 'react-hot-toast';
 import { LanguageProvider } from '../contexts/LanguageProvider';
@@ -17,10 +17,11 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL || 'https://intent-bat-912.convex.cloud';
-const convex = new ConvexReactClient(convexUrl);
 const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || 'pk_test_c2V0dGxlZC13cmVuLTI2LmNsZXJrLmFjY291bnRzLmRldiQ';
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
+  const convex = useMemo(() => new ConvexReactClient(convexUrl), []);
+
   return (
     <ClerkProvider publishableKey={clerkPublishableKey}>
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
