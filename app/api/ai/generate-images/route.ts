@@ -218,7 +218,6 @@ export async function POST(request: NextRequest) {
     }
 
     const views = ['front', 'angle', 'side', 'back', 'detail'].slice(0, count);
-    const publicIds: string[] = [];
     
     // Seed using a hash of productSlug so the same product gets a reproducible initial seed
     const seedBase = Math.abs(
