@@ -17,8 +17,13 @@ import React from 'react';
 
 
 
+import { usePathname } from 'next/navigation';
+
 const Footer = () => {
+  const pathname = usePathname();
   const { language } = useLanguage();
+
+  if (pathname.startsWith('/admin')) return null;
 
   const quickLinks = [
     { href: "/", text: language === "ar" ? "الرئيسية" : "Home" },

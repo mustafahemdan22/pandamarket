@@ -28,7 +28,10 @@ import { useLanguage } from '../contexts/LanguageProvider';
 import { useWishlist } from '../contexts/WishlistProvider';
 import { useAuth } from '../contexts/AuthProvider';
 
+import { usePathname } from 'next/navigation';
+
 const Navbar = () => {
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, isRTL } = useLanguage();
@@ -36,6 +39,8 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const cartItems = useAppSelector((state) => state.cart.items);
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  if (pathname.startsWith('/admin')) return null;
 
   const isAdmin = user?.role === 'admin' || user?.email === 'mustafa.hemdan22@gmail.com';
 
