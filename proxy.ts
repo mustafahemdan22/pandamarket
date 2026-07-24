@@ -14,8 +14,7 @@ export const proxy = clerkMiddleware(
     if (isProtectedRoute(req)) {
       await auth.protect();
     }
-  },
-  { publishableKey, secretKey }
+  }
 );
 
 export default proxy;
