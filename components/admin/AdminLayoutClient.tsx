@@ -27,7 +27,7 @@ import {
   FiCheckCircle
 } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageProvider';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/contexts/ThemeProvider';
 
 interface AdminLayoutClientProps {
   children: React.ReactNode;
@@ -36,7 +36,7 @@ interface AdminLayoutClientProps {
 export default function AdminLayoutClient({ children }: AdminLayoutClientProps) {
   const pathname = usePathname();
   const { language, toggleLanguage, isRTL } = useLanguage();
-  const { theme, setTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const { user } = useUser();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -162,7 +162,7 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
 
           {/* Theme Toggle */}
           <button
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            onClick={toggleTheme}
             className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors border border-slate-700"
             title="Toggle Light/Dark Theme"
           >
