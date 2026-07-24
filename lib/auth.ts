@@ -24,8 +24,6 @@ export async function getClerkUserMetadata(): Promise<ClerkPrivateMetadata> {
       role: 'admin',
       permissions: ['dashboard', 'products', 'categories', 'orders', 'users', 'inventory', 'coupons', 'ai_generation', 'cloudinary', 'upload', 'settings', 'reports']
     };
-
-    return (user.privateMetadata || {}) as ClerkPrivateMetadata;
   } catch (error) {
     console.error('Error fetching Clerk user metadata:', error);
     return {};
