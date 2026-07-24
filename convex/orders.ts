@@ -210,3 +210,47 @@ export const cancelOrderAdmin = mutation({
     return args.id;
   },
 });
+
+export const getAllCustomersAdmin = query({
+  args: { search: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    const orders = await ctx.db.query("orders").order("desc").collect();
+    const customersMap = new Map();
+
+    for (const order of orders) {
+      if (!order.customerInfo || !order.customerInfo.email) continue;
+      const email = order.customerInfo.email;
+      if (!customersMap.has(email)) {
+        customersMap.set(email, {
+          firstName: order.customerInfo.firstName || "Unknown",
+          lastName: order.customerInfo.lastName || "User",
+          email: email,
+          phone: order.customerInfo.phone || "N/A",
+          city: order.shippingAddress?.city || "Unknown",
+          orderCount: 0,
+          totalSpent: 0,
+          status: "active",
+        });
+      }
+      const customer = customersMap.get(email);
+      customer.orderCount += 1;
+      customer.totalSpent += order.total || 0;
+      if (customer.orderCount >= 3) {
+        customer.status = "frequent";
+      }
+    }
+
+    let customersArray = Array.from(customersMap.values());
+    if (args.search) {
+      const s = args.search.toLowerCase();
+      customersArray = customersArray.filter(
+        c => c.firstName.toLowerCase().includes(s) || 
+             c.lastName.toLowerCase().includes(s) || 
+             c.email.toLowerCase().includes(s) || 
+             c.city.toLowerCase().includes(s)
+      );
+    }
+    return customersArray;
+  },
+});
+

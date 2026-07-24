@@ -225,23 +225,23 @@ export async function POST(request: NextRequest) {
       productSlug.split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0)
     ) || 12345;
 
-    console.log(`Generating ${count} AI product images for ${productSlug}...`);
+    console.log(`Generating ${count} AI product images for ${productSlug} concurrently...`);
 
-    for (let i = 0; i < views.length; i++) {
-      const view = views[i];
+    const generateAndUploadTasks = views.map(async (view, i) => {
       const prompt = buildPromptForView(view, nameEn, descriptionEn, brand, unit);
-      
       const seed = seedBase + i * 100;
+      
       const buffer = await generateImageBuffer(prompt, seed);
       
       const publicId = `pandamarket/categories/${categorySlug}/products/${productSlug}/${i + 1}`;
       const folder = `pandamarket/categories/${categorySlug}/products/${productSlug}`;
       
       const uploadResult = await uploadToCloudinary(buffer, publicId, folder);
-      publicIds.push(uploadResult.public_id);
-      
       console.log(`Generated and uploaded view ${view} for ${productSlug}. Public ID: ${uploadResult.public_id}`);
-    }
+      return uploadResult.public_id;
+    });
+
+    const publicIds = await Promise.all(generateAndUploadTasks);
 
     // If a productId is provided, update the product in Convex database
     if (productId) {
