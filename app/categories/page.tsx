@@ -163,39 +163,44 @@ const CategoriesPage = () => {
       icon: FiGrid,
     },
     {
-      id: "fresh-food",
-      name: language === "ar" ? "الأطعمة الطازجة" : "Fresh Food",
+      id: "produce",
+      name: language === "ar" ? "الخضروات والفواكه الطازجة" : "Fresh Produce",
       icon: FiSun,
     },
     {
-      id: "dairy-eggs",
+      id: "dairy",
       name: language === "ar" ? "الألبان والبيض والجبن" : "Dairy, Eggs & Cheese",
       icon: FiCoffee,
     },
     {
-      id: "bakery",
-      name: language === "ar" ? "المخبوزات والحلويات" : "Bakery & Pastry",
+      id: "meat",
+      name: language === "ar" ? "اللحوم والدواجن" : "Meat & Poultry",
       icon: FiGrid,
     },
     {
+      id: "frozen",
+      name: language === "ar" ? "الأغذية المجمدة" : "Frozen Foods",
+      icon: FiBox,
+    },
+    {
       id: "pantry",
-      name: language === "ar" ? "البقالة ومستلزمات الطبخ" : "Food Cupboard",
+      name: language === "ar" ? "البقالة والحبوب" : "Pantry & Grains",
       icon: FiLayers,
     },
     {
-      id: "breakfast-beverages",
-      name: language === "ar" ? "الإفطار والمشروبات" : "Breakfast & Beverages",
+      id: "condiments",
+      name: language === "ar" ? "الزيوت والصلصات والتوابل" : "Oils, Ghee & Spices",
       icon: FiDroplet,
     },
     {
       id: "snacks",
-      name: language === "ar" ? "السناكس والحلويات" : "Snacks & Confectionery",
+      name: language === "ar" ? "الوجبات الخفيفة والحلويات" : "Snacks & Sweets",
       icon: FiHeart,
     },
     {
-      id: "frozen",
-      name: language === "ar" ? "المجمدات" : "Frozen Food",
-      icon: FiBox,
+      id: "beverages",
+      name: language === "ar" ? "المشروبات والعصائر" : "Beverages & Juices",
+      icon: FiDroplet,
     },
     {
       id: "cleaning",
@@ -203,9 +208,19 @@ const CategoriesPage = () => {
       icon: FiShield,
     },
     {
-      id: "personal-baby-care",
-      name: language === "ar" ? "العناية الشخصية والأطفال" : "Personal & Baby Care",
+      id: "personal-care",
+      name: language === "ar" ? "العناية الشخصية" : "Personal Care",
       icon: FiHeart,
+    },
+    {
+      id: "baby-care",
+      name: language === "ar" ? "منتجات الأطفال" : "Baby Care",
+      icon: FiHeart,
+    },
+    {
+      id: "bakery",
+      name: language === "ar" ? "المخبوزات والخبز" : "Bakery & Bread",
+      icon: FiGrid,
     },
   ];
 
@@ -244,7 +259,20 @@ const CategoriesPage = () => {
     let sourceProducts = adaptedDbProducts.length > 0 ? adaptedDbProducts : sampleProducts;
 
     if (selectedCategory !== "all") {
-      sourceProducts = sourceProducts.filter((product: any) => product.category === selectedCategory);
+      sourceProducts = sourceProducts.filter((product: any) => {
+        const cat = product.category;
+        if (cat === selectedCategory) return true;
+        if (selectedCategory === "produce" && (cat === "fresh-food" || cat === "vegetables" || cat === "fruits")) return true;
+        if (selectedCategory === "dairy" && cat === "dairy-eggs") return true;
+        if (selectedCategory === "beverages" && (cat === "breakfast-beverages" || cat === "juice" || cat === "tea" || cat === "coffee")) return true;
+        if (selectedCategory === "personal-care" && (cat === "personal-baby-care" || cat === "soap" || cat === "shampoo")) return true;
+        if (selectedCategory === "baby-care" && (cat === "personal-baby-care" || cat === "diapers")) return true;
+        if (selectedCategory === "pantry" && (cat === "dry-grocery" || cat === "grocery" || cat === "rice" || cat === "legumes" || cat === "pasta" || cat === "dry")) return true;
+        if (selectedCategory === "condiments" && (cat === "oils" || cat === "spices" || cat === "sauces")) return true;
+        if (selectedCategory === "snacks" && (cat === "sweets" || cat === "biscuits" || cat === "chips" || cat === "bazaar")) return true;
+        if (selectedCategory === "cleaning" && (cat === "household" || cat === "laundry")) return true;
+        return false;
+      });
     }
 
     if (searchQuery.trim()) {

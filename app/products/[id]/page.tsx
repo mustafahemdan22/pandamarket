@@ -46,13 +46,14 @@ const ProductDetailPage = () => {
   // Convex Query for DB products
   const convexProductById = useQuery(
     api.products.getProductById,
-    productId && productId.length > 15 ? { id: productId as Id<"products"> } : "skip"
+    productId ? { id: productId as any } : "skip"
   );
 
   const convexProductBySlug = useQuery(
     api.products.getProductBySlug,
-    productId && productId.length <= 15 ? { slug: productId } : "skip"
+    productId ? { slug: productId } : "skip"
   );
+
 
   useEffect(() => {
     const loadProduct = async () => {

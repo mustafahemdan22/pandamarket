@@ -220,9 +220,20 @@ export const getProducts = query({
 });
 
 export const getProductById = query({
-  args: { id: v.id("products") },
+  args: { id: v.union(v.id("products"), v.string()) },
   handler: async (ctx, args) => {
-    const prod = await ctx.db.get(args.id);
+    const normalizedId = ctx.db.normalizeId("products", args.id);
+    let prod = null;
+    if (normalizedId) {
+      prod = await ctx.db.get(normalizedId);
+    }
+    if (!prod) {
+      const products = await ctx.db
+        .query("products")
+        .withIndex("by_slug", (q) => q.eq("slug", args.id))
+        .collect();
+      prod = products[0] || null;
+    }
     if (!prod) return null;
     const cat = await ctx.db.get(prod.categoryId);
     return {
@@ -232,6 +243,7 @@ export const getProductById = query({
     };
   },
 });
+
 
 export const getProductBySlug = query({
   args: { slug: v.string() },
