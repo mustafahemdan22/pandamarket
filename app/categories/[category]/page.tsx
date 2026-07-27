@@ -10,34 +10,49 @@ import { useLanguage } from '../../../contexts/LanguageProvider';
 import { FiArrowLeft, FiPackage } from 'react-icons/fi';
 import Link from 'next/link';
 
-// أسماء الفئات بالعربي والإنجليزي
-const categoryNames: Record<string, { ar: string; en: string;  }> = {
-  bakery: { ar: 'المخبوزات', en: 'Bakery', },
-  spices: { ar: 'التوابل', en: 'Spices', },
-  dry: { ar: 'البقالة الجافة', en: 'Dry', },
-  cleaning: { ar: 'منتجات التنظيف', en: 'Cleaning Products', },
-  grocery: { ar: 'البقالة العامة', en: 'Grocery', },
-  vegetables: { ar: 'الخضروات والفواكه', en: 'Vegetables & Fruits', },
-  oils: { ar: 'الزيوت والسمن', en: 'Oils & Ghee', },
-  rice: { ar: 'الأرز والمعكرونة', en: 'Rice & Pasta', },
-  legumes: { ar: 'البقوليات', en: 'Legumes', },
-  sauces: { ar: 'الصلصات', en: 'Sauces', },
-  snacks: { ar: 'الوجبات الخفيفة', en: 'Snacks', },
-  beverages: { ar: 'المشروبات', en: 'Beverages', },
-  dairy: { ar: 'الألبان والبيض', en: 'Dairy & Eggs', },
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+
+// أسماء الفئات والأسماء المترادفة (Aliases)
+const categoryNames: Record<string, { ar: string; en: string; aliases: string[] }> = {
+  vegetables: { ar: 'الخضروات والفواكه', en: 'Vegetables & Fruits', aliases: ['vegetables', 'produce', 'fresh-food', 'fruits'] },
+  produce: { ar: 'الخضروات والفواكه الطازجة', en: 'Fresh Produce', aliases: ['produce', 'vegetables', 'fresh-food', 'fruits'] },
+  'fresh-food': { ar: 'الأطعمة الطازجة', en: 'Fresh Food', aliases: ['fresh-food', 'produce', 'vegetables', 'fruits'] },
+  dairy: { ar: 'الألبان والبيض والجبن', en: 'Dairy, Eggs & Cheese', aliases: ['dairy', 'dairy-eggs', 'milk', 'cheese'] },
+  'dairy-eggs': { ar: 'الألبان والبيض', en: 'Dairy & Eggs', aliases: ['dairy-eggs', 'dairy', 'milk', 'cheese'] },
+  meat: { ar: 'اللحوم والدواجن', en: 'Meat & Poultry', aliases: ['meat', 'poultry', 'beef', 'chicken'] },
+  frozen: { ar: 'الأغذية المجمدة', en: 'Frozen Foods', aliases: ['frozen', 'frozen-foods'] },
+  pantry: { ar: 'الأرز والمكرونة والبقوليات', en: 'Pantry & Grains', aliases: ['pantry', 'rice', 'pasta', 'legumes', 'dry', 'grains'] },
+  rice: { ar: 'الأرز والمعكرونة', en: 'Rice & Pasta', aliases: ['rice', 'pantry', 'pasta', 'grains'] },
+  legumes: { ar: 'البقوليات', en: 'Legumes', aliases: ['legumes', 'pantry', 'grains'] },
+  condiments: { ar: 'الزيوت والسمن والصلصات', en: 'Oils, Ghee & Spices', aliases: ['condiments', 'oils', 'spices', 'sauces', 'ghee'] },
+  oils: { ar: 'الزيوت والسمن', en: 'Oils & Ghee', aliases: ['oils', 'condiments', 'ghee', 'spices'] },
+  spices: { ar: 'التوابل والبهارات', en: 'Spices & Seasonings', aliases: ['spices', 'condiments'] },
+  sauces: { ar: 'الصلصات والمايونيز', en: 'Sauces & Dressings', aliases: ['sauces', 'condiments'] },
+  snacks: { ar: 'الوجبات الخفيفة والحلويات', en: 'Snacks & Sweets', aliases: ['snacks', 'sweets', 'biscuits', 'chips'] },
+  beverages: { ar: 'المشروبات والعصائر', en: 'Beverages & Juices', aliases: ['beverages', 'juice', 'tea', 'coffee'] },
+  cleaning: { ar: 'المنظفات والأدوات المنزلية', en: 'Cleaning & Household', aliases: ['cleaning', 'household', 'laundry'] },
+  'personal-care': { ar: 'العناية الشخصية', en: 'Personal Care', aliases: ['personal-care', 'soap', 'shampoo'] },
+  'baby-care': { ar: 'منتجات الأطفال', en: 'Baby Care', aliases: ['baby-care', 'diapers', 'baby'] },
+  bakery: { ar: 'المخبوزات والخبز', en: 'Bakery & Bread', aliases: ['bakery', 'bread', 'toast'] },
+  grocery: { ar: 'البقالة العامة', en: 'Grocery', aliases: ['grocery', 'pantry', 'dry'] },
+  dry: { ar: 'البقالة الجافة', en: 'Dry Grocery', aliases: ['dry', 'pantry', 'grocery'] },
 };
 
 export default function CategoryPage() {
   const params = useParams();
   const { language, isRTL } = useLanguage();
-  const [category, setCategory] = useState<string>('');
+  const [categorySlug, setCategorySlug] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Query Convex DB products
+  const dbProducts = useQuery(api.products.getProducts, {});
 
   useEffect(() => {
     const loadParams = async () => {
       try {
         const resolvedParams = await params;
-        setCategory(resolvedParams.category as string);
+        setCategorySlug(resolvedParams.category as string);
       } catch (error) {
         console.error('Error loading params:', error);
       } finally {
@@ -48,13 +63,58 @@ export default function CategoryPage() {
     loadParams();
   }, [params]);
 
-  // ✅ استخدم useMemo للفلترة
-  const categoryProducts = useMemo(() => {
-    return sampleProducts.filter((product) => product.category === category);
-  }, [category]);
+  // Determine category info or fallback
+  const categoryInfo = useMemo(() => {
+    if (!categorySlug) return null;
+    return categoryNames[categorySlug] || {
+      ar: categorySlug,
+      en: categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1),
+      aliases: [categorySlug]
+    };
+  }, [categorySlug]);
 
-  // ✅ معلومات الفئة
-  const categoryInfo = categoryNames[category];
+  // Category products matching aliases against Convex DB & static fallback
+  const categoryProducts = useMemo(() => {
+    if (!categorySlug) return [];
+    const targetAliases = categoryInfo ? categoryInfo.aliases : [categorySlug];
+
+    // Adapt Convex products
+    const adaptedDb = (dbProducts || [])
+      .filter((p) => {
+        const readiness = p.readinessStatus || (p.isActive ? 'active_sellable' : 'draft_hidden');
+        return readiness !== 'draft_hidden';
+      })
+      .map((p) => ({
+        id: p._id,
+        name: p.name,
+        nameEn: p.nameEn,
+        price: p.price,
+        compareAtPrice: p.compareAtPrice,
+        imagePublicId: p.imagePublicId,
+        imagePublicIds: p.imagePublicIds,
+        category: p.subcategory || 'grocery',
+        subcategory: p.subcategory,
+        brand: p.brand,
+        unit: p.unit,
+        description: p.description,
+        descriptionEn: p.descriptionEn,
+        stock: p.stock,
+        discount: p.discount,
+        rating: p.rating,
+        reviews: p.reviews,
+        readinessStatus: p.readinessStatus,
+        isFulfillable: p.isFulfillable,
+      }));
+
+    const sourceProducts = adaptedDb.length > 0 ? adaptedDb : sampleProducts;
+
+    return sourceProducts.filter((product: any) =>
+      targetAliases.includes(product.category) ||
+      (product.subcategory && targetAliases.includes(product.subcategory)) ||
+      product.category.includes(categorySlug) ||
+      categorySlug.includes(product.category)
+    );
+  }, [categorySlug, categoryInfo, dbProducts]);
 
   if (isLoading) {
     return (
@@ -81,8 +141,8 @@ export default function CategoryPage() {
     );
   }
 
-  // لو الكاتيجوري مش موجودة أو مفيش منتجات
-  if (!categoryInfo || categoryProducts.length === 0) {
+  // If categoryInfo is completely missing and unmapped
+  if (!categoryInfo) {
     return notFound();
   }
 
