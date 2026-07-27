@@ -271,3 +271,19 @@ export const resetAndSeedCanonical = mutation({
     };
   },
 });
+
+export const updateProductImages = mutation({
+  args: {
+    id: v.id("products"),
+    imagePublicId: v.string(),
+    imagePublicIds: v.array(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, {
+      imagePublicId: args.imagePublicId,
+      imagePublicIds: args.imagePublicIds,
+      updatedAt: Date.now(),
+    });
+    return args.id;
+  },
+});
