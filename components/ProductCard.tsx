@@ -165,7 +165,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <div>
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-bold text-green-600 dark:text-green-500">
-                  {product.price.toFixed(2)}
+                  {(product.price ?? 0).toFixed(2)}
                 </span>
                 <span className="text-sm text-gray-600 dark:text-gray-400">
                   {language === 'ar' ? 'ج.م' : 'EGP'}
@@ -173,7 +173,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               </div>
               {product.compareAtPrice && product.compareAtPrice > product.price && (
                 <span className="text-sm text-gray-400 dark:text-gray-500 line-through">
-                  {product.compareAtPrice.toFixed(2)}
+                  {(product.compareAtPrice ?? 0).toFixed(2)}
                 </span>
               )}
               <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">

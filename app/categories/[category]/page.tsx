@@ -4,16 +4,16 @@ import { notFound } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { sampleProducts } from '../../../data/products';
 import ProductCard from '../../../components/ProductCard';
 import { useLanguage } from '../../../contexts/LanguageProvider';
 import { FiArrowLeft, FiPackage } from 'react-icons/fi';
 import Link from 'next/link';
+import CategoryErrorBoundary from '../../../components/CategoryErrorBoundary';
 
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 
-// أسماء الفئات والأسماء المترادفة (Aliases)
+// Category names and alias mapping
 const categoryNames: Record<string, { ar: string; en: string; aliases: string[] }> = {
   vegetables: { ar: 'الخضروات والفواكه', en: 'Vegetables & Fruits', aliases: ['vegetables', 'produce', 'fresh-food', 'fruits'] },
   produce: { ar: 'الخضروات والفواكه الطازجة', en: 'Fresh Produce', aliases: ['produce', 'vegetables', 'fresh-food', 'fruits'] },
@@ -41,101 +41,48 @@ const categoryNames: Record<string, { ar: string; en: string; aliases: string[] 
   'dry-grocery': { ar: 'البقالة الجافة', en: 'Dry Grocery', aliases: ['dry-grocery', 'dry', 'pantry', 'grocery', 'rice', 'legumes', 'pasta'] },
 };
 
-export default function CategoryPage() {
+function CategoryPageInner() {
   const params = useParams();
   const { language, isRTL } = useLanguage();
-  
-  const rawParam = params?.category;
-  const categorySlug = (typeof rawParam === 'string'
-    ? rawParam
-    : Array.isArray(rawParam) && rawParam.length > 0
-    ? rawParam[0]
-    : '').toLowerCase().trim();
 
-  // Query Convex DB products
-  const dbProducts = useQuery(api.products.getProducts, {});
+  const rawParam = params?.category;
+  const categorySlug = (
+    typeof rawParam === 'string'
+      ? rawParam
+      : Array.isArray(rawParam) && rawParam.length > 0
+      ? rawParam[0]
+      : ''
+  ).toLowerCase().trim();
+
+  // Direct indexed Convex query for this category slug
+  const dbCategoryProducts = useQuery(
+    api.products.getProductsByCategorySlug,
+    categorySlug ? { categorySlug } : 'skip'
+  );
 
   // Determine category info or fallback
   const categoryInfo = useMemo(() => {
     if (!categorySlug) return null;
-    return categoryNames[categorySlug] || {
-      ar: categorySlug,
-      en: categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1),
-      aliases: [categorySlug]
-    };
+    return (
+      categoryNames[categorySlug] || {
+        ar: categorySlug,
+        en: categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1),
+        aliases: [categorySlug],
+      }
+    );
   }, [categorySlug]);
 
-  // Direct indexed Convex Query for this category slug
-  const dbCategoryProducts = useQuery(
-    api.products.getProductsByCategorySlug,
-    categorySlug ? { categorySlug } : "skip"
-  );
-
-  // Category products matching aliases against Convex DB & static fallback
-  const categoryProducts = useMemo(() => {
-    if (!categorySlug) return [];
-    const targetAliases = categoryInfo ? categoryInfo.aliases : [categorySlug];
-
-    const formatProduct = (p: any) => ({
-      id: p._id || p.id,
-      name: p.name,
-      nameEn: p.nameEn,
-      price: p.price,
-      compareAtPrice: p.compareAtPrice,
-      imagePublicId: p.imagePublicId,
-      imagePublicIds: p.imagePublicIds,
-      category: p.category || p.categorySlug || p.subcategory || 'grocery',
-      subcategory: p.subcategory,
-      brand: p.brand,
-      unit: p.unit,
-      description: p.description,
-      descriptionEn: p.descriptionEn,
-      stock: p.stock,
-      discount: p.discount,
-      rating: p.rating,
-      reviews: p.reviews,
-      readinessStatus: p.readinessStatus,
-      isFulfillable: p.isFulfillable,
-    });
-
-    const isSellable = (p: any) => {
-      const readiness = p.readinessStatus || (p.isActive !== false ? 'active_sellable' : 'draft_hidden');
-      return readiness !== 'draft_hidden';
-    };
-
-    // If Convex returned an array for this category slug, use it directly without re-filtering
-    if (Array.isArray(dbCategoryProducts)) {
-      return dbCategoryProducts.filter(isSellable).map(formatProduct);
-    }
-
-    // Otherwise fallback to filtering all products if dbCategoryProducts is still loading
-    const rawList = (dbProducts && dbProducts.length > 0) ? dbProducts : sampleProducts;
-    return rawList
-      .filter((p: any) => {
-        if (!isSellable(p)) return false;
-        const cat = p.category || p.categorySlug || p.subcategory || '';
-        return targetAliases.includes(cat) ||
-          (p.subcategory && targetAliases.includes(p.subcategory)) ||
-          cat.includes(categorySlug) ||
-          categorySlug.includes(cat);
-      })
-      .map(formatProduct);
-  }, [categorySlug, categoryInfo, dbCategoryProducts, dbProducts]);
-
-  // Show loading skeleton while route params are resolving or while Convex query is in flight
+  // Show loading skeleton while route params are resolving or Convex query is in flight
   const isLoading = !categorySlug || dbCategoryProducts === undefined;
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header Skeleton */}
           <div className="mb-12">
             <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-48 mb-4 animate-pulse"></div>
             <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-64 animate-pulse"></div>
           </div>
-
-          {/* Products Grid Skeleton */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
               <div key={i} className="bg-white dark:bg-gray-800 rounded-xl p-4 animate-pulse">
@@ -155,6 +102,35 @@ export default function CategoryPage() {
     return notFound();
   }
 
+  // Safely map products — guard every field against null/undefined
+  const categoryProducts = (Array.isArray(dbCategoryProducts) ? dbCategoryProducts : [])
+    .filter((p: any) => {
+      if (!p || !p._id) return false;
+      const readiness = p.readinessStatus ?? (p.isActive !== false ? 'active_sellable' : 'draft_hidden');
+      return readiness !== 'draft_hidden';
+    })
+    .map((p: any) => ({
+      id: String(p._id ?? p.id ?? ''),
+      name: String(p.name ?? p.nameEn ?? ''),
+      nameEn: String(p.nameEn ?? p.name ?? ''),
+      price: typeof p.price === 'number' ? p.price : 0,
+      compareAtPrice: typeof p.compareAtPrice === 'number' ? p.compareAtPrice : undefined,
+      imagePublicId: p.imagePublicId ?? p.imagePublicIds?.[0] ?? '',
+      imagePublicIds: Array.isArray(p.imagePublicIds) ? p.imagePublicIds : [],
+      category: String(p.category ?? p.categorySlug ?? p.subcategory ?? 'grocery'),
+      subcategory: p.subcategory ?? undefined,
+      brand: String(p.brand ?? ''),
+      unit: String(p.unit ?? ''),
+      description: p.description ?? undefined,
+      descriptionEn: p.descriptionEn ?? undefined,
+      stock: typeof p.stock === 'number' ? p.stock : undefined,
+      discount: typeof p.discount === 'number' ? p.discount : undefined,
+      rating: typeof p.rating === 'number' ? p.rating : undefined,
+      reviews: typeof p.reviews === 'number' ? p.reviews : undefined,
+      readinessStatus: p.readinessStatus ?? undefined,
+      isFulfillable: p.isFulfillable ?? true,
+    }));
+
   const categoryName = language === 'ar' ? categoryInfo.ar : categoryInfo.en;
 
   return (
@@ -170,23 +146,15 @@ export default function CategoryPage() {
           transition={{ duration: 0.5 }}
           className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-8"
         >
-          <Link
-            href="/"
-            className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
-          >
+          <Link href="/" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">
             {language === 'ar' ? 'الرئيسية' : 'Home'}
           </Link>
           <span>/</span>
-          <Link
-            href="/categories"
-            className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
-          >
+          <Link href="/categories" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">
             {language === 'ar' ? 'الأقسام' : 'Categories'}
           </Link>
           <span>/</span>
-          <span className="text-gray-900 dark:text-white font-medium">
-            {categoryName}
-          </span>
+          <span className="text-gray-900 dark:text-white font-medium">{categoryName}</span>
         </motion.nav>
 
         {/* Header */}
@@ -198,9 +166,6 @@ export default function CategoryPage() {
         >
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
             <div className="flex items-center gap-4">
-
-
-              {/* Category Title */}
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">
                   {categoryName}
@@ -237,26 +202,26 @@ export default function CategoryPage() {
         </motion.div>
 
         {/* Products Grid */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-        >
-          {categoryProducts.map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-            >
-              <ProductCard product={product} />
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Empty State (backup - should not show due to notFound) */}
-        {categoryProducts.length === 0 && (
+        {categoryProducts.length > 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          >
+            {categoryProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+              >
+                <ProductCard product={product} />
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : (
+          /* Empty State */
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -283,5 +248,13 @@ export default function CategoryPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function CategoryPage() {
+  return (
+    <CategoryErrorBoundary>
+      <CategoryPageInner />
+    </CategoryErrorBoundary>
   );
 }

@@ -126,7 +126,7 @@ export function buildImageUrl(
 ): ImageUrlResult {
   if (!publicId) {
     const fallback = getPlaceholderUrl('', transformations.width || 400, transformations.height || 400);
-    return { primary: '', fallback };
+    return { primary: fallback, fallback };
   }
 
   // If it's already a full URL, return as-is (backward compatibility)
