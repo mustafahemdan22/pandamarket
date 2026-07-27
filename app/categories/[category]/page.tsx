@@ -92,7 +92,7 @@ export default function CategoryPage() {
         compareAtPrice: p.compareAtPrice,
         imagePublicId: p.imagePublicId,
         imagePublicIds: p.imagePublicIds,
-        category: p.subcategory || 'grocery',
+        category: (p as any).category || (p as any).categoryId || p.subcategory || 'grocery',
         subcategory: p.subcategory,
         brand: p.brand,
         unit: p.unit,

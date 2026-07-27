@@ -225,7 +225,7 @@ const CategoriesPage = () => {
         compareAtPrice: p.compareAtPrice,
         imagePublicId: p.imagePublicId,
         imagePublicIds: p.imagePublicIds,
-        category: p.subcategory || 'grocery',
+        category: (p as any).category || (p as any).categoryId || p.subcategory || 'grocery',
         brand: p.brand,
         unit: p.unit,
         description: p.description,

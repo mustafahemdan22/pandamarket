@@ -86,7 +86,7 @@ const ProductDetailPage = () => {
         compareAtPrice: dbProd.compareAtPrice,
         imagePublicId: dbProd.imagePublicId,
         imagePublicIds: dbProd.imagePublicIds,
-        category: dbProd.subcategory || "grocery",
+        category: (dbProd as any).category || (dbProd as any).categoryId || dbProd.subcategory || "grocery",
         brand: dbProd.brand,
         unit: dbProd.unit,
         description: dbProd.description,
