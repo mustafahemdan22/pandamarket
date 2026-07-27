@@ -29,6 +29,7 @@ import { useWishlist } from '../contexts/WishlistProvider';
 import { useAuth } from '../contexts/AuthProvider';
 
 import { usePathname } from 'next/navigation';
+import StorefrontSearch from './StorefrontSearch';
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -62,7 +63,7 @@ const Navbar = () => {
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-16 gap-4">
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
@@ -71,20 +72,24 @@ const Navbar = () => {
             className="flex-shrink-0"
           >
             <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse">
-    
               <span className="text-xl font-bold text-gray-900 dark:text-white">
                 {language === 'ar' ? 'سوبر ماركت باندا' : 'Panda market'}
               </span>
             </Link>
           </motion.div>
 
+          {/* Search Bar Component */}
+          <div className="hidden sm:flex flex-1 max-w-sm mx-4">
+            <StorefrontSearch />
+          </div>
+
           {/* Desktop Navigation */}
-          <div className="  hidden md:flex items-center space-x-8 rtl:space-x-reverse">
+          <div className="hidden lg:flex items-center space-x-6 rtl:space-x-reverse">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`${style.navLink} flex items-center space-x-1 rtl:space-x-reverse text-gray-700 dark:text-gray-300 hover:text-bl-600 dark:hover:text-bl-400 transition-colors duration-200`}
+                className={`${style.navLink} flex items-center space-x-1 rtl:space-x-reverse text-gray-700 dark:text-gray-300 hover:text-bl-600 dark:hover:text-bl-400 transition-colors duration-200 text-sm font-medium`}
               >
                 <span>{item.text}</span>
               </Link>
@@ -92,7 +97,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden  md:flex  space-x-4 rtl:space-x-reverse">
+          <div className="hidden md:flex items-center space-x-3 rtl:space-x-reverse">
             {/* Language Toggle */}
             <button
               onClick={toggleLanguage}

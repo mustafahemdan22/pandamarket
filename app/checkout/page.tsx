@@ -12,6 +12,10 @@ import { FiCreditCard, FiMapPin,  FiUser, FiArrowLeft, FiCheckCircle } from 'rea
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
+
 const CheckoutPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -19,8 +23,18 @@ const CheckoutPage = () => {
   const { addOrder } = useOrders();
   const { user } = useAuth();
   const { language } = useLanguage();
+
+  const createOrderMutation = useMutation(api.orders.createOrder);
   
   const [isProcessing, setIsProcessing] = useState(false);
+  const [deliverySlot, setDeliverySlot] = useState<{ date: string; timeWindow: string }>({
+    date: 'Today',
+    timeWindow: '14:00 - 16:00',
+  });
+  const [substitutionPreference, setSubstitutionPreference] = useState<
+    'substitute_similar' | 'call_customer' | 'do_not_substitute'
+  >('substitute_similar');
+
   const [formData, setFormData] = useState({
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
@@ -30,7 +44,7 @@ const CheckoutPage = () => {
     city: '',
     state: '',
     zipCode: '',
-    country: language === 'ar' ? 'مصر' : 'egypt',
+    country: language === 'ar' ? 'مصر' : 'Egypt',
     paymentMethod: 'credit-card'
   });
 
@@ -59,20 +73,22 @@ const CheckoutPage = () => {
     setIsProcessing(true);
 
     try {
-      // Simulate payment processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Unique idempotency key per submit attempt session
+      const idempotencyKey = `chk-${user.id || 'guest'}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
 
-      // Create order
+      // Prepare order items
       const orderItems = items.map(item => ({
-        product: item.product,
+        productId: item.product.id as Id<"products">,
         quantity: item.quantity,
-        price: item.product.price * item.quantity
       }));
 
-      addOrder({
+      // Call server-validated Convex mutation
+      const result = await createOrderMutation({
+        idempotencyKey,
+        userId: user.id,
         items: orderItems,
-        total: total,
-        status: 'pending',
+        deliverySlot,
+        substitutionPreference,
         shippingAddress: {
           street: formData.street,
           city: formData.city,
@@ -89,13 +105,20 @@ const CheckoutPage = () => {
         paymentMethod: formData.paymentMethod
       });
 
-      // Clear cart
+      // Clear cart on clean success
       dispatch(clearCart());
 
-      toast.success(language === 'ar' ? 'تم تأكيد الطلب بنجاح!' : 'Order confirmed successfully!');
+      toast.success(
+        language === 'ar' 
+          ? `تم تأكيد الطلب بنجاح! رقم الطلب: ${result.orderNumber}` 
+          : `Order confirmed! Order #: ${result.orderNumber}`
+      );
       router.push('/orders');
-    } catch {
-      toast.error(language === 'ar' ? 'حدث خطأ أثناء تأكيد الطلب' : 'An error occurred during checkout');
+    } catch (err: any) {
+      toast.error(
+        err.message || 
+        (language === 'ar' ? 'حدث خطأ أثناء تأكيد الطلب' : 'An error occurred during checkout')
+      );
     } finally {
       setIsProcessing(false);
     }
@@ -322,6 +345,88 @@ const CheckoutPage = () => {
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     />
                   </div>
+                </div>
+              </div>
+
+              {/* Delivery Time Slot (Supermarket Feature) */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                  <FiMapPin className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2 text-green-600" />
+                  {language === 'ar' ? 'موعد التوصيل المفضل' : 'Preferred Delivery Time Slot'}
+                </h2>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[
+                    { date: language === 'ar' ? 'اليوم' : 'Today', timeWindow: '14:00 - 16:00' },
+                    { date: language === 'ar' ? 'اليوم' : 'Today', timeWindow: '18:00 - 20:00' },
+                    { date: language === 'ar' ? 'غداً' : 'Tomorrow', timeWindow: '10:00 - 12:00' },
+                  ].map((slot, idx) => {
+                    const isSelected = deliverySlot.date === slot.date && deliverySlot.timeWindow === slot.timeWindow;
+                    return (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setDeliverySlot(slot)}
+                        className={`p-3.5 rounded-xl border text-left rtl:text-right transition-all ${
+                          isSelected
+                            ? 'border-green-600 bg-green-50 dark:bg-green-950/40 text-green-800 dark:text-green-200 ring-2 ring-green-500'
+                            : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                        }`}
+                      >
+                        <div className="text-xs font-bold text-green-600 dark:text-green-400">{slot.date}</div>
+                        <div className="text-sm font-semibold mt-0.5">{slot.timeWindow}</div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Picker Substitution Preference (Supermarket Feature) */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                  <FiUser className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2 text-green-600" />
+                  {language === 'ar' ? 'تفضيلات استبدال المنتجات' : 'Item Substitution Preference'}
+                </h2>
+
+                <div className="space-y-3">
+                  {[
+                    {
+                      id: 'substitute_similar',
+                      labelAr: 'استبدال بمنتج مشابه من نفس الفئة (موصى به)',
+                      labelEn: 'Substitute with similar brand (Recommended)',
+                    },
+                    {
+                      id: 'call_customer',
+                      labelAr: 'الاتصال بي هاتفياً قبل الاستبدال',
+                      labelEn: 'Call me before making any substitution',
+                    },
+                    {
+                      id: 'do_not_substitute',
+                      labelAr: 'عدم الاستبدال وإلغاء الصنف الناقص تلقائياً',
+                      labelEn: 'Do not substitute; refund unavailable items',
+                    },
+                  ].map((pref) => (
+                    <label
+                      key={pref.id}
+                      className={`flex items-center p-3.5 border rounded-xl cursor-pointer transition-colors ${
+                        substitutionPreference === pref.id
+                          ? 'border-green-600 bg-green-50 dark:bg-green-950/30'
+                          : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="substitutionPreference"
+                        value={pref.id}
+                        checked={substitutionPreference === pref.id}
+                        onChange={() => setSubstitutionPreference(pref.id as any)}
+                        className="w-4 h-4 text-green-600 focus:ring-green-500"
+                      />
+                      <span className="ms-3 text-xs sm:text-sm font-medium text-gray-900 dark:text-white">
+                        {language === 'ar' ? pref.labelAr : pref.labelEn}
+                      </span>
+                    </label>
+                  ))}
                 </div>
               </div>
 

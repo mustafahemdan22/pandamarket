@@ -27,6 +27,10 @@ import toast from "react-hot-toast";
 import { ProductImageGallery } from "../../../components/ProductImageGallery";
 import { ProductJsonLd, BreadcrumbJsonLd } from "../../../components/seo/JsonLd";
 
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+
 const ProductDetailPage = () => {
   const params = useParams();
   const { language, isRTL } = useLanguage();
@@ -34,27 +38,69 @@ const ProductDetailPage = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
   const { isInWishlist, toggleWishlist } = useWishlist();
 
+  const [productId, setProductId] = useState<string>("");
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Convex Query for DB products
+  const convexProductById = useQuery(
+    api.products.getProductById,
+    productId && productId.length > 15 ? { id: productId as Id<"products"> } : "skip"
+  );
+
+  const convexProductBySlug = useQuery(
+    api.products.getProductBySlug,
+    productId && productId.length <= 15 ? { slug: productId } : "skip"
+  );
 
   useEffect(() => {
     const loadProduct = async () => {
       try {
         const resolvedParams = await params;
         const id = resolvedParams.id as string;
-        const foundProduct = getProductById(id);
-        setProduct(foundProduct || null);
+        setProductId(id);
+
+        const foundStatic = getProductById(id);
+        if (foundStatic) {
+          setProduct(foundStatic);
+          setIsLoading(false);
+        }
       } catch (error) {
         console.error("Error loading product:", error);
-        setProduct(null);
-      } finally {
-        setIsLoading(false);
       }
     };
 
     loadProduct();
   }, [params]);
+
+  // Sync Convex Product to state if loaded
+  useEffect(() => {
+    const dbProd = convexProductById || convexProductBySlug;
+    if (dbProd) {
+      setProduct({
+        id: dbProd._id,
+        name: dbProd.name,
+        nameEn: dbProd.nameEn,
+        price: dbProd.price,
+        compareAtPrice: dbProd.compareAtPrice,
+        imagePublicId: dbProd.imagePublicId,
+        imagePublicIds: dbProd.imagePublicIds,
+        category: dbProd.subcategory || "grocery",
+        brand: dbProd.brand,
+        unit: dbProd.unit,
+        description: dbProd.description,
+        descriptionEn: dbProd.descriptionEn,
+        stock: dbProd.stock,
+        discount: dbProd.discount,
+        rating: dbProd.rating,
+        reviews: dbProd.reviews,
+        readinessStatus: dbProd.readinessStatus,
+        isFulfillable: dbProd.isFulfillable,
+      });
+      setIsLoading(false);
+    }
+  }, [convexProductById, convexProductBySlug]);
 
   if (isLoading) {
     return (
@@ -404,14 +450,40 @@ const ProductDetailPage = () => {
               </div>
 
               <div className="flex gap-3">
-                <button
-                  onClick={handleAddToCart}
-                  disabled={product.stock === 0}
-                  className="flex-1 bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed active:scale-95"
-                >
-                  <FiShoppingCart className="w-5 h-5" />
-                  <span>{language === "ar" ? "أضف للسلة" : "Add to Cart"}</span>
-                </button>
+                {product.readinessStatus === "editorial_only" ? (
+                  <button
+                    disabled
+                    className="flex-1 bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    <FiShoppingCart className="w-5 h-5" />
+                    <span>{language === "ar" ? "عرض فقط / غير متاح للشراء" : "Showcase Only"}</span>
+                  </button>
+                ) : product.readinessStatus === "request_quote" ? (
+                  <Link
+                    href="/contact"
+                    className="flex-1 bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-purple-700 transition-colors duration-200 flex items-center justify-center gap-2"
+                  >
+                    <FiShoppingCart className="w-5 h-5" />
+                    <span>{language === "ar" ? "طلب سعر بالجملة" : "Request Bulk Quote"}</span>
+                  </Link>
+                ) : product.isFulfillable === false ? (
+                  <button
+                    disabled
+                    className="flex-1 bg-amber-500 text-white font-semibold py-3 px-6 rounded-lg cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    <FiShoppingCart className="w-5 h-5" />
+                    <span>{language === "ar" ? "غير متوفر مؤقتاً" : "Temporarily Unavailable"}</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={product.stock === 0}
+                    className="flex-1 bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed active:scale-95"
+                  >
+                    <FiShoppingCart className="w-5 h-5" />
+                    <span>{language === "ar" ? "أضف للسلة" : "Add to Cart"}</span>
+                  </button>
+                )}
 
                 <button
                   onClick={handleWishlistToggle}

@@ -5,6 +5,9 @@ import { sampleProducts } from "../../data/products";
 import ProductCard from "../../components/ProductCard";
 import { useLanguage } from "../../contexts/LanguageProvider";
 import { useState, useMemo, useCallback } from "react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { normalizeArabicText } from "@/lib/formatters";
 import {
   FiSearch,
   FiChevronLeft,
@@ -147,6 +150,12 @@ const CategoriesPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(12);
 
+  // Query Convex products
+  const dbProducts = useQuery(
+    api.products.getProducts,
+    searchQuery.trim() ? { searchTerm: normalizeArabicText(searchQuery.trim()) } : {}
+  );
+
   const categories = [
     {
       id: "all",
@@ -200,18 +209,48 @@ const CategoriesPage = () => {
     },
   ];
 
-  // ✅ فلترة المنتجات مع البحث بكلا اللغتين ورسم الخرائط للأقسام المحسنة
+  // ✅ Adapt Convex DB products to storefront Product interface
+  const adaptedDbProducts = useMemo(() => {
+    if (!dbProducts) return [];
+    return dbProducts
+      .filter((p: any) => {
+        const readiness = p.readinessStatus || (p.isActive ? 'active_sellable' : 'draft_hidden');
+        return readiness !== 'draft_hidden';
+      })
+      .map((p: any) => ({
+        id: p._id,
+        name: p.name,
+        nameEn: p.nameEn,
+        price: p.price,
+        compareAtPrice: p.compareAtPrice,
+        imagePublicId: p.imagePublicId,
+        imagePublicIds: p.imagePublicIds,
+        category: p.subcategory || 'grocery',
+        brand: p.brand,
+        unit: p.unit,
+        description: p.description,
+        descriptionEn: p.descriptionEn,
+        stock: p.stock,
+        discount: p.discount,
+        rating: p.rating,
+        reviews: p.reviews,
+        readinessStatus: p.readinessStatus,
+        isFulfillable: p.isFulfillable,
+      }));
+  }, [dbProducts]);
+
+  // ✅ Combine DB products with static fallbacks
   const filteredProducts = useMemo(() => {
-    let products = sampleProducts;
+    let sourceProducts = adaptedDbProducts.length > 0 ? adaptedDbProducts : sampleProducts;
 
     if (selectedCategory !== "all") {
-      products = sampleProducts.filter((product) => product.category === selectedCategory);
+      sourceProducts = sourceProducts.filter((product: any) => product.category === selectedCategory);
     }
 
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      products = products.filter(
-        (product) =>
+      sourceProducts = sourceProducts.filter(
+        (product: any) =>
           product.name.toLowerCase().includes(query) ||
           product.nameEn.toLowerCase().includes(query) ||
           (product.description?.toLowerCase() || "").includes(query) ||
@@ -220,8 +259,8 @@ const CategoriesPage = () => {
       );
     }
 
-    return products;
-  }, [selectedCategory, searchQuery]);
+    return sourceProducts;
+  }, [adaptedDbProducts, selectedCategory, searchQuery]);
 
   // حساب Pagination
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -422,7 +461,7 @@ const CategoriesPage = () => {
         {/* Products Grid - ✅ بدون AnimatePresence */}
         {filteredProducts.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 min-h-[400px]">
-            {currentProducts.map((product) => (
+            {currentProducts.map((product: any) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 20 }}

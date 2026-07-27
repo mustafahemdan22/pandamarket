@@ -4,6 +4,7 @@ import { requirePermission } from "./auth";
 
 export const createOrder = mutation({
   args: {
+    idempotencyKey: v.optional(v.string()),
     userId: v.optional(v.string()),
     items: v.array(
       v.object({
@@ -26,27 +27,69 @@ export const createOrder = mutation({
     }),
     paymentMethod: v.string(),
     couponCode: v.optional(v.string()),
+    deliverySlot: v.optional(
+      v.object({
+        date: v.string(),
+        timeWindow: v.string(),
+      })
+    ),
+    substitutionPreference: v.optional(
+      v.union(
+        v.literal("substitute_similar"),
+        v.literal("call_customer"),
+        v.literal("do_not_substitute")
+      )
+    ),
   },
   handler: async (ctx, args) => {
+    // Canonical Identity Resolution via Convex ctx.auth.getUserIdentity()
+    const identity = await ctx.auth.getUserIdentity();
+    const canonicalUserId = identity ? identity.subject : args.userId;
+
+    // 1. Idempotency Check: Prevent duplicate order creation
+    if (args.idempotencyKey) {
+      const existingOrder = await ctx.db
+        .query("orders")
+        .withIndex("by_idempotency", (q) => q.eq("idempotencyKey", args.idempotencyKey!))
+        .first();
+
+      if (existingOrder) {
+        return {
+          orderId: existingOrder._id,
+          orderNumber: existingOrder.orderNumber,
+          total: existingOrder.total,
+          isDuplicate: true,
+        };
+      }
+    }
+
     let subtotal = 0;
     const validatedItems = [];
 
-    // Server-side Price & Stock Validation (Protection against Client Manipulation)
+    // 2. Server-side Price, Readiness & Stock Revalidation
     for (const item of args.items) {
       const product = await ctx.db.get(item.productId);
       if (!product) {
         throw new Error(`Product with ID ${item.productId} not found`);
       }
-      if (!product.isActive) {
-        throw new Error(`Product ${product.nameEn} is no longer available`);
+
+      // Readiness contract check
+      const readiness = product.readinessStatus || (product.isActive ? "active_sellable" : "draft_hidden");
+      if (readiness !== "active_sellable") {
+        throw new Error(`Product "${product.nameEn}" is not available for purchase (Status: ${readiness})`);
       }
 
-      // Check stock
+      // Fulfillability contract check
+      if (product.isFulfillable === false) {
+        throw new Error(`Product "${product.nameEn}" is temporarily unfulfillable`);
+      }
+
+      // Stock check & oversell protection
       if (product.stock !== undefined && product.stock < item.quantity) {
-        throw new Error(`Insufficient stock for ${product.nameEn}. Available: ${product.stock}`);
+        throw new Error(`Insufficient stock for "${product.nameEn}". Available: ${product.stock}, Requested: ${item.quantity}`);
       }
 
-      // Calculate subtotal from trusted DB prices
+      // Calculate subtotal from trusted DB prices only (ignore client prices)
       const itemPrice = product.price;
       subtotal += itemPrice * item.quantity;
 
@@ -66,8 +109,8 @@ export const createOrder = mutation({
       }
     }
 
-    // Fixed delivery fee calculation server-side
-    const deliveryFee = subtotal > 500 ? 0 : 30;
+    // Unified delivery fee calculation: Free over 200, otherwise 20 EGP/SAR
+    const deliveryFee = subtotal >= 200 ? 0 : 20;
     let discount = 0;
 
     // Validate Coupon Server-side
@@ -99,20 +142,23 @@ export const createOrder = mutation({
 
     const orderId = await ctx.db.insert("orders", {
       orderNumber,
-      userId: args.userId,
+      idempotencyKey: args.idempotencyKey,
+      userId: canonicalUserId,
       items: validatedItems,
       subtotal,
       deliveryFee,
       discount,
       total,
       status: "pending",
+      deliverySlot: args.deliverySlot,
+      substitutionPreference: args.substitutionPreference,
       shippingAddress: args.shippingAddress,
       customerInfo: args.customerInfo,
       paymentMethod: args.paymentMethod,
       createdAt: Date.now(),
     });
 
-    return { orderId, orderNumber, total };
+    return { orderId, orderNumber, total, isDuplicate: false };
   },
 });
 
@@ -126,9 +172,12 @@ export const getOrderById = query({
 export const getOrdersByUser = query({
   args: { userId: v.string() },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    const targetUserId = identity ? identity.subject : args.userId;
+
     return await ctx.db
       .query("orders")
-      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .withIndex("by_user", (q) => q.eq("userId", targetUserId))
       .order("desc")
       .collect();
   },

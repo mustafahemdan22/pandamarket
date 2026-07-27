@@ -1,4 +1,4 @@
-import { query, mutation } from "./_generated/server";
+import { query, mutation, internalMutation } from "./_generated/server";
 import { v } from "convex/values";
 import { requirePermission } from "./auth";
 
@@ -605,12 +605,38 @@ export const getStoreSettings = query({
       supportEmail: "support@pandamarket.com",
       supportPhone: "+20 100 000 0000",
       currency: "EGP",
-      freeDeliveryThreshold: 500,
-      standardDeliveryFee: 30,
+      freeDeliveryThreshold: 200,
+      standardDeliveryFee: 20,
       taxRatePercent: 14,
       defaultLanguage: "ar",
       enableAiGeneration: true,
       maintenanceMode: false,
     };
+  },
+});
+
+export const migrateProductsContract = internalMutation({
+  handler: async (ctx) => {
+    const products = await ctx.db.query("products").collect();
+    let updatedCount = 0;
+
+    for (const product of products) {
+      const updates: Record<string, any> = {};
+
+      if (!product.readinessStatus) {
+        updates.readinessStatus = product.isActive ? "active_sellable" : "draft_hidden";
+      }
+      if (product.isFulfillable === undefined) {
+        updates.isFulfillable = product.isActive !== false;
+      }
+
+      if (Object.keys(updates).length > 0) {
+        updates.updatedAt = Date.now();
+        await ctx.db.patch(product._id, updates);
+        updatedCount++;
+      }
+    }
+
+    return { total: products.length, updated: updatedCount };
   },
 });

@@ -24,6 +24,8 @@ export interface Product {
   tags?: string[];          // ['حلال', 'عضوي']
   rating?: number;          // تقييم المنتج
   reviews?: number;         // عدد التقييمات
+  readinessStatus?: 'active_sellable' | 'draft_hidden' | 'editorial_only' | 'request_quote';
+  isFulfillable?: boolean;
 }
 
 export interface CartItem {

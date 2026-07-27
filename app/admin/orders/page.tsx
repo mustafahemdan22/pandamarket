@@ -246,6 +246,31 @@ export default function AdminOrdersPage() {
               </div>
             </div>
 
+            {/* Grocery Delivery Slot & Substitution Preference */}
+            {(activeOrder.deliverySlot || activeOrder.substitutionPreference) && (
+              <div className="grid grid-cols-2 gap-4 text-xs bg-slate-950 p-4 rounded-xl border border-emerald-500/20">
+                {activeOrder.deliverySlot && (
+                  <div>
+                    <span className="text-emerald-400 font-bold block mb-1">🚚 Delivery Slot</span>
+                    <p className="text-white font-semibold">{activeOrder.deliverySlot.date}</p>
+                    <p className="text-slate-300">{activeOrder.deliverySlot.timeWindow}</p>
+                  </div>
+                )}
+                {activeOrder.substitutionPreference && (
+                  <div>
+                    <span className="text-emerald-400 font-bold block mb-1">🔄 Picker Substitution</span>
+                    <p className="text-slate-200">
+                      {activeOrder.substitutionPreference === 'substitute_similar'
+                        ? 'Substitute similar brand'
+                        : activeOrder.substitutionPreference === 'call_customer'
+                        ? 'Call customer first'
+                        : 'Do not substitute / refund'}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Order Items */}
             <div>
               <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Order Items</h4>

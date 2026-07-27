@@ -16,15 +16,15 @@ const categoryNames: Record<string, { ar: string; en: string;  }> = {
   spices: { ar: 'التوابل', en: 'Spices', },
   dry: { ar: 'البقالة الجافة', en: 'Dry', },
   cleaning: { ar: 'منتجات التنظيف', en: 'Cleaning Products', },
-  grocery: { ar: 'البازار', en: 'grocery',  },
+  grocery: { ar: 'البقالة العامة', en: 'Grocery', },
   vegetables: { ar: 'الخضروات والفواكه', en: 'Vegetables & Fruits', },
   oils: { ar: 'الزيوت والسمن', en: 'Oils & Ghee', },
   rice: { ar: 'الأرز والمعكرونة', en: 'Rice & Pasta', },
   legumes: { ar: 'البقوليات', en: 'Legumes', },
   sauces: { ar: 'الصلصات', en: 'Sauces', },
-  snacks: { ar: 'السناكس', en: 'Snacks', },
+  snacks: { ar: 'الوجبات الخفيفة', en: 'Snacks', },
   beverages: { ar: 'المشروبات', en: 'Beverages', },
-  dairy: { ar: 'الألبان', en: 'Dairy', },
+  dairy: { ar: 'الألبان والبيض', en: 'Dairy & Eggs', },
 };
 
 export default function CategoryPage() {

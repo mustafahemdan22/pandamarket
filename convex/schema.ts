@@ -48,6 +48,17 @@ export default defineSchema({
     rating: v.optional(v.number()),
     reviews: v.optional(v.number()),
     isActive: v.boolean(),
+    readinessStatus: v.optional(
+      v.union(
+        v.literal("active_sellable"),
+        v.literal("draft_hidden"),
+        v.literal("editorial_only"),
+        v.literal("request_quote")
+      )
+    ),
+    isFulfillable: v.optional(v.boolean()),
+    minOrderQty: v.optional(v.number()),
+    maxOrderQty: v.optional(v.number()),
     createdAt: v.optional(v.number()),
     updatedAt: v.optional(v.number()),
   })
@@ -55,6 +66,7 @@ export default defineSchema({
     .index("by_brand", ["brand"])
     .index("by_slug", ["slug"])
     .index("by_active", ["isActive"])
+    .index("by_readiness", ["readinessStatus"])
     .index("by_discount", ["discount"])
     .index("by_rating", ["rating"]),
 
@@ -77,6 +89,7 @@ export default defineSchema({
   // 📦 جدول الطلبات
   orders: defineTable({
     orderNumber: v.string(),
+    idempotencyKey: v.optional(v.string()),
     userId: v.optional(v.string()),
     items: v.array(
       v.object({
@@ -99,6 +112,19 @@ export default defineSchema({
       v.literal("cancelled")
     ),
     deliveryDate: v.optional(v.string()),
+    deliverySlot: v.optional(
+      v.object({
+        date: v.string(),
+        timeWindow: v.string(),
+      })
+    ),
+    substitutionPreference: v.optional(
+      v.union(
+        v.literal("substitute_similar"),
+        v.literal("call_customer"),
+        v.literal("do_not_substitute")
+      )
+    ),
     shippingAddress: v.object({
       street: v.string(),
       city: v.string(),
@@ -118,7 +144,8 @@ export default defineSchema({
   })
     .index("by_status", ["status"])
     .index("by_order_number", ["orderNumber"])
-    .index("by_user", ["userId"]),
+    .index("by_user", ["userId"])
+    .index("by_idempotency", ["idempotencyKey"]),
 
   // 🎫 جدول الكوبونات
   coupons: defineTable({

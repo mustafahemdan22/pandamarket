@@ -3,14 +3,18 @@ import { internalMutation } from "./_generated/server";
 export const seedCategories = internalMutation({
   handler: async (ctx) => {
     const categories = [
-      {"name": "الألبان والبيض", "nameEn": "Dairy & Eggs", "slug": "dairy"},
-      {"name": "المشروبات", "nameEn": "Beverages", "slug": "beverages"},
-      {"name": "الخضروات والفواكه الطازجة", "nameEn": "Fresh Produce", "slug": "produce"},
-      {"name": "المخبوزات والخبز", "nameEn": "Bakery & Bread", "slug": "bakery"},
-      {"name": "الأرز والمكرونة والبقوليات", "nameEn": "Pantry & Grains", "slug": "pantry"},
-      {"name": "الزيوت والصلصات والتوابل", "nameEn": "Oils, Sauces & Spices", "slug": "condiments"},
-      {"name": "الوجبات الخفيفة والحلويات", "nameEn": "Snacks & Sweets", "slug": "snacks"},
-      {"name": "العناية والمنظفات المنزلية", "nameEn": "Household & Cleaning", "slug": "cleaning"}
+      { name: "الخضروات والفواكه الطازجة", nameEn: "Fresh Produce", slug: "produce" },
+      { name: "الألبان والبيض والجبن", nameEn: "Dairy, Eggs & Cheese", slug: "dairy" },
+      { name: "اللحوم والدواجن", nameEn: "Meat & Poultry", slug: "meat" },
+      { name: "الأغذية المجمدة", nameEn: "Frozen Foods", slug: "frozen" },
+      { name: "الأرز والمكرونة والبقوليات", nameEn: "Pantry & Grains", slug: "pantry" },
+      { name: "الزيوت والسمن والصلصات", nameEn: "Oils, Ghee & Spices", slug: "condiments" },
+      { name: "الوجبات الخفيفة والحلويات", nameEn: "Snacks & Sweets", slug: "snacks" },
+      { name: "المشروبات والعصائر", nameEn: "Beverages & Juices", slug: "beverages" },
+      { name: "المنظفات والأدوات المنزلية", nameEn: "Household & Cleaning", slug: "cleaning" },
+      { name: "العناية الشخصية", nameEn: "Personal Care", slug: "personal-care" },
+      { name: "منتجات الأطفال", nameEn: "Baby Care", slug: "baby-care" },
+      { name: "المخبوزات والخبز", nameEn: "Bakery & Bread", slug: "bakery" }
     ];
     let inserted = 0;
     for (const cat of categories) {

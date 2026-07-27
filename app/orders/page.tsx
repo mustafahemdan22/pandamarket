@@ -8,11 +8,21 @@ import { FiPackage, FiTruck, FiCheckCircle, FiClock, FiXCircle, FiEye, FiCalenda
 import Link from 'next/link';
 import { useState } from 'react';
 
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+
 const OrderHistoryPage = () => {
-  const { orders } = useOrders();
+  const { orders: localOrders } = useOrders();
   const { language } = useLanguage();
   const { user } = useAuth();
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
+
+  const dbOrders = useQuery(
+    api.orders.getOrdersByUser,
+    user?.id ? { userId: user.id } : 'skip'
+  );
+
+  const orders = dbOrders !== undefined && dbOrders !== null ? dbOrders : localOrders;
 
   if (!user) {
     return (
@@ -180,65 +190,77 @@ const OrderHistoryPage = () => {
 
         {/* Orders List */}
         <div className="space-y-6">
-          {filteredOrders.map((order, index) => (
-            <motion.div
-              key={order.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden"
-            >
-              <div className="p-6">
-                {/* Order Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {language === 'ar' ? 'طلب رقم' : 'Order'} #{order.orderNumber}
-                    </h3>
-                    <div className="flex items-center mt-1 text-sm text-gray-600 dark:text-gray-400">
-                      <FiCalendar className="w-4 h-4 mr-1 rtl:mr-0 rtl:ml-1" />
-                      {new Date(order.orderDate).toLocaleDateString()}
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-3 rtl:space-x-reverse mt-2 sm:mt-0">
-                    <div className={`px-3 py-1 rounded-full text-sm font-medium flex items-center space-x-1 rtl:space-x-reverse ${getStatusColor(order.status)}`}>
-                      {getStatusIcon(order.status)}
-                      <span>{getStatusText(order.status)}</span>
+          {filteredOrders.map((order: any, index: number) => {
+            const orderId = order._id || order.id;
+            const orderDateStr = order.createdAt 
+              ? new Date(order.createdAt).toLocaleDateString() 
+              : (order.orderDate ? new Date(order.orderDate).toLocaleDateString() : '');
+
+            return (
+              <motion.div
+                key={orderId}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden"
+              >
+                <div className="p-6">
+                  {/* Order Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        {language === 'ar' ? 'طلب رقم' : 'Order'} #{order.orderNumber}
+                      </h3>
+                      <div className="flex items-center mt-1 text-sm text-gray-600 dark:text-gray-400">
+                        <FiCalendar className="w-4 h-4 mr-1 rtl:mr-0 rtl:ml-1" />
+                        {orderDateStr}
+                      </div>
                     </div>
                     
-                    <Link
-                      href={`/orders/${order.id}`}
-                      className="inline-flex items-center px-3 py-1 text-green-600 hover:text-green-700 font-medium text-sm"
-                    >
-                      <FiEye className="w-4 h-4 mr-1 rtl:mr-0 rtl:ml-1" />
-                      {language === 'ar' ? 'عرض التفاصيل' : 'View Details'}
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Order Items */}
-                <div className="space-y-3 mb-4">
-                  {order.items.slice(0, 3).map((item, itemIndex) => (
-                    <div key={itemIndex} className="flex items-center space-x-3 rtl:space-x-reverse">
-                      <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                        <span className="text-lg">🛒</span>
+                    <div className="flex items-center space-x-3 rtl:space-x-reverse mt-2 sm:mt-0">
+                      <div className={`px-3 py-1 rounded-full text-sm font-medium flex items-center space-x-1 rtl:space-x-reverse ${getStatusColor(order.status)}`}>
+                        {getStatusIcon(order.status)}
+                        <span>{getStatusText(order.status)}</span>
                       </div>
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 dark:text-white">
-                          {item.product.name}
-                        </h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {language === 'ar' ? `الكمية: ${item.quantity}` : `Quantity: ${item.quantity}`}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-medium text-gray-900 dark:text-white">
-                          ${item.price.toFixed(2)}
-                        </p>
-                      </div>
+                      
+                      <Link
+                        href={`/orders/${orderId}`}
+                        className="inline-flex items-center px-3 py-1 text-green-600 hover:text-green-700 font-medium text-sm"
+                      >
+                        <FiEye className="w-4 h-4 mr-1 rtl:mr-0 rtl:ml-1" />
+                        {language === 'ar' ? 'عرض التفاصيل' : 'View Details'}
+                      </Link>
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Order Items */}
+                  <div className="space-y-3 mb-4">
+                    {order.items.slice(0, 3).map((item: any, itemIndex: number) => {
+                      const itemName = item.productName || item.product?.name || item.product?.nameEn || 'Item';
+                      const itemPrice = item.price || 0;
+
+                      return (
+                        <div key={itemIndex} className="flex items-center space-x-3 rtl:space-x-reverse">
+                          <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                            <span className="text-lg">🛒</span>
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-medium text-gray-900 dark:text-white">
+                              {itemName}
+                            </h4>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                              {language === 'ar' ? `الكمية: ${item.quantity}` : `Quantity: ${item.quantity}`}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-medium text-gray-900 dark:text-white">
+                              {itemPrice.toFixed(2)} EGP
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                   
                   {order.items.length > 3 && (
                     <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
@@ -248,7 +270,6 @@ const OrderHistoryPage = () => {
                       }
                     </p>
                   )}
-                </div>
 
                 {/* Order Footer */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -277,7 +298,8 @@ const OrderHistoryPage = () => {
                 )}
               </div>
             </motion.div>
-          ))}
+          );
+        })}
         </div>
 
         {/* Empty Filter State */}
