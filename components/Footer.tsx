@@ -35,28 +35,28 @@ const Footer = () => {
 
   const categories = [
     {
-      href: "/categories/bakery",
-      text: language === "ar" ? "المخبوزات" : "Bakery",
+      href: "/categories/produce",
+      text: language === "ar" ? "الخضروات والفواكه" : "Fresh Produce",
     },
     {
-      href: "/categories/spices",
-      text: language === "ar" ? "التوابل" : "Spices",
+      href: "/categories/dairy",
+      text: language === "ar" ? "الألبان والبيض والجبن" : "Dairy & Eggs",
     },
     {
-      href: "/categories/dry-grocery",
-      text: language === "ar" ? "البقالة الجافة" : "Dry Grocery",
+      href: "/categories/pantry",
+      text: language === "ar" ? "الأرز والبقوليات" : "Pantry & Grains",
+    },
+    {
+      href: "/categories/condiments",
+      text: language === "ar" ? "الزيوت والسمن والصلصات" : "Oils & Ghee",
+    },
+    {
+      href: "/categories/snacks",
+      text: language === "ar" ? "الوجبات الخفيفة والحلويات" : "Snacks & Sweets",
     },
     {
       href: "/categories/cleaning",
-      text: language === "ar" ? "منتجات التنظيف" : "Cleaning Products",
-    },
-    {
-      href: "/categories/bazaar",
-      text: language === "ar" ? "البازار" : "Bazaar",
-    },
-    {
-      href: "/categories/vegetables",
-      text: language === "ar" ? "الخضروات" : "Vegetables",
+      text: language === "ar" ? "المنظفات والمنزل" : "Cleaning Products",
     },
   ];
 

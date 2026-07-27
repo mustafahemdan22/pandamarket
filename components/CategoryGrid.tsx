@@ -9,52 +9,52 @@ const CategoryGrid = () => {
 
   const categories = [
     {
-      id: 'bakery',
-      name: language === 'ar' ? 'المخبوزات' : 'Bakery',
-      image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800',
-      href: '/categories/bakery',
-      color: 'from-orange-500/80 to-orange-700/80',
-      description: language === 'ar' ? 'خبز طازج وحلويات لذيذة' : 'Fresh bread and delicious pastries'
+      id: 'produce',
+      name: language === 'ar' ? 'الخضروات والفواكه' : 'Fresh Produce',
+      image: 'https://images.unsplash.com/photo-1518843875459-f738682238a6?w=800',
+      href: '/categories/produce',
+      color: 'from-green-500/80 to-green-700/80',
+      description: language === 'ar' ? 'خضروات وفواكه طازجة يومياً' : 'Daily fresh vegetables and fruits'
     },
     {
-      id: 'spices',
-      name: language === 'ar' ? 'التوابل' : 'Spices',
-      image: 'https://images.unsplash.com/photo-1596040033229-a0b3b1c70c8b?w=800',
-      href: '/categories/spices',
+      id: 'dairy',
+      name: language === 'ar' ? 'الألبان والبيض' : 'Dairy & Eggs',
+      image: 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=800',
+      href: '/categories/dairy',
+      color: 'from-blue-500/80 to-blue-700/80',
+      description: language === 'ar' ? 'ألبان، أجبان، وبيض طازج' : 'Fresh milk, cheese, and eggs'
+    },
+    {
+      id: 'meat',
+      name: language === 'ar' ? 'اللحوم والدواجن' : 'Meat & Poultry',
+      image: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=800',
+      href: '/categories/meat',
       color: 'from-red-500/80 to-red-700/80',
-      description: language === 'ar' ? 'توابل عطرية ومذاقات مميزة' : 'Aromatic spices and unique flavors'
+      description: language === 'ar' ? 'لحوم طازجة ودواجن ممتازة' : 'Premium fresh meat and poultry'
     },
     {
-      id: 'dry-grocery',
-      name: language === 'ar' ? 'البقالة الجافة' : 'Dry Grocery',
+      id: 'pantry',
+      name: language === 'ar' ? 'الأرز والبقوليات' : 'Pantry & Grains',
       image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800',
-      href: '/categories/dry-grocery',
+      href: '/categories/pantry',
       color: 'from-yellow-500/80 to-yellow-700/80',
-      description: language === 'ar' ? 'أرز ومعكرونة وحبوب متنوعة' : 'Rice, pasta, and various grains'
+      description: language === 'ar' ? 'أرز، مكرونة، وبقوليات أساسية' : 'Rice, pasta, and pantry essentials'
+    },
+    {
+      id: 'condiments',
+      name: language === 'ar' ? 'الزيوت والسمن' : 'Oils & Ghee',
+      image: 'https://images.unsplash.com/photo-1596040033229-a0b3b1c70c8b?w=800',
+      href: '/categories/condiments',
+      color: 'from-orange-500/80 to-orange-700/80',
+      description: language === 'ar' ? 'زيوت نقية، سمن طبيعي، وصلصات' : 'Pure oils, natural ghee, and sauces'
     },
     {
       id: 'cleaning',
-      name: language === 'ar' ? 'منتجات التنظيف' : 'Cleaning Products',
+      name: language === 'ar' ? 'المنظفات والمنزل' : 'Cleaning & Household',
       image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800',
       href: '/categories/cleaning',
-      color: 'from-blue-500/80 to-blue-700/80',
-      description: language === 'ar' ? 'منتجات نظافة عالية الجودة' : 'High-quality cleaning products'
-    },
-    {
-      id: 'grocery',
-      name: language === 'ar' ? 'البازار' : 'Bazaar',
-      image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800',
-      href: '/categories/grocery',
       color: 'from-purple-500/80 to-purple-700/80',
-      description: language === 'ar' ? 'منتجات متنوعة وأسعار مميزة' : 'Varied products and special prices'
-    },
-    {
-      id: 'vegetables',
-      name: language === 'ar' ? 'الخضروات' : 'Vegetables',
-      image: 'https://images.unsplash.com/photo-1518843875459-f738682238a6?w=800',
-      href: '/categories/vegetables',
-      color: 'from-green-500/80 to-green-700/80',
-      description: language === 'ar' ? 'خضروات طازجة من الحقل' : 'Fresh vegetables from the farm'
+      description: language === 'ar' ? 'منظفات وأدوات العناية المنزلية' : 'High-quality household cleaning supplies'
     }
   ];
 
