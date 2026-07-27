@@ -38,7 +38,9 @@ const ProductDetailPage = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
   const { isInWishlist, toggleWishlist } = useWishlist();
 
-  const [productId, setProductId] = useState<string>("");
+  const rawId = params?.id;
+  const productId = (typeof rawId === 'string' ? rawId : Array.isArray(rawId) && rawId.length > 0 ? rawId[0] : '') as string;
+
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -54,26 +56,15 @@ const ProductDetailPage = () => {
     productId ? { slug: productId } : "skip"
   );
 
-
   useEffect(() => {
-    const loadProduct = async () => {
-      try {
-        const resolvedParams = await params;
-        const id = resolvedParams.id as string;
-        setProductId(id);
-
-        const foundStatic = getProductById(id);
-        if (foundStatic) {
-          setProduct(foundStatic);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.error("Error loading product:", error);
+    if (productId) {
+      const foundStatic = getProductById(productId);
+      if (foundStatic) {
+        setProduct(foundStatic);
+        setIsLoading(false);
       }
-    };
-
-    loadProduct();
-  }, [params]);
+    }
+  }, [productId]);
 
   // Sync Convex Product to state if loaded
   useEffect(() => {

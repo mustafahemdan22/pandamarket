@@ -2,7 +2,7 @@
 
 import { notFound } from 'next/navigation';
 import { useParams } from 'next/navigation';
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { sampleProducts } from '../../../data/products';
 import ProductCard from '../../../components/ProductCard';
@@ -44,26 +44,16 @@ const categoryNames: Record<string, { ar: string; en: string; aliases: string[] 
 export default function CategoryPage() {
   const params = useParams();
   const { language, isRTL } = useLanguage();
-  const [categorySlug, setCategorySlug] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  
+  const rawParam = params?.category;
+  const categorySlug = (typeof rawParam === 'string'
+    ? rawParam
+    : Array.isArray(rawParam) && rawParam.length > 0
+    ? rawParam[0]
+    : '').toLowerCase().trim();
 
   // Query Convex DB products
   const dbProducts = useQuery(api.products.getProducts, {});
-
-  useEffect(() => {
-    const loadParams = async () => {
-      try {
-        const resolvedParams = await params;
-        setCategorySlug(resolvedParams.category as string);
-      } catch (error) {
-        console.error('Error loading params:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadParams();
-  }, [params]);
 
   // Determine category info or fallback
   const categoryInfo = useMemo(() => {
@@ -86,52 +76,54 @@ export default function CategoryPage() {
     if (!categorySlug) return [];
     const targetAliases = categoryInfo ? categoryInfo.aliases : [categorySlug];
 
-    const rawList = (dbCategoryProducts && dbCategoryProducts.length > 0)
-      ? dbCategoryProducts
-      : (dbProducts && dbProducts.length > 0)
-      ? dbProducts
-      : sampleProducts;
+    const formatProduct = (p: any) => ({
+      id: p._id || p.id,
+      name: p.name,
+      nameEn: p.nameEn,
+      price: p.price,
+      compareAtPrice: p.compareAtPrice,
+      imagePublicId: p.imagePublicId,
+      imagePublicIds: p.imagePublicIds,
+      category: p.category || p.categorySlug || p.subcategory || 'grocery',
+      subcategory: p.subcategory,
+      brand: p.brand,
+      unit: p.unit,
+      description: p.description,
+      descriptionEn: p.descriptionEn,
+      stock: p.stock,
+      discount: p.discount,
+      rating: p.rating,
+      reviews: p.reviews,
+      readinessStatus: p.readinessStatus,
+      isFulfillable: p.isFulfillable,
+    });
 
-    const adaptedList = rawList
-      .filter((p: any) => {
-        const readiness = p.readinessStatus || (p.isActive !== false ? 'active_sellable' : 'draft_hidden');
-        return readiness !== 'draft_hidden';
-      })
-      .map((p: any) => ({
-        id: p._id || p.id,
-        name: p.name,
-        nameEn: p.nameEn,
-        price: p.price,
-        compareAtPrice: p.compareAtPrice,
-        imagePublicId: p.imagePublicId,
-        imagePublicIds: p.imagePublicIds,
-        category: p.category || p.categorySlug || p.subcategory || 'grocery',
-        subcategory: p.subcategory,
-        brand: p.brand,
-        unit: p.unit,
-        description: p.description,
-        descriptionEn: p.descriptionEn,
-        stock: p.stock,
-        discount: p.discount,
-        rating: p.rating,
-        reviews: p.reviews,
-        readinessStatus: p.readinessStatus,
-        isFulfillable: p.isFulfillable,
-      }));
+    const isSellable = (p: any) => {
+      const readiness = p.readinessStatus || (p.isActive !== false ? 'active_sellable' : 'draft_hidden');
+      return readiness !== 'draft_hidden';
+    };
 
-    // If dbCategoryProducts was returned directly from server index, use it directly
-    if (dbCategoryProducts && dbCategoryProducts.length > 0) {
-      return adaptedList;
+    // If Convex returned an array for this category slug, use it directly without re-filtering
+    if (Array.isArray(dbCategoryProducts)) {
+      return dbCategoryProducts.filter(isSellable).map(formatProduct);
     }
 
-    // Otherwise filter source list by category aliases
-    return adaptedList.filter((product: any) =>
-      targetAliases.includes(product.category) ||
-      (product.subcategory && targetAliases.includes(product.subcategory)) ||
-      product.category.includes(categorySlug) ||
-      categorySlug.includes(product.category)
-    );
+    // Otherwise fallback to filtering all products if dbCategoryProducts is still loading
+    const rawList = (dbProducts && dbProducts.length > 0) ? dbProducts : sampleProducts;
+    return rawList
+      .filter((p: any) => {
+        if (!isSellable(p)) return false;
+        const cat = p.category || p.categorySlug || p.subcategory || '';
+        return targetAliases.includes(cat) ||
+          (p.subcategory && targetAliases.includes(p.subcategory)) ||
+          cat.includes(categorySlug) ||
+          categorySlug.includes(cat);
+      })
+      .map(formatProduct);
   }, [categorySlug, categoryInfo, dbCategoryProducts, dbProducts]);
+
+  // Show loading skeleton while route params are resolving or while Convex query is in flight
+  const isLoading = !categorySlug || dbCategoryProducts === undefined;
 
   if (isLoading) {
     return (
@@ -158,7 +150,7 @@ export default function CategoryPage() {
     );
   }
 
-  // If categoryInfo is completely missing and unmapped
+  // If categoryInfo is completely missing and unmapped after loading
   if (!categoryInfo) {
     return notFound();
   }
