@@ -195,7 +195,7 @@ export const getProducts = query({
       products.sort((a, b) => (b.discount || 0) - (a.discount || 0));
     }
 
-    const limit = args.limit || 20;
+    const limit = args.limit || 50;
 
     if (args.cursor) {
       const cursorIndex = products.findIndex((p) => p._id.toString() === args.cursor);
@@ -204,14 +204,32 @@ export const getProducts = query({
       }
     }
 
-    return products.slice(0, limit);
+    // Populate human-readable category slug string for all returned products
+    const categories = await ctx.db.query("categories").collect();
+    const catMap = new Map(categories.map((c) => [c._id.toString(), c.slug]));
+
+    return products.slice(0, limit).map((p) => {
+      const slugStr = catMap.get(p.categoryId.toString()) || p.subcategory || "grocery";
+      return {
+        ...p,
+        category: slugStr,
+        categorySlug: slugStr,
+      };
+    });
   },
 });
 
 export const getProductById = query({
   args: { id: v.id("products") },
   handler: async (ctx, args) => {
-    return await ctx.db.get(args.id);
+    const prod = await ctx.db.get(args.id);
+    if (!prod) return null;
+    const cat = await ctx.db.get(prod.categoryId);
+    return {
+      ...prod,
+      category: cat?.slug || prod.subcategory || "grocery",
+      categorySlug: cat?.slug || prod.subcategory || "grocery",
+    };
   },
 });
 
@@ -222,7 +240,74 @@ export const getProductBySlug = query({
       .query("products")
       .withIndex("by_slug", (q) => q.eq("slug", args.slug))
       .collect();
-    return products[0] || null;
+    const prod = products[0] || null;
+    if (!prod) return null;
+    const cat = await ctx.db.get(prod.categoryId);
+    return {
+      ...prod,
+      category: cat?.slug || prod.subcategory || "grocery",
+      categorySlug: cat?.slug || prod.subcategory || "grocery",
+    };
+  },
+});
+
+export const getProductsByCategorySlug = query({
+  args: {
+    categorySlug: v.string(),
+    limit: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const rawSlug = args.categorySlug.toLowerCase().trim();
+
+    const aliasMap: Record<string, string> = {
+      vegetables: "produce",
+      fruits: "produce",
+      "fresh-food": "produce",
+      "dairy-eggs": "dairy",
+      rice: "pantry",
+      legumes: "pantry",
+      pasta: "pantry",
+      dry: "pantry",
+      oils: "condiments",
+      spices: "condiments",
+      sauces: "condiments",
+      sweets: "snacks",
+      juice: "beverages",
+      tea: "beverages",
+      coffee: "beverages",
+      household: "cleaning",
+    };
+
+    const targetSlug = aliasMap[rawSlug] || rawSlug;
+
+    let category = await ctx.db
+      .query("categories")
+      .withIndex("by_slug", (q) => q.eq("slug", targetSlug))
+      .first();
+
+    if (!category && targetSlug !== rawSlug) {
+      category = await ctx.db
+        .query("categories")
+        .withIndex("by_slug", (q) => q.eq("slug", rawSlug))
+        .first();
+    }
+
+    if (!category) {
+      return [];
+    }
+
+    const products = await ctx.db
+      .query("products")
+      .withIndex("by_category", (q) => q.eq("categoryId", category._id))
+      .filter((q) => q.eq(q.field("isActive"), true))
+      .order("desc")
+      .take(args.limit || 50);
+
+    return products.map((p) => ({
+      ...p,
+      category: category.slug,
+      categorySlug: category.slug,
+    }));
   },
 });
 

@@ -73,26 +73,37 @@ export default function CategoryPage() {
     };
   }, [categorySlug]);
 
+  // Direct indexed Convex Query for this category slug
+  const dbCategoryProducts = useQuery(
+    api.products.getProductsByCategorySlug,
+    categorySlug ? { categorySlug } : "skip"
+  );
+
   // Category products matching aliases against Convex DB & static fallback
   const categoryProducts = useMemo(() => {
     if (!categorySlug) return [];
     const targetAliases = categoryInfo ? categoryInfo.aliases : [categorySlug];
 
-    // Adapt Convex products
-    const adaptedDb = (dbProducts || [])
-      .filter((p) => {
-        const readiness = p.readinessStatus || (p.isActive ? 'active_sellable' : 'draft_hidden');
+    const rawList = (dbCategoryProducts && dbCategoryProducts.length > 0)
+      ? dbCategoryProducts
+      : (dbProducts && dbProducts.length > 0)
+      ? dbProducts
+      : sampleProducts;
+
+    const adaptedList = rawList
+      .filter((p: any) => {
+        const readiness = p.readinessStatus || (p.isActive !== false ? 'active_sellable' : 'draft_hidden');
         return readiness !== 'draft_hidden';
       })
-      .map((p) => ({
-        id: p._id,
+      .map((p: any) => ({
+        id: p._id || p.id,
         name: p.name,
         nameEn: p.nameEn,
         price: p.price,
         compareAtPrice: p.compareAtPrice,
         imagePublicId: p.imagePublicId,
         imagePublicIds: p.imagePublicIds,
-        category: (p as any).category || (p as any).categoryId || p.subcategory || 'grocery',
+        category: p.category || p.categorySlug || p.subcategory || 'grocery',
         subcategory: p.subcategory,
         brand: p.brand,
         unit: p.unit,
@@ -106,15 +117,19 @@ export default function CategoryPage() {
         isFulfillable: p.isFulfillable,
       }));
 
-    const sourceProducts = adaptedDb.length > 0 ? adaptedDb : sampleProducts;
+    // If dbCategoryProducts was returned directly from server index, use it directly
+    if (dbCategoryProducts && dbCategoryProducts.length > 0) {
+      return adaptedList;
+    }
 
-    return sourceProducts.filter((product: any) =>
+    // Otherwise filter source list by category aliases
+    return adaptedList.filter((product: any) =>
       targetAliases.includes(product.category) ||
       (product.subcategory && targetAliases.includes(product.subcategory)) ||
       product.category.includes(categorySlug) ||
       categorySlug.includes(product.category)
     );
-  }, [categorySlug, categoryInfo, dbProducts]);
+  }, [categorySlug, categoryInfo, dbCategoryProducts, dbProducts]);
 
   if (isLoading) {
     return (
