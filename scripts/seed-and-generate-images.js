@@ -17,30 +17,46 @@ const convex = new ConvexHttpClient(convexUrl);
 async function generateImage(prompt, seed) {
   const encodedPrompt = encodeURIComponent(prompt);
   const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=2000&height=2000&nologo=true&seed=${seed}`;
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 60000);
-  try {
-    const res = await fetch(url, {
-      signal: controller.signal,
-      headers: { 'User-Agent': 'Mozilla/5.0' }
-    });
-    clearTimeout(timeoutId);
-    if (!res.ok) throw new Error(`Pollinations HTTP ${res.status}`);
-    const buffer = Buffer.from(await res.arrayBuffer());
-    if (buffer.length < 1000) throw new Error('Invalid image data');
-    return buffer;
-  } catch (e) {
-    clearTimeout(timeoutId);
-    throw e;
+  
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 90000);
+    try {
+      const res = await fetch(url, {
+        signal: controller.signal,
+        headers: { 'User-Agent': 'Mozilla/5.0' }
+      });
+      clearTimeout(timeoutId);
+      if (res.status === 429) {
+        const waitTime = (attempt + 1) * 10000;
+        console.log(`    Rate limited, waiting ${waitTime/1000}s before retry...`);
+        await sleep(waitTime);
+        continue;
+      }
+      if (!res.ok) throw new Error(`Pollinations HTTP ${res.status}`);
+      const buffer = Buffer.from(await res.arrayBuffer());
+      if (buffer.length < 1000) throw new Error('Invalid image data');
+      return buffer;
+    } catch (e) {
+      clearTimeout(timeoutId);
+      if (e.name === 'AbortError' || e.message?.includes('abort')) {
+        const waitTime = (attempt + 1) * 5000;
+        console.log(`    Timeout, waiting ${waitTime/1000}s before retry...`);
+        await sleep(waitTime);
+        continue;
+      }
+      if (attempt === 2) throw e;
+      await sleep(5000);
+    }
   }
+  throw new Error('Failed after 3 attempts');
 }
 
-function uploadToCloudinary(buffer, publicId, folder) {
+function uploadToCloudinary(buffer, publicId) {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload_stream(
       {
         public_id: publicId,
-        folder,
         resource_type: 'image',
         transformation: [
           { width: 2000, height: 2000, crop: 'limit' },
@@ -137,8 +153,8 @@ async function main() {
   console.log('STEP 3: Generating and uploading images');
   console.log('='.repeat(60));
 
-  // Process in batches of 3 to avoid rate limits
-  const BATCH_SIZE = 5;
+  // Process in batches of 2 to avoid rate limits
+  const BATCH_SIZE = 2;
   const IMAGES_PER_PRODUCT = 1;
   const totalBatches = Math.ceil(productsNeedingImages.length / BATCH_SIZE);
   let successCount = 0;
@@ -168,12 +184,11 @@ async function main() {
         const prompt = buildPrompt(nameEn, descriptionEn, brand, unit, catSlug, viewNum);
         const seed = seedBase + imgIdx * 100;
         const publicId = `pandamarket/categories/${catSlug}/products/${productSlug}/${viewNum}`;
-        const folder = `pandamarket/categories/${catSlug}/products/${productSlug}`;
 
         try {
           console.log(`  Generating image ${viewNum}/${IMAGES_PER_PRODUCT} for ${nameEn}...`);
           const buffer = await generateImage(prompt, seed);
-          const result = await uploadToCloudinary(buffer, publicId, folder);
+          const result = await uploadToCloudinary(buffer, publicId);
           console.log(`  ✓ Image ${viewNum} uploaded: ${result.public_id}`);
           imagePublicIds.push(result.public_id);
         } catch (err) {
@@ -182,13 +197,13 @@ async function main() {
 
         // Small delay between images for same product
         if (imgIdx < IMAGES_PER_PRODUCT - 1) {
-          await sleep(1500);
+          await sleep(3000);
         }
       }
 
       if (imagePublicIds.length > 0) {
         try {
-          await convex.mutation('products:updateProduct', {
+          await convex.mutation('seed:updateProductImages', {
             id: product._id,
             imagePublicId: imagePublicIds[0],
             imagePublicIds: imagePublicIds,
@@ -210,8 +225,8 @@ async function main() {
 
     // Delay between batches
     if (batchIdx < totalBatches - 1) {
-      console.log('  Waiting 3 seconds before next batch...');
-      await sleep(3000);
+      console.log('  Waiting 8 seconds before next batch...');
+      await sleep(8000);
     }
   }
 
