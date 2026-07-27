@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
@@ -10,7 +10,7 @@ import { normalizeArabicText } from '@/lib/formatters';
 import { FiSearch, FiPackage, FiLoader } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
-export default function SearchResultsPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const rawQuery = searchParams.get('q') || '';
   const { language, isRTL } = useLanguage();
@@ -139,5 +139,19 @@ export default function SearchResultsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SearchResultsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-20 text-center flex flex-col items-center justify-center">
+          <FiLoader className="w-10 h-10 text-green-600 animate-spin mb-4" />
+        </div>
+      }
+    >
+      <SearchContent />
+    </Suspense>
   );
 }
