@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams } from "next/navigation";
 import { FiArrowLeft, FiTruck, FiCreditCard, FiMapPin, FiClock, FiCheckCircle, FiXCircle, FiHelpCircle, FiLoader } from "react-icons/fi";
 import { motion } from "framer-motion";
@@ -8,6 +8,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageProvider";
 import toast from "react-hot-toast";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useOrders } from "@/contexts/OrderProvider";
+import { buildImageUrl } from "@/lib/cloudinary";
 
 const orderStatusTranslations: Record<string, { ar: string; en: string; color: string; icon: React.ReactNode }> = {
   pending: { ar: "قيد الانتظار", en: "Pending", color: "bg-yellow-100 text-yellow-800", icon: <FiHelpCircle className="w-4 h-4" /> },
@@ -22,10 +26,12 @@ const statusOrder = ["pending", "confirmed", "processing", "shipped", "delivered
 
 interface OrderItem {
   productName: string;
-  productNameEn: string;
+  productNameAr?: string;
+  productNameEn?: string;
   quantity: number;
   price: number;
-  imagePublicId: string;
+  imagePublicId?: string;
+  product?: any;
 }
 
 interface ShippingAddress {
@@ -44,10 +50,12 @@ interface CustomerInfo {
 }
 
 interface Order {
-  id: string;
+  id?: string;
+  _id?: string;
   orderNumber: string;
   status: (typeof statusOrder)[number];
-  createdAt: number;
+  createdAt?: number;
+  orderDate?: string;
   items: OrderItem[];
   subtotal: number;
   deliveryFee: number;
@@ -56,47 +64,44 @@ interface Order {
   shippingAddress: ShippingAddress;
   customerInfo: CustomerInfo;
   paymentMethod: string;
+  deliverySlot?: {
+    date: string;
+    timeWindow: string;
+  };
+  substitutionPreference?: string;
 }
 
 export default function OrderDetailPage() {
   const params = useParams();
+  const id = (params?.id || "") as string;
   const { language, isRTL } = useLanguage();
-  const [order, setOrder] = useState<Order | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { orders: localOrders } = useOrders();
 
-  useEffect(() => {
-    const loadOrder = async () => {
-      try {
-        const resolvedParams = await params;
-        const id = resolvedParams.id as string;
-        // Simulate loading order data
-        await new Promise(resolve => setTimeout(resolve, 500));
-        setOrder({
-          id,
-          orderNumber: `ORD-${id.slice(0, 8).toUpperCase()}`,
-          status: "confirmed",
-          createdAt: Date.now(),
-          items: [
-            { productName: "حليب جهينة كامل الدسم 1 لتر", productNameEn: "Juhayna Full Cream Milk 1L", quantity: 2, price: 22.00, imagePublicId: "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/1" },
-            { productName: "خبز فينو فاين", productNameEn: "Fine Fino Bread", quantity: 1, price: 5.00, imagePublicId: "pandamarket/categories/bakery/products/fine-fino-bread/1" },
-          ],
-          subtotal: 49.00,
-          deliveryFee: 20.00,
+  const dbOrder = useQuery(
+    api.orders.getOrderById,
+    id ? { id } : "skip"
+  );
+
+  const order: Order | null = useMemo(() => {
+    if (dbOrder !== undefined && dbOrder !== null) {
+      return dbOrder as any;
+    }
+    if (dbOrder === null || dbOrder === undefined) {
+      const found = localOrders.find(
+        (o: any) => o.id === id || o._id === id || o.orderNumber === id
+      );
+      if (found) {
+        return {
+          ...found,
+          createdAt: found.orderDate ? new Date(found.orderDate).getTime() : Date.now(),
           discount: 0,
-          total: 69.00,
-          shippingAddress: { street: "123 شارع التحرير", city: "القاهرة", state: "القاهرة", zipCode: "11511", country: "مصر" },
-          customerInfo: { firstName: "أحمد", lastName: "محمد", email: "ahmed@example.com", phone: "01012345678" },
-          paymentMethod: "cash_on_delivery",
-        });
-      } catch (error) {
-        console.error("Error loading order:", error);
-        toast.error(language === "ar" ? "فشل في تحميل الطلب" : "Failed to load order");
-      } finally {
-        setIsLoading(false);
+        } as any;
       }
-    };
-    loadOrder();
-  }, [params, language]);
+    }
+    return null;
+  }, [dbOrder, localOrders, id]);
+
+  const isLoading = dbOrder === undefined && !localOrders.some((o: any) => o.id === id || o._id === id || o.orderNumber === id);
 
   if (isLoading) {
     return (
@@ -267,32 +272,41 @@ export default function OrderDetailPage() {
               </h2>
             </div>
             <div className="divide-y divide-gray-100 dark:divide-gray-700">
-              {order.items.map((item: OrderItem, index: number) => (
-                <div key={index} className="px-6 py-4 flex gap-4">
-                  <div className="relative w-20 h-20 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0">
-                    <Image
-                      src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_200,h_200,c_fill,q_auto,f_auto/${item.imagePublicId}`}
-                      alt={item[productName]}
-                      fill
-                      className="object-cover"
-                      sizes="80px"
-                    />
+              {order.items.map((item: OrderItem, index: number) => {
+                const nameEn = item.productNameEn || item.productName || item.product?.nameEn || "Item";
+                const nameAr = item.productNameAr || item.product?.name || item.productName || nameEn;
+                const displayName = language === "ar" ? nameAr : nameEn;
+                const imgId = item.imagePublicId || item.product?.image || item.product?.imagePublicId || "";
+                const imgResult = buildImageUrl(imgId, { width: 200, height: 200, crop: "fill" });
+                const imgSrc = imgResult.primary || imgResult.fallback || "/images/image-missing.svg";
+
+                return (
+                  <div key={index} className="px-6 py-4 flex gap-4">
+                    <div className="relative w-20 h-20 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0">
+                      <Image
+                        src={imgSrc}
+                        alt={displayName}
+                        fill
+                        className="object-cover"
+                        sizes="80px"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium text-gray-900 dark:text-white truncate">
+                        {displayName}
+                      </h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {language === "ar" ? "الكمية:" : "Qty:"} {item.quantity} × {formatPrice(item.price)}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-semibold text-gray-900 dark:text-white">
+                        {formatPrice(item.price * item.quantity)}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-gray-900 dark:text-white truncate">
-                      {item[productName]}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {language === "ar" ? "الكمية:" : "Qty:"} {item.quantity} × {formatPrice(item.price)}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold text-gray-900 dark:text-white">
-                      {formatPrice(item.price * item.quantity)}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </motion.div>
 
@@ -358,6 +372,39 @@ export default function OrderDetailPage() {
               </p>
             </div>
 
+            {/* Delivery Slot */}
+            {order.deliverySlot && (
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <FiTruck className="w-5 h-5 text-green-600" />
+                  {language === "ar" ? "موعد التوصيل المحدد" : "Delivery Slot"}
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 font-medium">
+                  {order.deliverySlot.date === 'Today' ? (language === 'ar' ? 'اليوم' : 'Today') : (order.deliverySlot.date === 'Tomorrow' ? (language === 'ar' ? 'غداً' : 'Tomorrow') : order.deliverySlot.date)}
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  {language === "ar" ? "الفترة الزمنية: " : "Time Window: "} {order.deliverySlot.timeWindow}
+                </p>
+              </div>
+            )}
+
+            {/* Substitution Preference */}
+            {order.substitutionPreference && (
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <FiHelpCircle className="w-5 h-5 text-green-600" />
+                  {language === "ar" ? "تفضيل البدائل عند نفاد المخزون" : "Substitution Preference"}
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 capitalize">
+                  {order.substitutionPreference === 'substitute_similar'
+                    ? (language === 'ar' ? 'استبدال بمنتج مشابه' : 'Substitute with similar product')
+                    : order.substitutionPreference === 'call_customer'
+                    ? (language === 'ar' ? 'الاتصال بي أولاً' : 'Call me first')
+                    : (language === 'ar' ? 'عدم الاستبدال' : 'Do not substitute')}
+                </p>
+              </div>
+            )}
+
             {/* Order Date */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
@@ -365,7 +412,7 @@ export default function OrderDetailPage() {
                 {language === "ar" ? "تاريخ الطلب" : "Order Date"}
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
-                {formatDate(order.createdAt)}
+                {order.createdAt ? formatDate(order.createdAt) : (order.orderDate ? order.orderDate : "")}
               </p>
             </div>
           </motion.div>

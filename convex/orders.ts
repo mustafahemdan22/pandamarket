@@ -96,6 +96,8 @@ export const createOrder = mutation({
       validatedItems.push({
         productId: product._id,
         productName: product.nameEn,
+        productNameAr: product.name,
+        imagePublicId: product.imagePublicId,
         quantity: item.quantity,
         price: itemPrice,
       });
@@ -163,9 +165,11 @@ export const createOrder = mutation({
 });
 
 export const getOrderById = query({
-  args: { id: v.id("orders") },
+  args: { id: v.union(v.id("orders"), v.string()) },
   handler: async (ctx, args) => {
-    return await ctx.db.get(args.id);
+    const normalizedId = ctx.db.normalizeId("orders", args.id);
+    if (!normalizedId) return null;
+    return await ctx.db.get(normalizedId);
   },
 });
 
