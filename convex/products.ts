@@ -334,6 +334,16 @@ export const getProductsByCategorySlug = query({
   },
 });
 
+export const getCategorySlugs = query({
+  handler: async (ctx) => {
+    const cats = await ctx.db
+      .query("categories")
+      .withIndex("by_active", (q) => q.eq("active", true))
+      .collect();
+    return cats.map((c) => c.slug);
+  },
+});
+
 export const getProductsByCategory = query({
   args: { categoryId: v.id("categories"), limit: v.optional(v.number()) },
   handler: async (ctx, args) => {

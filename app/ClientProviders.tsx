@@ -15,7 +15,7 @@ import { ReviewProvider } from '../contexts/ReviewProvider';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL || 'https://intent-bat-912.convex.cloud';
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL || 'https://sincere-cormorant-681.convex.cloud';
 const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || 'pk_test_c2V0dGxlZC13cmVuLTI2LmNsZXJrLmFjY291bnRzLmRldiQ';
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
