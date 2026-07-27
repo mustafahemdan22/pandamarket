@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { ClerkProvider, useAuth } from '@clerk/nextjs';
+import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from 'react-hot-toast';
 import { LanguageProvider } from '../contexts/LanguageProvider';
 import { ThemeProvider } from '../contexts/ThemeProvider';
@@ -9,8 +9,7 @@ import { WishlistProvider } from '../contexts/WishlistProvider';
 import { AuthProvider } from '../contexts/AuthProvider';
 import { Provider } from 'react-redux';
 import { store } from '../store';
-import { ConvexReactClient } from 'convex/react';
-import { ConvexProviderWithClerk } from 'convex/react-clerk';
+import { ConvexReactClient, ConvexProvider } from 'convex/react';
 import { OrderProvider } from '../contexts/OrderProvider';
 import { ReviewProvider } from '../contexts/ReviewProvider';
 import Navbar from '../components/Navbar';
@@ -24,7 +23,7 @@ export default function ClientProviders({ children }: { children: React.ReactNod
 
   return (
     <ClerkProvider publishableKey={clerkPublishableKey}>
-      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+      <ConvexProvider client={convex}>
         <Provider store={store}>
           <ThemeProvider>
             <LanguageProvider>
@@ -43,7 +42,7 @@ export default function ClientProviders({ children }: { children: React.ReactNod
           </ThemeProvider>
         </Provider>
         <Toaster position="top-center" />
-      </ConvexProviderWithClerk>
+      </ConvexProvider>
     </ClerkProvider>
   );
 }
