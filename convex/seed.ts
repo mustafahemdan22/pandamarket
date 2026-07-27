@@ -1,4 +1,5 @@
-import { internalMutation } from "./_generated/server";
+import { mutation, internalMutation } from "./_generated/server";
+import { v } from "convex/values";
 
 export const seedCategories = internalMutation({
   handler: async (ctx) => {
@@ -169,4 +170,104 @@ export const seedProducts = internalMutation({
     }
     return inserted;
   }
+});
+
+export const resetAndSeedCanonical = mutation({
+  args: {
+    categories: v.array(v.object({
+      name: v.string(),
+      nameEn: v.string(),
+      slug: v.string(),
+    })),
+    products: v.array(v.object({
+      name: v.string(),
+      nameEn: v.string(),
+      slug: v.string(),
+      price: v.number(),
+      compareAtPrice: v.optional(v.number()),
+      category: v.string(),
+      subcategory: v.optional(v.string()),
+      brand: v.optional(v.string()),
+      unit: v.optional(v.string()),
+      description: v.optional(v.string()),
+      descriptionEn: v.optional(v.string()),
+      stock: v.optional(v.number()),
+      discount: v.optional(v.number()),
+      rating: v.optional(v.number()),
+      reviews: v.optional(v.number()),
+      readinessStatus: v.optional(v.string()),
+      isFulfillable: v.optional(v.boolean()),
+      imagePublicId: v.optional(v.string()),
+      imagePublicIds: v.optional(v.array(v.string())),
+      imageSecureUrls: v.optional(v.array(v.string())),
+    })),
+  },
+  handler: async (ctx, args) => {
+    // 1. Delete all existing products
+    const existingProducts = await ctx.db.query("products").collect();
+    for (const p of existingProducts) {
+      await ctx.db.delete(p._id);
+    }
+
+    // 2. Delete all existing categories
+    const existingCategories = await ctx.db.query("categories").collect();
+    for (const c of existingCategories) {
+      await ctx.db.delete(c._id);
+    }
+
+    // 3. Insert canonical categories and build slug -> _id map
+    const categoryMap: Record<string, any> = {};
+    let catOrder = 0;
+    for (const cat of args.categories) {
+      const catId = await ctx.db.insert("categories", {
+        name: cat.name,
+        nameEn: cat.nameEn,
+        slug: cat.slug,
+        active: true,
+        sortOrder: catOrder++,
+        createdAt: Date.now(),
+      });
+      categoryMap[cat.slug] = catId;
+    }
+
+    // 4. Insert canonical products
+    let insertedProducts = 0;
+    for (const prod of args.products) {
+      const catId = categoryMap[prod.category];
+      if (catId) {
+        await ctx.db.insert("products", {
+          name: prod.name,
+          nameEn: prod.nameEn,
+          slug: prod.slug,
+          price: prod.price,
+          compareAtPrice: prod.compareAtPrice || prod.price,
+          imagePublicId: prod.imagePublicId || "",
+          imagePublicIds: prod.imagePublicIds || [],
+          categoryId: catId,
+          subcategory: prod.subcategory || "",
+          brand: prod.brand || "",
+          unit: prod.unit || "",
+          description: prod.description || "",
+          descriptionEn: prod.descriptionEn || "",
+          stock: prod.stock ?? 100,
+          discount: prod.discount ?? 0,
+          rating: prod.rating ?? 4.8,
+          reviews: prod.reviews ?? 100,
+          isActive: true,
+          readinessStatus: (prod.readinessStatus as any) || "active_sellable",
+          isFulfillable: prod.isFulfillable ?? true,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        });
+        insertedProducts++;
+      }
+    }
+
+    return {
+      deletedProducts: existingProducts.length,
+      deletedCategories: existingCategories.length,
+      insertedCategories: args.categories.length,
+      insertedProducts: insertedProducts,
+    };
+  },
 });

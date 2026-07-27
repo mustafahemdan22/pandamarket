@@ -1,954 +1,955 @@
 import { Product } from '../store/cartSlice';
 
-function getLocalImages(categorySlug: string, productSlug: string, count: number = 4): string[] {
-  return Array.from({ length: count }, (_, i) => 
-    `/images/${categorySlug}/${productSlug}/${i + 1}.webp`
-  );
-}
-
 export const sampleProducts: Product[] = [
-  // ============================================
-  // 🥛 DAIRY - الألبان
-  // ============================================
-  {
-    id: 'dairy-1',
-    name: 'حليب جهينة كامل الدسم 1 لتر',
-    nameEn: 'Juhayna Full Cream Milk 1L',
-    price: 22.00,
-    image: '/images/dairy/juhayna-full-cream-milk-1l/1.webp',
-    imagePublicId: '/pandamarket/categories/dairy-eggs/products/juhayna-full-cream-milk-1l/1',
-    imagePublicIds: [
-      'pandamarket/categories/dairy-eggs/products/juhayna-full-cream-milk-1l/1',
-      'pandamarket/categories/dairy-eggs/products/juhayna-full-cream-milk-1l/2',
-      'pandamarket/categories/dairy-eggs/products/juhayna-full-cream-milk-1l/3',
-      'pandamarket/categories/dairy-eggs/products/juhayna-full-cream-milk-1l/4'
-    ],
-    category: 'dairy-eggs',
-    subcategory: 'dairy',
-    description: 'حليب جهينة كامل الدسم 1 لتر',
-    descriptionEn: 'Juhayna full cream milk 1L',
-    brand: 'جهينة',
-    stock: 200,
-    unit: '1 لتر'
-  },
-  {
-    id: 'dairy-2',
-    name: 'زبادي المراعي طبيعي 4 قطع',
-    nameEn: 'Almarai Natural Yogurt 4pcs',
-    price: 18.00,
-    image: '/images/dairy/almarai-natural-yogurt-4pcs/1.webp',
-    imagePublicId: '/pandamarket/categories/dairy-eggs/products/almarai-natural-yogurt-4pcs/1',
-    imagePublicIds: [
-      'pandamarket/categories/dairy-eggs/products/almarai-natural-yogurt-4pcs/1',
-      'pandamarket/categories/dairy-eggs/products/almarai-natural-yogurt-4pcs/2',
-      'pandamarket/categories/dairy-eggs/products/almarai-natural-yogurt-4pcs/3',
-      'pandamarket/categories/dairy-eggs/products/almarai-natural-yogurt-4pcs/4'
-    ],
-    category: 'dairy-eggs',
-    subcategory: 'dairy',
-    description: 'زبادي المراعي طبيعي 4 قطع',
-    descriptionEn: 'Almarai natural yogurt 4 pieces',
-    brand: 'المراعي',
-    stock: 180,
-    unit: '4 قطع'
-  },
-  {
-    id: 'dairy-3',
-    name: 'جبنة مثلثات بوك 8 قطع',
-    nameEn: 'Puck Triangle Cheese 8pcs',
-    price: 28.00,
-    image: '/images/dairy/puck-triangle-cheese-8pcs/1.webp',
-    imagePublicId: '/pandamarket/categories/dairy-eggs/products/puck-triangle-cheese-8pcs/1',
-    imagePublicIds: [
-      'pandamarket/categories/dairy-eggs/products/puck-triangle-cheese-8pcs/1',
-      'pandamarket/categories/dairy-eggs/products/puck-triangle-cheese-8pcs/2',
-      'pandamarket/categories/dairy-eggs/products/puck-triangle-cheese-8pcs/3',
-      'pandamarket/categories/dairy-eggs/products/puck-triangle-cheese-8pcs/4'
-    ],
-    category: 'dairy-eggs',
-    subcategory: 'dairy',
-    description: 'جبنة مثلثات بوك 8 قطع',
-    descriptionEn: 'Puck triangle cheese 8 pieces',
-    brand: 'بوك',
-    stock: 150,
-    unit: '8 قطع'
-  },
-
-  // ============================================
-  // 🥤 BEVERAGES - المشروبات
-  // ============================================
-  {
-    id: 'bev-1',
-    name: 'كوكاكولا 1 لتر',
-    nameEn: 'Coca Cola 1L',
-    price: 18.00,
-    image: '/images/beverages/coca-cola-1l/1.webp',
-    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/coca-cola-1l/1',
-    imagePublicIds: [
-      'pandamarket/categories/breakfast-beverages/products/coca-cola-1l/1',
-      'pandamarket/categories/breakfast-beverages/products/coca-cola-1l/2',
-      'pandamarket/categories/breakfast-beverages/products/coca-cola-1l/3',
-      'pandamarket/categories/breakfast-beverages/products/coca-cola-1l/4'
-    ],
-    category: 'breakfast-beverages',
-    subcategory: 'beverages',
-    description: 'مشروب كوكاكولا الأصلي 1 لتر',
-    descriptionEn: 'Original Coca Cola 1L',
-    brand: 'كوكاكولا',
-    stock: 250,
-    unit: '1 لتر'
-  },
-  {
-    id: 'bev-2',
-    name: 'بيبسي 1.5 لتر',
-    nameEn: 'Pepsi 1.5L',
-    price: 17.00,
-    image: '/images/beverages/pepsi-1-5l/1.webp',
-    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/pepsi-1-5l/1',
-    imagePublicIds: [
-      'pandamarket/categories/breakfast-beverages/products/pepsi-1-5l/1',
-      'pandamarket/categories/breakfast-beverages/products/pepsi-1-5l/2',
-      'pandamarket/categories/breakfast-beverages/products/pepsi-1-5l/3',
-      'pandamarket/categories/breakfast-beverages/products/pepsi-1-5l/4'
-    ],
-    category: 'breakfast-beverages',
-    subcategory: 'beverages',
-    description: 'مشروب بيبسي 1.5 لتر',
-    descriptionEn: 'Pepsi 1.5L',
-    brand: 'بيبسي',
-    stock: 200,
-    unit: '1.5 لتر'
-  },
-  {
-    id: 'bev-3',
-    name: 'ماء حياة معدني 600 مل',
-    nameEn: 'Hayat Mineral Water 600ml',
-    price: 3.00,
-    image: '/images/beverages/hayat-mineral-water-600ml/1.webp',
-    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/hayat-mineral-water-600ml/1',
-    imagePublicIds: [
-      'pandamarket/categories/breakfast-beverages/products/hayat-mineral-water-600ml/1',
-      'pandamarket/categories/breakfast-beverages/products/hayat-mineral-water-600ml/2',
-      'pandamarket/categories/breakfast-beverages/products/hayat-mineral-water-600ml/3',
-      'pandamarket/categories/breakfast-beverages/products/hayat-mineral-water-600ml/4'
-    ],
-    category: 'breakfast-beverages',
-    subcategory: 'beverages',
-    description: 'مياه حياة المعدنية الطبيعية 600 مل',
-    descriptionEn: 'Hayat natural mineral water 600ml',
-    brand: 'حياة',
-    stock: 500,
-    unit: '600 مل'
-  },
-
-  // ============================================
-  // 🍿 SNACKS - السناكس
-  // ============================================
-  {
-    id: 'snack-1',
-    name: 'تشيبسي شيبس 150 جم',
-    nameEn: 'Chipsy Chips 150g',
-    price: 15.00,
-    image: '/images/snacks/chipsy-chips-150g/1.webp',
-    imagePublicId: '/pandamarket/categories/snacks/products/chipsy-chips-150g/1',
-    imagePublicIds: [
-      'pandamarket/categories/snacks/products/chipsy-chips-150g/1',
-      'pandamarket/categories/snacks/products/chipsy-chips-150g/2',
-      'pandamarket/categories/snacks/products/chipsy-chips-150g/3',
-      'pandamarket/categories/snacks/products/chipsy-chips-150g/4'
-    ],
-    category: 'snacks',
-    subcategory: 'snacks',
-    description: 'بطاطس تشيبسي 150 جم',
-    descriptionEn: 'Chipsy potato chips 150g',
-    brand: 'تشيبسي',
-    stock: 300,
-    unit: '150 جم'
-  },
-  {
-    id: 'snack-2',
-    name: 'أوريو بسكويت 154 جم',
-    nameEn: 'Oreo Biscuits 154g',
-    price: 18.00,
-    image: '/images/snacks/oreo-biscuits-154g/1.webp',
-    imagePublicId: '/pandamarket/categories/snacks/products/oreo-biscuits-154g/1',
-    imagePublicIds: [
-      'pandamarket/categories/snacks/products/oreo-biscuits-154g/1',
-      'pandamarket/categories/snacks/products/oreo-biscuits-154g/2',
-      'pandamarket/categories/snacks/products/oreo-biscuits-154g/3',
-      'pandamarket/categories/snacks/products/oreo-biscuits-154g/4'
-    ],
-    category: 'snacks',
-    subcategory: 'snacks',
-    description: 'بسكويت أوريو بالشوكولاتة 154 جم',
-    descriptionEn: 'Oreo chocolate biscuits 154g',
-    brand: 'أوريو',
-    stock: 250,
-    unit: '154 جم'
-  },
-
-  // ============================================
-  // 🥫 SAUCES - الصلصات
-  // ============================================
-  {
-    id: 'sauce-1',
-    name: 'مايونيز هيلزمان 400 مل',
-    nameEn: "Hellmann's Mayonnaise 400ml",
-    price: 45.00,
-    image: '/images/sauces/hellmanns-mayonnaise-400ml/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/hellmanns-mayonnaise-400ml/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/hellmanns-mayonnaise-400ml/1',
-      'pandamarket/categories/pantry/products/hellmanns-mayonnaise-400ml/2',
-      'pandamarket/categories/pantry/products/hellmanns-mayonnaise-400ml/3',
-      'pandamarket/categories/pantry/products/hellmanns-mayonnaise-400ml/4'
-    ],
-    category: 'pantry',
-    subcategory: 'sauces',
-    description: 'مايونيز هيلزمان الأصلي 400 مل',
-    descriptionEn: "Hellmann's real mayonnaise 400ml",
-    brand: 'هيلزمان',
-    stock: 120,
-    unit: '400 مل'
-  },
-  {
-    id: 'sauce-2',
-    name: 'كاتشب هاينز 397 جم',
-    nameEn: 'Heinz Tomato Ketchup 397g',
-    price: 35.00,
-    image: '/images/sauces/heinz-tomato-ketchup-397g/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/heinz-tomato-ketchup-397g/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/heinz-tomato-ketchup-397g/1',
-      'pandamarket/categories/pantry/products/heinz-tomato-ketchup-397g/2',
-      'pandamarket/categories/pantry/products/heinz-tomato-ketchup-397g/3',
-      'pandamarket/categories/pantry/products/heinz-tomato-ketchup-397g/4'
-    ],
-    category: 'pantry',
-    subcategory: 'sauces',
-    description: 'صلصة طماطم هاينز 397 جم',
-    descriptionEn: 'Heinz tomato ketchup 397g',
-    brand: 'هاينز',
-    stock: 150,
-    unit: '397 جم'
-  },
-
-  // ============================================
-  // 🧴 CLEANING - منتجات التنظيف
-  // ============================================
-  {
-    id: 'clean-1',
-    name: 'سائل جلي فيري 900 مل',
-    nameEn: 'Fairy Dish Liquid 900ml',
-    price: 42.00,
-    image: '/images/cleaning/fairy-dish-liquid-900ml/1.webp',
-    imagePublicId: '/pandamarket/categories/cleaning/products/fairy-dish-liquid-900ml/1',
-    imagePublicIds: [
-      'pandamarket/categories/cleaning/products/fairy-dish-liquid-900ml/1',
-      'pandamarket/categories/cleaning/products/fairy-dish-liquid-900ml/2',
-      'pandamarket/categories/cleaning/products/fairy-dish-liquid-900ml/3',
-      'pandamarket/categories/cleaning/products/fairy-dish-liquid-900ml/4'
-    ],
-    category: 'cleaning',
-    subcategory: 'household',
-    description: 'سائل جلي الأواني فيري 900 مل',
-    descriptionEn: 'Fairy dishwashing liquid 900ml',
-    brand: 'فيري',
-    stock: 100,
-    unit: '900 مل'
-  },
-  {
-    id: 'clean-2',
-    name: 'منظف تايد 2.5 كجم',
-    nameEn: 'Tide Detergent 2.5kg',
-    price: 85.00,
-    image: '/images/cleaning/tide-detergent-2-5kg/1.webp',
-    imagePublicId: '/pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1',
-    imagePublicIds: [
-      'pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1',
-      'pandamarket/categories/cleaning/products/tide-detergent-2-5kg/2',
-      'pandamarket/categories/cleaning/products/tide-detergent-2-5kg/3',
-      'pandamarket/categories/cleaning/products/tide-detergent-2-5kg/4'
-    ],
-    category: 'cleaning',
-    subcategory: 'household',
-    description: 'مسحوق غسيل تايد 2.5 كجم',
-    descriptionEn: 'Tide laundry detergent 2.5kg',
-    brand: 'تايد',
-    stock: 80,
-    unit: '2.5 كجم'
-  },
-
-  // ============================================
-  // 🫘 LEGUMES - البقوليات
-  // ============================================
-  {
-    id: 'leg-1',
-    name: 'عدس أصفر الآفية 500 جم',
-    nameEn: 'Al Afia Yellow Lentils 500g',
-    price: 22.00,
-    image: '/images/legumes/al-afia-yellow-lentils-500g/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/al-afia-yellow-lentils-500g/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/al-afia-yellow-lentils-500g/1',
-      'pandamarket/categories/pantry/products/al-afia-yellow-lentils-500g/2',
-      'pandamarket/categories/pantry/products/al-afia-yellow-lentils-500g/3',
-      'pandamarket/categories/pantry/products/al-afia-yellow-lentils-500g/4'
-    ],
-    category: 'pantry',
-    subcategory: 'grains-legumes',
-    description: 'عدس أصفر الآفية 500 جم',
-    descriptionEn: 'Al Afia yellow lentils 500g',
-    brand: 'الآفية',
-    stock: 200,
-    unit: '500 جم'
-  },
-  {
-    id: 'leg-2',
-    name: 'فول مدمس كنوز 400 جم',
-    nameEn: 'Kinooz Fava Beans 400g',
-    price: 15.00,
-    image: '/images/legumes/kinooz-fava-beans-400g/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1',
-      'pandamarket/categories/pantry/products/kinooz-fava-beans-400g/2',
-      'pandamarket/categories/pantry/products/kinooz-fava-beans-400g/3',
-      'pandamarket/categories/pantry/products/kinooz-fava-beans-400g/4'
-    ],
-    category: 'pantry',
-    subcategory: 'grains-legumes',
-    description: 'فول مدمس كنوز 400 جم',
-    descriptionEn: 'Kinooz fava beans 400g',
-    brand: 'كنوز',
-    stock: 180,
-    unit: '400 جم'
-  },
-
-  // ============================================
-  // 🛢️ OILS - الزيوت
-  // ============================================
-  {
-    id: 'oil-1',
-    name: 'زيت كريستال 1.5 لتر',
-    nameEn: 'Cristal Oil 1.5L',
-    price: 65.00,
-    image: '/images/oils/cristal-oil-1-5l/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/cristal-oil-1-5l/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/cristal-oil-1-5l/1',
-      'pandamarket/categories/pantry/products/cristal-oil-1-5l/2',
-      'pandamarket/categories/pantry/products/cristal-oil-1-5l/3',
-      'pandamarket/categories/pantry/products/cristal-oil-1-5l/4'
-    ],
-    category: 'pantry',
-    subcategory: 'oils',
-    description: 'زيت كريستال عباد الشمس 1.5 لتر',
-    descriptionEn: 'Cristal sunflower oil 1.5L',
-    brand: 'كريستال',
-    stock: 120,
-    unit: '1.5 لتر'
-  },
-  {
-    id: 'oil-2',
-    name: 'سمن حلواني 1 كجم',
-    nameEn: 'Halwani Ghee 1kg',
-    price: 75.00,
-    image: '/images/oils/halwani-ghee-1kg/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/halwani-ghee-1kg/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/halwani-ghee-1kg/1',
-      'pandamarket/categories/pantry/products/halwani-ghee-1kg/2',
-      'pandamarket/categories/pantry/products/halwani-ghee-1kg/3',
-      'pandamarket/categories/pantry/products/halwani-ghee-1kg/4'
-    ],
-    category: 'pantry',
-    subcategory: 'oils',
-    description: 'سمن حلواني بلدي 1 كجم',
-    descriptionEn: 'Halwani traditional ghee 1kg',
-    brand: 'حلواني',
-    stock: 100,
-    unit: '1 كجم'
-  },
-
-  // ============================================
-  // 🍚 RICE & PASTA - الأرز والمعكرونة
-  // ============================================
-  {
-    id: 'rice-1',
-    name: 'أرز الدوحة 5 كجم',
-    nameEn: 'Al Doha Rice 5kg',
-    price: 85.00,
-    image: '/images/rice/al-doha-rice-5kg/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/al-doha-rice-5kg/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/al-doha-rice-5kg/1',
-      'pandamarket/categories/pantry/products/al-doha-rice-5kg/2',
-      'pandamarket/categories/pantry/products/al-doha-rice-5kg/3',
-      'pandamarket/categories/pantry/products/al-doha-rice-5kg/4'
-    ],
-    category: 'pantry',
-    subcategory: 'grains-legumes',
-    description: 'أرز الدوحة مصري 5 كجم',
-    descriptionEn: 'Al Doha Egyptian rice 5kg',
-    brand: 'الدوحة',
-    stock: 150,
-    unit: '5 كجم'
-  },
-  {
-    id: 'rice-2',
-    name: 'مكرونة ريجينا 400 جم',
-    nameEn: 'Regina Pasta 400g',
-    price: 18.00,
-    image: '/images/rice/regina-pasta-400g/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/regina-pasta-400g/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/regina-pasta-400g/1',
-      'pandamarket/categories/pantry/products/regina-pasta-400g/2',
-      'pandamarket/categories/pantry/products/regina-pasta-400g/3',
-      'pandamarket/categories/pantry/products/regina-pasta-400g/4'
-    ],
-    category: 'pantry',
-    subcategory: 'grains-legumes',
-    description: 'مكرونة ريجينا 400 جم',
-    descriptionEn: 'Regina pasta 400g',
-    brand: 'ريجينا',
-    stock: 200,
-    unit: '400 جم'
-  },
-
-  // ============================================
-  // 🍞 BAKERY - المخبوزات
-  // ============================================
-  {
-    id: 'bakery-1',
-    name: 'خبز فينو فاين',
-    nameEn: 'Fine Fino Bread',
-    price: 5.00,
-    image: '/images/bakery/fine-fino-bread/1.webp',
-    imagePublicId: '/pandamarket/categories/bakery/products/fine-fino-bread/1',
-    imagePublicIds: [
-      'pandamarket/categories/bakery/products/fine-fino-bread/1',
-      'pandamarket/categories/bakery/products/fine-fino-bread/2',
-      'pandamarket/categories/bakery/products/fine-fino-bread/3',
-      'pandamarket/categories/bakery/products/fine-fino-bread/4'
-    ],
-    category: 'bakery',
-    subcategory: 'bread',
-    description: 'خبز فينو طازج مثالي للفطار',
-    descriptionEn: 'Fresh Fino bread perfect for breakfast',
-    brand: 'فاين',
-    stock: 200,
-    unit: 'رغيف'
-  },
-  {
-    id: 'bakery-2',
-    name: 'خبز بلدي',
-    nameEn: 'Balady Bread',
-    price: 3.00,
-    image: '/images/bakery/balady-bread/1.webp',
-    imagePublicId: '/pandamarket/categories/bakery/products/balady-bread/1',
-    imagePublicIds: [
-      'pandamarket/categories/bakery/products/balady-bread/1',
-      'pandamarket/categories/bakery/products/balady-bread/2',
-      'pandamarket/categories/bakery/products/balady-bread/3',
-      'pandamarket/categories/bakery/products/balady-bread/4'
-    ],
-    category: 'bakery',
-    subcategory: 'bread',
-    description: 'خبز بلدي مصري تقليدي',
-    descriptionEn: 'Traditional Egyptian balady bread',
-    brand: 'محلي',
-    stock: 300,
-    unit: 'رغيف'
-  },
-  {
-    id: 'bakery-3',
-    name: 'توست أولكر أبيض',
-    nameEn: 'Ulker White Toast',
-    price: 12.00,
-    image: '/images/bakery/ulker-white-toast/1.webp',
-    imagePublicId: '/pandamarket/categories/bakery/products/ulker-white-toast/1',
-    imagePublicIds: [
-      'pandamarket/categories/bakery/products/ulker-white-toast/1',
-      'pandamarket/categories/bakery/products/ulker-white-toast/2',
-      'pandamarket/categories/bakery/products/ulker-white-toast/3',
-      'pandamarket/categories/bakery/products/ulker-white-toast/4'
-    ],
-    category: 'bakery',
-    subcategory: 'bread',
-    description: 'توست أبيض 20 شريحة',
-    descriptionEn: 'White toast 20 slices',
-    brand: 'أولكر',
-    stock: 150,
-    unit: '550 جم'
-  },
-
-  // ============================================
-  // SPICES - التوابل
-  // ============================================
-  {
-    id: 'spice-1',
-    name: 'كمون',
-    nameEn: 'Cumin',
-    price: 25.00,
-    image: '/images/spices/cumin/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/cumin/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/cumin/1',
-      'pandamarket/categories/pantry/products/cumin/2',
-      'pandamarket/categories/pantry/products/cumin/3',
-      'pandamarket/categories/pantry/products/cumin/4'
-    ],
-    category: 'pantry',
-    subcategory: 'spices',
-    description: 'كمون مطحون عالي الجودة',
-    descriptionEn: 'High quality ground cumin',
-    brand: 'أبو على',
-    stock: 80,
-    unit: '100 جم'
-  },
-  {
-    id: 'spice-2',
-    name: 'فلفل أسود',
-    nameEn: 'Black Pepper',
-    price: 30.00,
-    image: '/images/spices/black-pepper/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/black-pepper/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/black-pepper/1',
-      'pandamarket/categories/pantry/products/black-pepper/2',
-      'pandamarket/categories/pantry/products/black-pepper/3',
-      'pandamarket/categories/pantry/products/black-pepper/4'
-    ],
-    category: 'pantry',
-    subcategory: 'spices',
-    description: 'فلفل أسود مطحون',
-    descriptionEn: 'Ground black pepper',
-    brand: 'أبو على',
-    stock: 90,
-    unit: '100 جم'
-  },
-  {
-    id: 'spice-3',
-    name: 'كركم',
-    nameEn: 'Turmeric',
-    price: 20.00,
-    image: '/images/spices/turmeric/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/turmeric/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/turmeric/1',
-      'pandamarket/categories/pantry/products/turmeric/2',
-      'pandamarket/categories/pantry/products/turmeric/3',
-      'pandamarket/categories/pantry/products/turmeric/4'
-    ],
-    category: 'pantry',
-    subcategory: 'spices',
-    description: 'كركم بودرة نقي',
-    descriptionEn: 'Pure turmeric powder',
-    brand: 'أبو على',
-    stock: 85,
-    unit: '100 جم'
-  },
-
-  // ============================================
-  // VEGETABLES - الخضروات
-  // ============================================
-  {
-    id: 'veg-1',
-    name: 'طماطم حمراء',
-    nameEn: 'Red Tomatoes',
-    price: 12.00,
-    image: '/images/vegetables/red-tomatoes/1.webp',
-    imagePublicId: '/pandamarket/categories/fresh-food/products/red-tomatoes/1',
-    imagePublicIds: [
-      'pandamarket/categories/fresh-food/products/red-tomatoes/1',
-      'pandamarket/categories/fresh-food/products/red-tomatoes/2',
-      'pandamarket/categories/fresh-food/products/red-tomatoes/3',
-      'pandamarket/categories/fresh-food/products/red-tomatoes/4'
-    ],
-    category: 'fresh-food',
-    subcategory: 'vegetables',
-    description: 'طماطم حمراء طازجة كيلو',
-    descriptionEn: 'Fresh red tomatoes per kg',
-    brand: 'محلي',
-    stock: 200,
-    unit: 'كيلو'
-  },
-  {
-    id: 'veg-2',
-    name: 'خيار بلدي',
-    nameEn: 'Local Cucumber',
-    price: 10.00,
-    image: '/images/vegetables/local-cucumber/1.webp',
-    imagePublicId: '/pandamarket/categories/fresh-food/products/local-cucumber/1',
-    imagePublicIds: [
-      'pandamarket/categories/fresh-food/products/local-cucumber/1',
-      'pandamarket/categories/fresh-food/products/local-cucumber/2',
-      'pandamarket/categories/fresh-food/products/local-cucumber/3',
-      'pandamarket/categories/fresh-food/products/local-cucumber/4'
-    ],
-    category: 'fresh-food',
-    subcategory: 'vegetables',
-    description: 'خيار بلدي طازج كيلو',
-    descriptionEn: 'Fresh local cucumber per kg',
-    brand: 'محلي',
-    stock: 180,
-    unit: 'كيلو'
-  },
-
-  // ============================================
-  // FRUITS - الفواكه
-  // ============================================
-  {
-    id: 'fruit-1',
-    name: 'موز مستورد',
-    nameEn: 'Imported Bananas',
-    price: 15.00,
-    image: '/images/fruits/imported-bananas/1.webp',
-    imagePublicId: '/pandamarket/categories/fresh-food/products/imported-bananas/1',
-    imagePublicIds: [
-      'pandamarket/categories/fresh-food/products/imported-bananas/1',
-      'pandamarket/categories/fresh-food/products/imported-bananas/2',
-      'pandamarket/categories/fresh-food/products/imported-bananas/3',
-      'pandamarket/categories/fresh-food/products/imported-bananas/4'
-    ],
-    category: 'fresh-food',
-    subcategory: 'fruits',
-    description: 'موز مستورد طازج كيلو',
-    descriptionEn: 'Fresh imported bananas per kg',
-    brand: 'مستورد',
-    stock: 300,
-    unit: 'كيلو'
-  },
-  {
-    id: 'fruit-2',
-    name: 'تفاح أحمر',
-    nameEn: 'Red Apples',
-    price: 35.00,
-    image: '/images/fruits/red-apples/1.webp',
-    imagePublicId: '/pandamarket/categories/fresh-food/products/red-apples/1',
-    imagePublicIds: [
-      'pandamarket/categories/fresh-food/products/red-apples/1',
-      'pandamarket/categories/fresh-food/products/red-apples/2',
-      'pandamarket/categories/fresh-food/products/red-apples/3',
-      'pandamarket/categories/fresh-food/products/red-apples/4'
-    ],
-    category: 'fresh-food',
-    subcategory: 'fruits',
-    description: 'تفاح أحمر طازج كيلو',
-    descriptionEn: 'Fresh red apples per kg',
-    brand: 'مستورد',
-    stock: 150,
-    unit: 'كيلو'
-  },
-  {
-    id: 'oil-3',
-    name: 'سمنة روابي بلدي 750 جم',
-    nameEn: 'Rawabi Traditional Ghee 750g',
-    price: 95.00,
-    image: '/images/oils/rawabi-ghee-750g/1.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/rawabi-ghee-750g/1',
-    imagePublicIds: [
-      'pandamarket/categories/pantry/products/rawabi-ghee-750g/1',
-      'pandamarket/categories/pantry/products/rawabi-ghee-750g/2',
-      'pandamarket/categories/pantry/products/rawabi-ghee-750g/3',
-      'pandamarket/categories/pantry/products/rawabi-ghee-750g/4'
-    ],
-    category: 'pantry',
-    subcategory: 'oils',
-    description: 'سمنة روابي بالطعم البلدي الاصيل 750 جم',
-    descriptionEn: 'Rawabi traditional Egyptian ghee 750g',
-    brand: 'روابي',
-    stock: 110,
-    unit: '750 جم'
-  },
-  {
-    id: 'snack-3',
-    name: 'شوكولاتة كادبوري ديري ملك 90 جم',
-    nameEn: 'Cadbury Dairy Milk Chocolate 90g',
-    price: 40.00,
-    image: '/images/snacks/cadbury-dairy-milk-90g/1.webp',
-    imagePublicId: '/pandamarket/categories/snacks/products/cadbury-dairy-milk-90g/1',
-    imagePublicIds: [
-      'pandamarket/categories/snacks/products/cadbury-dairy-milk-90g/1',
-      'pandamarket/categories/snacks/products/cadbury-dairy-milk-90g/2',
-      'pandamarket/categories/snacks/products/cadbury-dairy-milk-90g/3',
-      'pandamarket/categories/snacks/products/cadbury-dairy-milk-90g/4'
-    ],
-    category: 'snacks',
-    subcategory: 'snacks',
-    description: 'شوكولاتة كادبوري ديري ملك غنية بالحليب 90 جم',
-    descriptionEn: 'Cadbury Dairy Milk smooth milk chocolate 90g',
-    brand: 'كادبوري',
-    stock: 220,
-    unit: '90 جم'
-  },
-  {
-    id: 'bev-4',
-    name: 'عصير جهينة برتقال 1 لتر',
-    nameEn: 'Juhayna Pure Orange Juice 1L',
-    price: 32.00,
-    image: '/images/beverages/juhayna-orange-juice-1l/1.webp',
-    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/juhayna-orange-juice-1l/1',
-    imagePublicIds: [
-      'pandamarket/categories/breakfast-beverages/products/juhayna-orange-juice-1l/1',
-      'pandamarket/categories/breakfast-beverages/products/juhayna-orange-juice-1l/2',
-      'pandamarket/categories/breakfast-beverages/products/juhayna-orange-juice-1l/3',
-      'pandamarket/categories/breakfast-beverages/products/juhayna-orange-juice-1l/4'
-    ],
-    category: 'breakfast-beverages',
-    subcategory: 'beverages',
-    description: 'عصير برتقال طبيعي 100% جهينة 1 لتر',
-    descriptionEn: 'Juhayna 100% natural pure orange juice 1L',
-    brand: 'جهينة',
-    stock: 180,
-    unit: '1 لتر'
-  },
-  {
-    id: 'dairy-4',
-    name: 'جبنة فيتا دومتي 500 جم',
-    nameEn: 'Domty White Feta Cheese 500g',
-    price: 48.00,
-    image: '/images/dairy/domty-feta-cheese-500g/1.webp',
-    imagePublicId: '/pandamarket/categories/dairy-eggs/products/domty-feta-cheese-500g/1',
-    imagePublicIds: [
-      'pandamarket/categories/dairy-eggs/products/domty-feta-cheese-500g/1',
-      'pandamarket/categories/dairy-eggs/products/domty-feta-cheese-500g/2',
-      'pandamarket/categories/dairy-eggs/products/domty-feta-cheese-500g/3',
-      'pandamarket/categories/dairy-eggs/products/domty-feta-cheese-500g/4'
-    ],
-    category: 'dairy-eggs',
-    subcategory: 'dairy',
-    description: 'جبنة بيضاء فيتا دومتي طازجة 500 جم',
-    descriptionEn: 'Domty fresh white feta cheese 500g',
-    brand: 'دومتي',
-    stock: 160,
-    unit: '500 جم'
-  },
-  {
-    id: 'clean-3',
-    name: 'أرييل جل أوتوماتيك 2 لتر',
-    nameEn: 'Ariel Automatic Liquid Gel 2L',
-    price: 165.00,
-    image: '/images/cleaning/ariel-automatic-gel-2l/1.webp',
-    imagePublicId: '/pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1',
-    imagePublicIds: [
-      'pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1',
-      'pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/2',
-      'pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/3',
-      'pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/4'
-    ],
-    category: 'cleaning',
-    subcategory: 'household',
-    description: 'منظف أرييل جل أوتوماتيك للغسالات 2 لتر',
-    descriptionEn: 'Ariel liquid gel automatic laundry detergent 2L',
-    brand: 'أرييل',
-    stock: 90,
-    unit: '2 لتر'
-  },
-
-  // ============================================
-  // HIGH VELOCITY SKUs
-  // ============================================
-  {
-    id: 'hv-1',
-    name: 'بيض أبيض 30 حبة',
-    nameEn: 'White Eggs 30 Pack',
-    price: 150.00,
-    image: '/images/placeholder.webp',
-    imagePublicId: '/pandamarket/categories/dairy-eggs/products/white-eggs-30/1',
-    imagePublicIds: ['pandamarket/categories/dairy-eggs/products/white-eggs-30/1'],
-    category: 'dairy-eggs',
-    subcategory: 'eggs',
-    description: 'طبق بيض أبيض طازج 30 حبة',
-    descriptionEn: 'Fresh white eggs 30 pack',
-    brand: 'مزارع دينا',
-    stock: 50,
-    unit: '30 حبة'
-  },
-  {
-    id: 'hv-2',
-    name: 'زبدة لورباك 400 جم',
-    nameEn: 'Lurpak Butter 400g',
-    price: 120.00,
-    image: '/images/placeholder.webp',
-    imagePublicId: '/pandamarket/categories/dairy-eggs/products/lurpak-butter-400g/1',
-    imagePublicIds: ['pandamarket/categories/dairy-eggs/products/lurpak-butter-400g/1'],
-    category: 'dairy-eggs',
-    subcategory: 'butter',
-    description: 'زبدة لورباك غير مملحة 400 جم',
-    descriptionEn: 'Lurpak unsalted butter 400g',
-    brand: 'لورباك',
-    stock: 40,
-    unit: '400 جم'
-  },
-  {
-    id: 'hv-3',
-    name: 'شاي ليبتون 100 فتلة',
-    nameEn: 'Lipton Yellow Label Tea 100 Bags',
-    price: 65.00,
-    image: '/images/placeholder.webp',
-    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/lipton-tea-100/1',
-    imagePublicIds: ['pandamarket/categories/breakfast-beverages/products/lipton-tea-100/1'],
-    category: 'breakfast-beverages',
-    subcategory: 'tea-coffee',
-    description: 'شاي ليبتون العلامة الصفراء 100 فتلة',
-    descriptionEn: 'Lipton Yellow Label tea 100 tea bags',
-    brand: 'ليبتون',
-    stock: 100,
-    unit: '100 عبوة'
-  },
-  {
-    id: 'hv-4',
-    name: 'نسكافيه كلاسيك 200 جم',
-    nameEn: 'Nescafe Classic 200g',
-    price: 145.00,
-    image: '/images/placeholder.webp',
-    imagePublicId: '/pandamarket/categories/breakfast-beverages/products/nescafe-classic-200g/1',
-    imagePublicIds: ['pandamarket/categories/breakfast-beverages/products/nescafe-classic-200g/1'],
-    category: 'breakfast-beverages',
-    subcategory: 'tea-coffee',
-    description: 'قهوة سريعة التحضير نسكافيه كلاسيك 200 جم',
-    descriptionEn: 'Nescafe Classic instant coffee 200g',
-    brand: 'نسكافيه',
-    stock: 60,
-    unit: '200 جم'
-  },
-  {
-    id: 'hv-5',
-    name: 'سكر الأسرة 1 كجم',
-    nameEn: 'Al Osra Sugar 1kg',
-    price: 27.00,
-    image: '/images/placeholder.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/alosra-sugar-1kg/1',
-    imagePublicIds: ['pandamarket/categories/pantry/products/alosra-sugar-1kg/1'],
-    category: 'pantry',
-    subcategory: 'sugar-flour',
-    description: 'سكر الأسرة نقي 1 كجم',
-    descriptionEn: 'Al Osra pure fine sugar 1kg',
-    brand: 'الأسرة',
-    stock: 200,
-    unit: '1 كجم'
-  },
-  {
-    id: 'hv-6',
-    name: 'ملح بونو 300 جم',
-    nameEn: 'Bono Salt 300g',
-    price: 5.00,
-    image: '/images/placeholder.webp',
-    imagePublicId: '/pandamarket/categories/pantry/products/bono-salt-300g/1',
-    imagePublicIds: ['pandamarket/categories/pantry/products/bono-salt-300g/1'],
-    category: 'pantry',
-    subcategory: 'spices-salt',
-    description: 'ملح طعام بونو باليود 300 جم',
-    descriptionEn: 'Bono iodized table salt 300g',
-    brand: 'بونو',
-    stock: 150,
-    unit: '300 جم'
-  },
-  {
-    id: 'hv-7',
-    name: 'بطاطس للطبخ كيلو',
-    nameEn: 'Cooking Potatoes 1kg',
-    price: 20.00,
-    image: '/images/placeholder.webp',
-    imagePublicId: '/pandamarket/categories/fresh-food/products/cooking-potatoes-1kg/1',
-    imagePublicIds: ['pandamarket/categories/fresh-food/products/cooking-potatoes-1kg/1'],
-    category: 'fresh-food',
-    subcategory: 'vegetables',
-    description: 'بطاطس محلية طازجة للطبخ',
-    descriptionEn: 'Fresh local cooking potatoes',
-    brand: 'محلي',
-    stock: 100,
-    unit: '1 كجم'
-  },
-  {
-    id: 'hv-8',
-    name: 'بصل أحمر كيلو',
-    nameEn: 'Red Onions 1kg',
-    price: 25.00,
-    image: '/images/placeholder.webp',
-    imagePublicId: '/pandamarket/categories/fresh-food/products/red-onions-1kg/1',
-    imagePublicIds: ['pandamarket/categories/fresh-food/products/red-onions-1kg/1'],
-    category: 'fresh-food',
-    subcategory: 'vegetables',
-    description: 'بصل أحمر طازج',
-    descriptionEn: 'Fresh red onions',
-    brand: 'محلي',
-    stock: 80,
-    unit: '1 كجم'
-  },
-  {
-    id: 'hv-9',
-    name: 'مناديل فاين تواليت 6 بكرات',
-    nameEn: 'Fine Toilet Paper 6 Rolls',
-    price: 65.00,
-    image: '/images/placeholder.webp',
-    imagePublicId: '/pandamarket/categories/cleaning/products/fine-toilet-paper-6/1',
-    imagePublicIds: ['pandamarket/categories/cleaning/products/fine-toilet-paper-6/1'],
-    category: 'cleaning',
-    subcategory: 'paper-products',
-    description: 'مناديل حمام فاين ناعمة ومضغوطة 6 بكرات',
-    descriptionEn: 'Fine soft toilet paper 6 rolls',
-    brand: 'فاين',
-    stock: 75,
-    unit: '6 بكرات'
-  }
-
+    {
+        "id": "fresh-local-tomatoes-1kg",
+        "name": "طماطم بلدي طازجة 1 كيلو",
+        "nameEn": "Fresh Local Tomatoes 1 kg",
+        "price": 18,
+        "compareAtPrice": 22,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118372/pandamarket/categories/produce/products/fresh-local-tomatoes-1kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/produce/products/fresh-local-tomatoes-1kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/produce/products/fresh-local-tomatoes-1kg/1"
+        ],
+        "category": "produce",
+        "subcategory": "vegetables",
+        "description": "طماطم طازجة حمراء عالية الجودة مناسبة للسلطة والطهي",
+        "descriptionEn": "Fresh vine-ripened red tomatoes ideal for salads and cooking",
+        "brand": "Fresh Farm",
+        "stock": 150,
+        "unit": "1 kg",
+        "discount": 18,
+        "rating": 4.8,
+        "reviews": 210,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "premium-local-bananas-1kg",
+        "name": "موز بلدي فاخر 1 كيلو",
+        "nameEn": "Premium Local Bananas 1 kg",
+        "price": 25,
+        "compareAtPrice": 28,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118380/pandamarket/categories/produce/products/premium-local-bananas-1kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/produce/products/premium-local-bananas-1kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/produce/products/premium-local-bananas-1kg/1"
+        ],
+        "category": "produce",
+        "subcategory": "fruits",
+        "description": "موز بلدي حلو المذاق غني بالبوتاسيوم والطاقة",
+        "descriptionEn": "Sweet local yellow bananas rich in potassium and energy",
+        "brand": "Fresh Farm",
+        "stock": 120,
+        "unit": "1 kg",
+        "discount": 10,
+        "rating": 4.7,
+        "reviews": 180,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "fresh-cooking-potatoes-1kg",
+        "name": "بطاطس طهي طازجة 1 كيلو",
+        "nameEn": "Fresh Cooking Potatoes 1 kg",
+        "price": 20,
+        "compareAtPrice": 24,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118386/pandamarket/categories/produce/products/fresh-cooking-potatoes-1kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/produce/products/fresh-cooking-potatoes-1kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/produce/products/fresh-cooking-potatoes-1kg/1"
+        ],
+        "category": "produce",
+        "subcategory": "vegetables",
+        "description": "بطاطس طازجة ممتازة للقلي والطهي في الفرن",
+        "descriptionEn": "Fresh unpeeled potatoes suitable for frying, boiling and baking",
+        "brand": "Fresh Farm",
+        "stock": 200,
+        "unit": "1 kg",
+        "discount": 16,
+        "rating": 4.6,
+        "reviews": 140,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "fresh-greenhouse-cucumbers-1kg",
+        "name": "خيار صوبة طازج 1 كيلو",
+        "nameEn": "Fresh Greenhouse Cucumbers 1 kg",
+        "price": 16,
+        "compareAtPrice": 20,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118394/pandamarket/categories/produce/products/fresh-greenhouse-cucumbers-1kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/produce/products/fresh-greenhouse-cucumbers-1kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/produce/products/fresh-greenhouse-cucumbers-1kg/1"
+        ],
+        "category": "produce",
+        "subcategory": "vegetables",
+        "description": "خيار صوبة طازج ومقرمش ممتاز للسلطات والوجبات السريعة",
+        "descriptionEn": "Crisp green greenhouse cucumbers perfect for healthy salads and snacks",
+        "brand": "Fresh Farm",
+        "stock": 110,
+        "unit": "1 kg",
+        "discount": 20,
+        "rating": 4.9,
+        "reviews": 165,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "fresh-red-sweet-apples-1kg",
+        "name": "تفاح أحمر سكري 1 كيلو",
+        "nameEn": "Fresh Red Sweet Apples 1 kg",
+        "price": 65,
+        "compareAtPrice": 75,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118404/pandamarket/categories/produce/products/fresh-red-sweet-apples-1kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/produce/products/fresh-red-sweet-apples-1kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/produce/products/fresh-red-sweet-apples-1kg/1"
+        ],
+        "category": "produce",
+        "subcategory": "fruits",
+        "description": "تفاح أحمر سكري طازج مقرمش ولذيذ",
+        "descriptionEn": "Crisp sweet red apples full of juice and flavor",
+        "brand": "Fresh Farm",
+        "stock": 90,
+        "unit": "1 kg",
+        "discount": 13,
+        "rating": 4.8,
+        "reviews": 230,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "juhayna-full-cream-milk-1l",
+        "name": "حليب جهينة كامل الدسم 1 لتر",
+        "nameEn": "Juhayna Full Cream Milk 1L",
+        "price": 45,
+        "compareAtPrice": 50,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118412/pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/1.jpg",
+        "imagePublicId": "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/1",
+        "imagePublicIds": [
+            "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/1",
+            "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/2",
+            "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/3",
+            "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/4"
+        ],
+        "category": "dairy",
+        "subcategory": "milk",
+        "description": "حليب طازج معالج يو إتش تي كامل الدسم غني بالكالسيوم",
+        "descriptionEn": "Full cream UHT fresh milk rich in calcium and natural vitamin D",
+        "brand": "Juhayna",
+        "stock": 180,
+        "unit": "1 Liter",
+        "discount": 10,
+        "rating": 4.9,
+        "reviews": 320,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "domty-white-feta-cheese-500g",
+        "name": "جبنة بيضاء فيتا دومتي 500 جم",
+        "nameEn": "Domty White Feta Cheese 500g",
+        "price": 42,
+        "compareAtPrice": 48,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118421/pandamarket/categories/dairy/products/domty-white-feta-cheese-500g/1.jpg",
+        "imagePublicId": "pandamarket/categories/dairy/products/domty-white-feta-cheese-500g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/dairy/products/domty-white-feta-cheese-500g/1",
+            "pandamarket/categories/dairy/products/domty-white-feta-cheese-500g/2",
+            "pandamarket/categories/dairy/products/domty-white-feta-cheese-500g/3"
+        ],
+        "category": "dairy",
+        "subcategory": "cheese",
+        "description": "جبنة فيتا بيضاء كريمية خفيفة الملح مناسبة للإفطار والساندوتشات",
+        "descriptionEn": "Creamy white feta cheese block with light salt for breakfast sandwiches",
+        "brand": "Domty",
+        "stock": 140,
+        "unit": "500g",
+        "discount": 12,
+        "rating": 4.7,
+        "reviews": 190,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "almarai-natural-yogurt-4pcs",
+        "name": "زبادي المراعي طبيعي 105 جم 4 قطع",
+        "nameEn": "Almarai Natural Yogurt 105g 4pcs",
+        "price": 28,
+        "compareAtPrice": 32,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118447/pandamarket/categories/dairy/products/almarai-natural-yogurt-4pcs/1.jpg",
+        "imagePublicId": "pandamarket/categories/dairy/products/almarai-natural-yogurt-4pcs/1",
+        "imagePublicIds": [
+            "pandamarket/categories/dairy/products/almarai-natural-yogurt-4pcs/1",
+            "pandamarket/categories/dairy/products/almarai-natural-yogurt-4pcs/2",
+            "pandamarket/categories/dairy/products/almarai-natural-yogurt-4pcs/3"
+        ],
+        "category": "dairy",
+        "subcategory": "yogurt",
+        "description": "زبادي طبيعي طازج غني بالبروتين والبروبيوتيك الهضمي",
+        "descriptionEn": "Fresh natural plain yogurt pack rich in protein and probiotics",
+        "brand": "Almarai",
+        "stock": 160,
+        "unit": "4 Cups x 105g",
+        "discount": 12,
+        "rating": 4.8,
+        "reviews": 210,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "puck-triangle-cheese-8pcs",
+        "name": "جبنة مثلثات بوك 8 قطع",
+        "nameEn": "Puck Triangle Cheese 8pcs",
+        "price": 85,
+        "compareAtPrice": 95,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118454/pandamarket/categories/dairy/products/puck-triangle-cheese-8pcs/1.jpg",
+        "imagePublicId": "pandamarket/categories/dairy/products/puck-triangle-cheese-8pcs/1",
+        "imagePublicIds": [
+            "pandamarket/categories/dairy/products/puck-triangle-cheese-8pcs/1",
+            "pandamarket/categories/dairy/products/puck-triangle-cheese-8pcs/2",
+            "pandamarket/categories/dairy/products/puck-triangle-cheese-8pcs/3"
+        ],
+        "category": "dairy",
+        "subcategory": "cheese",
+        "description": "جبنة مثلثات كريمية غنية بالكالسيوم مثالية لساندوتشات المدرسة",
+        "descriptionEn": "Creamy triangle cheese portions rich in calcium ideal for school lunchboxes",
+        "brand": "Puck",
+        "stock": 80,
+        "unit": "8 Pieces",
+        "discount": 10,
+        "rating": 4.7,
+        "reviews": 85,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "fresh-boneless-chicken-breast-1kg",
+        "name": "صدور دجاج مخلية طازجة 1 كيلو",
+        "nameEn": "Fresh Boneless Chicken Breast 1 kg",
+        "price": 220,
+        "compareAtPrice": 245,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118471/pandamarket/categories/meat/products/fresh-boneless-chicken-breast-1kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/meat/products/fresh-boneless-chicken-breast-1kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/meat/products/fresh-boneless-chicken-breast-1kg/1"
+        ],
+        "category": "meat",
+        "subcategory": "poultry",
+        "description": "صدور دجاج طازجة مخلية ونظيفة خالية من الدهون ومثالية للبانيه والشوي",
+        "descriptionEn": "Fresh skinless boneless raw chicken breast fillet for grilling and paneer",
+        "brand": "Fresh Butcher",
+        "stock": 70,
+        "unit": "1 kg",
+        "discount": 10,
+        "rating": 4.9,
+        "reviews": 310,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "fresh-minced-beef-500g",
+        "name": "مفروم بلدي طازج 500 جم",
+        "nameEn": "Fresh Minced Beef 500g",
+        "price": 190,
+        "compareAtPrice": 210,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118479/pandamarket/categories/meat/products/fresh-minced-beef-500g/1.jpg",
+        "imagePublicId": "pandamarket/categories/meat/products/fresh-minced-beef-500g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/meat/products/fresh-minced-beef-500g/1"
+        ],
+        "category": "meat",
+        "subcategory": "beef",
+        "description": "لحم بقر بلدي مفروم طازج ونقي ممتاز للكفتة والمكرونة البشاميل",
+        "descriptionEn": "Freshly ground lean beef 500g ideal for burgers, kofta and pasta sauce",
+        "brand": "Fresh Butcher",
+        "stock": 65,
+        "unit": "500g",
+        "discount": 9,
+        "rating": 4.8,
+        "reviews": 175,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "farm-frites-french-fries-2-5kg",
+        "name": "بطاطس نصف مقلية فارم فريتس 2.5 كيلو",
+        "nameEn": "Farm Frites French Fries 2.5 kg",
+        "price": 145,
+        "compareAtPrice": 165,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118486/pandamarket/categories/frozen/products/farm-frites-french-fries-2-5kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/frozen/products/farm-frites-french-fries-2-5kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/frozen/products/farm-frites-french-fries-2-5kg/1"
+        ],
+        "category": "frozen",
+        "subcategory": "frozen-potatoes",
+        "description": "بطاطس مقطعة نصف مقلية ومجمدة مقرمشة ولذيذة عند القلي",
+        "descriptionEn": "Frozen pre-fried crispy cut potato fries 2.5kg bag",
+        "brand": "Farm Frites",
+        "stock": 110,
+        "unit": "2.5 kg",
+        "discount": 12,
+        "rating": 4.8,
+        "reviews": 290,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "koki-crunchy-chicken-pane-800g",
+        "name": "بانيه دجاج عادي كوكي 800 جم",
+        "nameEn": "Koki Crunchy Chicken Pane 800g",
+        "price": 175,
+        "compareAtPrice": 195,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118493/pandamarket/categories/frozen/products/koki-crunchy-chicken-pane-800g/1.jpg",
+        "imagePublicId": "pandamarket/categories/frozen/products/koki-crunchy-chicken-pane-800g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/frozen/products/koki-crunchy-chicken-pane-800g/1"
+        ],
+        "category": "frozen",
+        "subcategory": "frozen-chicken",
+        "description": "شرائح بانيه دجاج مجمدة مقرمشة وجاهزة للتحمير السريع",
+        "descriptionEn": "Frozen breaded crunchy chicken pane slices ready to fry",
+        "brand": "Koki",
+        "stock": 95,
+        "unit": "800g",
+        "discount": 10,
+        "rating": 4.7,
+        "reviews": 240,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "al-doha-egyptian-rice-5kg",
+        "name": "أرز مصري فاخر الدوحة 5 كيلو",
+        "nameEn": "Al Doha Egyptian Rice 5 kg",
+        "price": 175,
+        "compareAtPrice": 195,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118499/pandamarket/categories/pantry/products/al-doha-egyptian-rice-5kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/pantry/products/al-doha-egyptian-rice-5kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/pantry/products/al-doha-egyptian-rice-5kg/1",
+            "pandamarket/categories/pantry/products/al-doha-egyptian-rice-5kg/2",
+            "pandamarket/categories/pantry/products/al-doha-egyptian-rice-5kg/3"
+        ],
+        "category": "pantry",
+        "subcategory": "rice",
+        "description": "أرز مصري عالي الجودة منقى آلياً وجاهز للطهي المباشر",
+        "descriptionEn": "Premium white Egyptian short grain rice 5kg machine cleaned",
+        "brand": "Al Doha",
+        "stock": 130,
+        "unit": "5 kg",
+        "discount": 10,
+        "rating": 4.9,
+        "reviews": 410,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "el-malka-spaghetti-pasta-400g",
+        "name": "مكرونة اسباجيتي الملكة 400 جم",
+        "nameEn": "El Malka Spaghetti Pasta 400g",
+        "price": 15,
+        "compareAtPrice": 18,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118502/pandamarket/categories/pantry/products/el-malka-spaghetti-pasta-400g/1.jpg",
+        "imagePublicId": "pandamarket/categories/pantry/products/el-malka-spaghetti-pasta-400g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/pantry/products/el-malka-spaghetti-pasta-400g/1",
+            "pandamarket/categories/pantry/products/el-malka-spaghetti-pasta-400g/2"
+        ],
+        "category": "pantry",
+        "subcategory": "pasta",
+        "description": "مكرونة اسباجيتي مصنوعة من دقيق القمح الصلب الممتاز",
+        "descriptionEn": "Quality durum wheat semolina spaghetti pasta 400g pack",
+        "brand": "El Malka",
+        "stock": 250,
+        "unit": "400g",
+        "discount": 16,
+        "rating": 4.8,
+        "reviews": 360,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "al-doha-yellow-lentils-500g",
+        "name": "عدس أصفر نقي الدوحة 500 جم",
+        "nameEn": "Al Doha Yellow Lentils 500g",
+        "price": 38,
+        "compareAtPrice": 44,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118506/pandamarket/categories/pantry/products/al-doha-yellow-lentils-500g/1.jpg",
+        "imagePublicId": "pandamarket/categories/pantry/products/al-doha-yellow-lentils-500g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/pantry/products/al-doha-yellow-lentils-500g/1",
+            "pandamarket/categories/pantry/products/al-doha-yellow-lentils-500g/2"
+        ],
+        "category": "pantry",
+        "subcategory": "grains",
+        "description": "عدس أصفر منقى ومفروز ممتاز للشوربة والأكلات الشتوية",
+        "descriptionEn": "Clean split yellow lentils 500g pack rich in fiber and plant protein",
+        "brand": "Al Doha",
+        "stock": 140,
+        "unit": "500g",
+        "discount": 13,
+        "rating": 4.8,
+        "reviews": 160,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "kinooz-fava-beans-400g",
+        "name": "فول مدمس خلطة سرية كنوز 400 جم",
+        "nameEn": "Kinooz Fava Beans 400g",
+        "price": 25,
+        "compareAtPrice": 28,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784294/pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1.jpg",
+        "imagePublicId": "pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1",
+            "pandamarket/categories/pantry/products/kinooz-fava-beans-400g/2"
+        ],
+        "category": "pantry",
+        "subcategory": "grains",
+        "description": "فول مدمس لذيذ مطبوخ بخلطة التوابل السحرية جاهز على التسخين",
+        "descriptionEn": "Delicious cooked fava beans with secret spice mix ready to heat",
+        "brand": "Kinooz",
+        "stock": 160,
+        "unit": "400g",
+        "discount": 10,
+        "rating": 4.7,
+        "reviews": 145,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "cristal-sunflower-oil-1-5l",
+        "name": "زيت عباد الشمس كريستال 1.5 لتر",
+        "nameEn": "Cristal Sunflower Oil 1.5L",
+        "price": 115,
+        "compareAtPrice": 130,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118517/pandamarket/categories/condiments/products/cristal-sunflower-oil-1-5l/1.jpg",
+        "imagePublicId": "pandamarket/categories/condiments/products/cristal-sunflower-oil-1-5l/1",
+        "imagePublicIds": [
+            "pandamarket/categories/condiments/products/cristal-sunflower-oil-1-5l/1",
+            "pandamarket/categories/condiments/products/cristal-sunflower-oil-1-5l/2",
+            "pandamarket/categories/condiments/products/cristal-sunflower-oil-1-5l/3"
+        ],
+        "category": "condiments",
+        "subcategory": "oil",
+        "description": "زيت عباد شمس نقي وصحي خفيف على المعدة ومناسب للطهي والقلي",
+        "descriptionEn": "Pure cholesterol-free sunflower cooking oil 1.5L bottle",
+        "brand": "Cristal",
+        "stock": 170,
+        "unit": "1.5 Liter",
+        "discount": 11,
+        "rating": 4.9,
+        "reviews": 380,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "sheraton-natural-pure-ghee-800g",
+        "name": "سمن طبيعي فاخر شيراتون 800 جم",
+        "nameEn": "Sheraton Natural Pure Ghee 800g",
+        "price": 310,
+        "compareAtPrice": 340,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118524/pandamarket/categories/condiments/products/sheraton-natural-pure-ghee-800g/1.jpg",
+        "imagePublicId": "pandamarket/categories/condiments/products/sheraton-natural-pure-ghee-800g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/condiments/products/sheraton-natural-pure-ghee-800g/1"
+        ],
+        "category": "condiments",
+        "subcategory": "ghee",
+        "description": "سمن طبيعي خالي من الزيوت المهدرجة برائحة وطعم أصيل",
+        "descriptionEn": "Pure traditional Egyptian natural ghee 800g metal tin",
+        "brand": "Sheraton",
+        "stock": 80,
+        "unit": "800g",
+        "discount": 8,
+        "rating": 4.9,
+        "reviews": 290,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "halwani-ghee-1kg",
+        "name": "سمن حلواني 1 كيلو",
+        "nameEn": "Halwani Ghee 1kg",
+        "price": 290,
+        "compareAtPrice": 320,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118525/pandamarket/categories/condiments/products/halwani-ghee-1kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/condiments/products/halwani-ghee-1kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/condiments/products/halwani-ghee-1kg/1",
+            "pandamarket/categories/condiments/products/halwani-ghee-1kg/2"
+        ],
+        "category": "condiments",
+        "subcategory": "ghee",
+        "description": "سمن فاخر بطعم السمن البلدي الأصيل ممتاز للحلويات والطبخ",
+        "descriptionEn": "Premium ghee with authentic traditional taste ideal for sweets and cooking",
+        "brand": "Halwani",
+        "stock": 90,
+        "unit": "1 kg",
+        "discount": 9,
+        "rating": 4.8,
+        "reviews": 210,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "heinz-tomato-ketchup-397g",
+        "name": "كاتشب طماطم هاينز 397 جم",
+        "nameEn": "Heinz Tomato Ketchup 397g",
+        "price": 45,
+        "compareAtPrice": 50,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118528/pandamarket/categories/condiments/products/heinz-tomato-ketchup-397g/1.jpg",
+        "imagePublicId": "pandamarket/categories/condiments/products/heinz-tomato-ketchup-397g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/condiments/products/heinz-tomato-ketchup-397g/1",
+            "pandamarket/categories/condiments/products/heinz-tomato-ketchup-397g/2"
+        ],
+        "category": "condiments",
+        "subcategory": "sauce",
+        "description": "كاتشب طماطم هاينز الشهير بطعم الطماطم الغني اللذيذ",
+        "descriptionEn": "Famous Heinz tomato ketchup with rich natural tomato flavor 397g squeeze bottle",
+        "brand": "Heinz",
+        "stock": 180,
+        "unit": "397g",
+        "discount": 10,
+        "rating": 4.9,
+        "reviews": 330,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "hellmanns-mayonnaise-400ml",
+        "name": "مايونيز كلاسيك هيلمانز 400 مل",
+        "nameEn": "Hellmanns Mayonnaise 400ml",
+        "price": 65,
+        "compareAtPrice": 75,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118530/pandamarket/categories/condiments/products/hellmanns-mayonnaise-400ml/1.jpg",
+        "imagePublicId": "pandamarket/categories/condiments/products/hellmanns-mayonnaise-400ml/1",
+        "imagePublicIds": [
+            "pandamarket/categories/condiments/products/hellmanns-mayonnaise-400ml/1",
+            "pandamarket/categories/condiments/products/hellmanns-mayonnaise-400ml/2"
+        ],
+        "category": "condiments",
+        "subcategory": "sauce",
+        "description": "مايونيز هيلمانز الكلاسيكي بطعم غني وقوام كريمي متماسك",
+        "descriptionEn": "Real creamy Hellmanns mayonnaise 400ml jar perfect for salads and sandwiches",
+        "brand": "Hellmanns",
+        "stock": 140,
+        "unit": "400ml",
+        "discount": 13,
+        "rating": 4.8,
+        "reviews": 270,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "oreo-chocolate-biscuits-154g",
+        "name": "بسكويت أوريو بالشوكولاتة 154 جم",
+        "nameEn": "Oreo Chocolate Biscuits 154g",
+        "price": 32,
+        "compareAtPrice": 36,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118537/pandamarket/categories/snacks/products/oreo-chocolate-biscuits-154g/1.jpg",
+        "imagePublicId": "pandamarket/categories/snacks/products/oreo-chocolate-biscuits-154g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/snacks/products/oreo-chocolate-biscuits-154g/1",
+            "pandamarket/categories/snacks/products/oreo-chocolate-biscuits-154g/2",
+            "pandamarket/categories/snacks/products/oreo-chocolate-biscuits-154g/3"
+        ],
+        "category": "snacks",
+        "subcategory": "biscuits",
+        "description": "بسكويت أوريو الشهير بكريمة الفانيليا بين قطعتين شوكولاتة مقرمشة",
+        "descriptionEn": "Classic Oreo sandwich biscuits with vanilla cream filling 154g roll",
+        "brand": "Oreo",
+        "stock": 210,
+        "unit": "154g",
+        "discount": 11,
+        "rating": 4.9,
+        "reviews": 450,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "chipsy-salt-vinegar-potato-chips-100g",
+        "name": "شيبسي بالملح والخل 100 جم",
+        "nameEn": "Chipsy Salt & Vinegar Potato Chips 100g",
+        "price": 18,
+        "compareAtPrice": 20,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118541/pandamarket/categories/snacks/products/chipsy-salt-vinegar-potato-chips-100g/1.jpg",
+        "imagePublicId": "pandamarket/categories/snacks/products/chipsy-salt-vinegar-potato-chips-100g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/snacks/products/chipsy-salt-vinegar-potato-chips-100g/1",
+            "pandamarket/categories/snacks/products/chipsy-salt-vinegar-potato-chips-100g/2"
+        ],
+        "category": "snacks",
+        "subcategory": "chips",
+        "description": "رقائق بطاطس طبيعية مقرمشة بنكهة الملح والخل الرائعة",
+        "descriptionEn": "Crispy natural potato chips with salt and vinegar flavor 100g bag",
+        "brand": "Chipsy",
+        "stock": 230,
+        "unit": "100g",
+        "discount": 10,
+        "rating": 4.7,
+        "reviews": 310,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "cadbury-dairy-milk-chocolate-90g",
+        "name": "شوكولاتة كادبوري بالحليب 90 جم",
+        "nameEn": "Cadbury Dairy Milk Chocolate 90g",
+        "price": 48,
+        "compareAtPrice": 55,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118549/pandamarket/categories/snacks/products/cadbury-dairy-milk-chocolate-90g/1.jpg",
+        "imagePublicId": "pandamarket/categories/snacks/products/cadbury-dairy-milk-chocolate-90g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/snacks/products/cadbury-dairy-milk-chocolate-90g/1",
+            "pandamarket/categories/snacks/products/cadbury-dairy-milk-chocolate-90g/2"
+        ],
+        "category": "snacks",
+        "subcategory": "chocolate",
+        "description": "شوكولاتة كادبوري الغنية بحليب ناعم وسلس يذوب في الفم",
+        "descriptionEn": "Smooth creamy Cadbury Dairy Milk chocolate bar 90g",
+        "brand": "Cadbury",
+        "stock": 160,
+        "unit": "90g",
+        "discount": 12,
+        "rating": 4.9,
+        "reviews": 420,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "beyti-orange-juice-1l",
+        "name": "عصير بيتي برتقال 1 لتر",
+        "nameEn": "Beyti Orange Juice 1L",
+        "price": 35,
+        "compareAtPrice": 40,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118560/pandamarket/categories/beverages/products/beyti-orange-juice-1l/1.jpg",
+        "imagePublicId": "pandamarket/categories/beverages/products/beyti-orange-juice-1l/1",
+        "imagePublicIds": [
+            "pandamarket/categories/beverages/products/beyti-orange-juice-1l/1"
+        ],
+        "category": "beverages",
+        "subcategory": "juice",
+        "description": "عصير برتقال طبيعي منعش غني بفيتامين سي بدون سكر مضاف",
+        "descriptionEn": "Refreshing 100% natural orange juice 1L carton rich in Vitamin C",
+        "brand": "Beyti",
+        "stock": 170,
+        "unit": "1 Liter",
+        "discount": 12,
+        "rating": 4.8,
+        "reviews": 230,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "juhayna-orange-juice-1l",
+        "name": "عصير جهينة برتقال 1 لتر",
+        "nameEn": "Juhayna Orange Juice 1L",
+        "price": 36,
+        "compareAtPrice": 42,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784058/pandamarket/categories/beverages/products/juhayna-orange-juice-1l/1.jpg",
+        "imagePublicId": "pandamarket/categories/beverages/products/juhayna-orange-juice-1l/1",
+        "imagePublicIds": [
+            "pandamarket/categories/beverages/products/juhayna-orange-juice-1l/1",
+            "pandamarket/categories/beverages/products/juhayna-orange-juice-1l/2"
+        ],
+        "category": "beverages",
+        "subcategory": "juice",
+        "description": "عصير جهينة برتقال بيور فاخر بدون مواد حافظة",
+        "descriptionEn": "Juhayna pure orange juice 1L without preservatives",
+        "brand": "Juhayna",
+        "stock": 150,
+        "unit": "1 Liter",
+        "discount": 14,
+        "rating": 4.8,
+        "reviews": 210,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "coca-cola-1l",
+        "name": "كوكاكولا 1 لتر",
+        "nameEn": "Coca Cola 1L",
+        "price": 22,
+        "compareAtPrice": 25,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784023/pandamarket/categories/beverages/products/coca-cola-1l/1.jpg",
+        "imagePublicId": "pandamarket/categories/beverages/products/coca-cola-1l/1",
+        "imagePublicIds": [
+            "pandamarket/categories/beverages/products/coca-cola-1l/1",
+            "pandamarket/categories/beverages/products/coca-cola-1l/2"
+        ],
+        "category": "beverages",
+        "subcategory": "soda",
+        "description": "مشروب غازي منعش كوكاكولا الطعم الأصلي",
+        "descriptionEn": "Refreshing soft drink Coca Cola original taste 1L bottle",
+        "brand": "Coca Cola",
+        "stock": 200,
+        "unit": "1 Liter",
+        "discount": 12,
+        "rating": 4.8,
+        "reviews": 500,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "pepsi-1-5l",
+        "name": "ببيبسي 1.5 لتر",
+        "nameEn": "Pepsi 1.5L",
+        "price": 28,
+        "compareAtPrice": 32,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784087/pandamarket/categories/beverages/products/pepsi-1-5l/1.jpg",
+        "imagePublicId": "pandamarket/categories/beverages/products/pepsi-1-5l/1",
+        "imagePublicIds": [
+            "pandamarket/categories/beverages/products/pepsi-1-5l/1",
+            "pandamarket/categories/beverages/products/pepsi-1-5l/2"
+        ],
+        "category": "beverages",
+        "subcategory": "soda",
+        "description": "مشروب بيبسي غازي منعش للحفلات والتجمعات العائلية",
+        "descriptionEn": "Pepsi cola carbonated soft drink 1.5L family size bottle",
+        "brand": "Pepsi",
+        "stock": 180,
+        "unit": "1.5 Liter",
+        "discount": 12,
+        "rating": 4.7,
+        "reviews": 390,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "hayat-mineral-water-600ml",
+        "name": "مياه معدنية طبيعية حياة 600 مل",
+        "nameEn": "Hayat Natural Mineral Water 600ml",
+        "price": 6,
+        "compareAtPrice": 8,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784039/pandamarket/categories/beverages/products/hayat-mineral-water-600ml/1.jpg",
+        "imagePublicId": "pandamarket/categories/beverages/products/hayat-mineral-water-600ml/1",
+        "imagePublicIds": [
+            "pandamarket/categories/beverages/products/hayat-mineral-water-600ml/1",
+            "pandamarket/categories/beverages/products/hayat-mineral-water-600ml/2"
+        ],
+        "category": "beverages",
+        "subcategory": "water",
+        "description": "مياه شرب طبيعية نقية معبأة من آبار طبيعية عميقة",
+        "descriptionEn": "Pure natural drinking water 600ml bottle by Hayat",
+        "brand": "Hayat",
+        "stock": 300,
+        "unit": "600ml",
+        "discount": 25,
+        "rating": 4.9,
+        "reviews": 600,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "ariel-automatic-laundry-detergent-powder-4kg",
+        "name": "مسحوق غسيل أوتوماتيك أرييل 4 كيلو",
+        "nameEn": "Ariel Automatic Laundry Detergent Powder 4 kg",
+        "price": 280,
+        "compareAtPrice": 320,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118600/pandamarket/categories/cleaning/products/ariel-automatic-laundry-detergent-powder-4kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/cleaning/products/ariel-automatic-laundry-detergent-powder-4kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/cleaning/products/ariel-automatic-laundry-detergent-powder-4kg/1",
+            "pandamarket/categories/cleaning/products/ariel-automatic-laundry-detergent-powder-4kg/2"
+        ],
+        "category": "cleaning",
+        "subcategory": "laundry",
+        "description": "مسحوق غسيل أوتوماتيك مطور لإزالة أصعب البقع برائحة اللافندر المنعشة",
+        "descriptionEn": "Ariel original automatic washing machine powder 4kg bag with lavender scent",
+        "brand": "Ariel",
+        "stock": 100,
+        "unit": "4 kg",
+        "discount": 12,
+        "rating": 4.9,
+        "reviews": 410,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "ariel-automatic-gel-2l",
+        "name": "سائل غسيل أرييل جل أوتوماتيك 2 لتر",
+        "nameEn": "Ariel Automatic Power Gel 2L",
+        "price": 195,
+        "compareAtPrice": 220,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784100/pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1.jpg",
+        "imagePublicId": "pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1",
+        "imagePublicIds": [
+            "pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1",
+            "pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/2"
+        ],
+        "category": "cleaning",
+        "subcategory": "laundry",
+        "description": "جل أرييل السائل للغسالات الأوتوماتيك يذوب بسرعة ويحمي الألوان",
+        "descriptionEn": "Ariel automatic power gel liquid detergent 2L bottle protects fabric colors",
+        "brand": "Ariel",
+        "stock": 120,
+        "unit": "2 Liter",
+        "discount": 11,
+        "rating": 4.8,
+        "reviews": 310,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "fairy-lemon-dishwashing-liquid-1l",
+        "name": "سائل تنظيف الأطباق ليمون فيري 1 لتر",
+        "nameEn": "Fairy Lemon Dishwashing Liquid 1L",
+        "price": 75,
+        "compareAtPrice": 85,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118623/pandamarket/categories/cleaning/products/fairy-lemon-dishwashing-liquid-1l/1.jpg",
+        "imagePublicId": "pandamarket/categories/cleaning/products/fairy-lemon-dishwashing-liquid-1l/1",
+        "imagePublicIds": [
+            "pandamarket/categories/cleaning/products/fairy-lemon-dishwashing-liquid-1l/1",
+            "pandamarket/categories/cleaning/products/fairy-lemon-dishwashing-liquid-1l/2"
+        ],
+        "category": "cleaning",
+        "subcategory": "dishwashing",
+        "description": "سائل غسيل الأطباق فيري القوي على الدهون برائحة الليمون الزكية",
+        "descriptionEn": "Fairy lemon dishwashing liquid 1L concentrated grease cutting formula",
+        "brand": "Fairy",
+        "stock": 180,
+        "unit": "1 Liter",
+        "discount": 11,
+        "rating": 4.9,
+        "reviews": 390,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "tide-detergent-2-5kg",
+        "name": "مسحوق غسيل تايد للغسالات العادية 2.5 كيلو",
+        "nameEn": "Tide Laundry Detergent Powder 2.5kg",
+        "price": 155,
+        "compareAtPrice": 175,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784135/pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1.jpg",
+        "imagePublicId": "pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1",
+        "imagePublicIds": [
+            "pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1",
+            "pandamarket/categories/cleaning/products/tide-detergent-2-5kg/2"
+        ],
+        "category": "cleaning",
+        "subcategory": "laundry",
+        "description": "مسحوق تايد الأصلي لنظافة ساطعة وبياض ناصع برائحة الانتعاش",
+        "descriptionEn": "Tide original washing powder 2.5kg bag for bright cleanliness and freshness",
+        "brand": "Tide",
+        "stock": 130,
+        "unit": "2.5 kg",
+        "discount": 11,
+        "rating": 4.8,
+        "reviews": 290,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "sunsilk-smooth-shine-shampoo-350ml",
+        "name": "شامبو صانسيلك لمعان وحيوية 350 مل",
+        "nameEn": "Sunsilk Smooth & Shine Shampoo 350ml",
+        "price": 70,
+        "compareAtPrice": 80,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118628/pandamarket/categories/personal-care/products/sunsilk-smooth-shine-shampoo-350ml/1.jpg",
+        "imagePublicId": "pandamarket/categories/personal-care/products/sunsilk-smooth-shine-shampoo-350ml/1",
+        "imagePublicIds": [
+            "pandamarket/categories/personal-care/products/sunsilk-smooth-shine-shampoo-350ml/1"
+        ],
+        "category": "personal-care",
+        "subcategory": "hair-care",
+        "description": "شامبو صانسيلك المغذي للشعر يمنحه النعومة واللمعان الطبيعي",
+        "descriptionEn": "Sunsilk smooth and shiny hair shampoo 350ml yellow bottle",
+        "brand": "Sunsilk",
+        "stock": 120,
+        "unit": "350ml",
+        "discount": 12,
+        "rating": 4.8,
+        "reviews": 210,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "dove-beauty-cream-bar-soap-135g",
+        "name": "صابون مرطب دوف بيوتي 135 جم",
+        "nameEn": "Dove Beauty Cream Bar Soap 135g",
+        "price": 38,
+        "compareAtPrice": 44,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118636/pandamarket/categories/personal-care/products/dove-beauty-cream-bar-soap-135g/1.jpg",
+        "imagePublicId": "pandamarket/categories/personal-care/products/dove-beauty-cream-bar-soap-135g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/personal-care/products/dove-beauty-cream-bar-soap-135g/1"
+        ],
+        "category": "personal-care",
+        "subcategory": "soap",
+        "description": "قالب صابون دوف المرطب يحتوي على 1/4 كريم مرطب لنعومة البشرة",
+        "descriptionEn": "Dove white beauty moisturizing bar soap 135g box",
+        "brand": "Dove",
+        "stock": 220,
+        "unit": "135g",
+        "discount": 13,
+        "rating": 4.9,
+        "reviews": 370,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "pampers-pants-size-3-58-diapers",
+        "name": "حفاضات أطفال بامبرز كلوت مقاس 3 (58 حفاضة)",
+        "nameEn": "Pampers Pants Size 3 58 Diapers",
+        "price": 360,
+        "compareAtPrice": 410,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118643/pandamarket/categories/baby-care/products/pampers-pants-size-3-58-diapers/1.jpg",
+        "imagePublicId": "pandamarket/categories/baby-care/products/pampers-pants-size-3-58-diapers/1",
+        "imagePublicIds": [
+            "pandamarket/categories/baby-care/products/pampers-pants-size-3-58-diapers/1"
+        ],
+        "category": "baby-care",
+        "subcategory": "diapers",
+        "description": "حفاضات بامبرز فائقة الإمتصاص توفر جفاف تام وراحة لطفلك طوال الليل",
+        "descriptionEn": "Pampers Premium Care Size 3 midi diapers pack 58 count",
+        "brand": "Pampers",
+        "stock": 75,
+        "unit": "58 Diapers",
+        "discount": 12,
+        "rating": 4.9,
+        "reviews": 310,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    },
+    {
+        "id": "rich-bake-white-toast-bread-500g",
+        "name": "خبز توست أبيض ريتش بيك 500 جم",
+        "nameEn": "Rich Bake White Toast Bread 500g",
+        "price": 42,
+        "compareAtPrice": 48,
+        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118649/pandamarket/categories/bakery/products/rich-bake-white-toast-bread-500g/1.jpg",
+        "imagePublicId": "pandamarket/categories/bakery/products/rich-bake-white-toast-bread-500g/1",
+        "imagePublicIds": [
+            "pandamarket/categories/bakery/products/rich-bake-white-toast-bread-500g/1"
+        ],
+        "category": "bakery",
+        "subcategory": "toast",
+        "description": "خبز توست أبيض طازج وطري ممتاز للإفطار وساندوتشات الأطفال",
+        "descriptionEn": "Fresh sliced white toast bread 500g packet by Rich Bake",
+        "brand": "Rich Bake",
+        "stock": 130,
+        "unit": "500g",
+        "discount": 12,
+        "rating": 4.8,
+        "reviews": 260,
+        "readinessStatus": "active_sellable",
+        "isFulfillable": true
+    }
 ];
 
-export function getProductById(id: string): Product | undefined {
-  return sampleProducts.find(p => p.id === id);
-}
+export const getProductById = (id: string): Product | undefined => {
+  return sampleProducts.find((p) => p.id === id);
+};
 
-export function getProductsByCategory(category: string): Product[] {
-  return sampleProducts.filter(p => p.category === category);
-}
-
-export function getProductsByBrand(brand: string): Product[] {
-  return sampleProducts.filter(p => p.brand === brand);
-}
-
-export function searchProducts(searchTerm: string): Product[] {
-  const term = searchTerm.toLowerCase();
-  return sampleProducts.filter(
-    p =>
-      p.name.toLowerCase().includes(term) ||
-      p.nameEn.toLowerCase().includes(term) ||
-      p.description?.toLowerCase().includes(term) ||
-      p.descriptionEn?.toLowerCase().includes(term) ||
-      p.brand.toLowerCase().includes(term)
-  );
-}
-
-export function getFeaturedProducts(limit: number = 8): Product[] {
-  return sampleProducts
-    .filter(p => p.rating && p.rating > 4)
-    .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-    .slice(0, limit);
-}
-
-export function getNewArrivals(limit: number = 8): Product[] {
-  return sampleProducts
-    .sort((a, b) => (b.id || '').localeCompare(a.id || ''))
-    .slice(0, limit);
-}
-
-export function getDiscountedProducts(limit: number = 10): Product[] {
-  return sampleProducts
-    .filter(p => p.discount && p.discount > 0)
-    .sort((a, b) => (b.discount || 0) - (a.discount || 0))
-    .slice(0, limit);
-}
-
-export const categories = [
-  { id: 'dairy', name: 'الألبان والبيض', nameEn: 'Dairy & Eggs', slug: 'dairy' },
-  { id: 'beverages', name: 'المشروبات', nameEn: 'Beverages', slug: 'beverages' },
-  { id: 'produce', name: 'الخضروات والفواكه الطازجة', nameEn: 'Fresh Produce', slug: 'produce' },
-  { id: 'bakery', name: 'المخبوزات والخبز', nameEn: 'Bakery & Bread', slug: 'bakery' },
-  { id: 'pantry', name: 'الأرز والمكرونة والبقوليات', nameEn: 'Pantry & Grains', slug: 'pantry' },
-  { id: 'condiments', name: 'الزيوت والصلصات والتوابل', nameEn: 'Oils, Sauces & Spices', slug: 'condiments' },
-  { id: 'snacks', name: 'الوجبات الخفيفة والحلويات', nameEn: 'Snacks & Sweets', slug: 'snacks' },
-  { id: 'cleaning', name: 'العناية والمنظفات المنزلية', nameEn: 'Household & Cleaning', slug: 'cleaning' },
-];
+export const getProductsByCategory = (category: string): Product[] => {
+  return sampleProducts.filter((p) => p.category === category);
+};
