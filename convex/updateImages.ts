@@ -25,7 +25,7 @@ export const updateImagesBatch = mutation({
   args: {
     updates: v.array(
       v.object({
-        id: v.id("products"),
+        id: v.string(),
         imagePublicId: v.string(),
         imagePublicIds: v.array(v.string()),
       })
@@ -34,12 +34,15 @@ export const updateImagesBatch = mutation({
   handler: async (ctx, args) => {
     let count = 0;
     for (const u of args.updates) {
-      await ctx.db.patch(u.id, {
-        imagePublicId: u.imagePublicId,
-        imagePublicIds: u.imagePublicIds,
-        updatedAt: Date.now(),
-      });
-      count++;
+      const normalizedId = ctx.db.normalizeId("products", u.id);
+      if (normalizedId) {
+        await ctx.db.patch(normalizedId, {
+          imagePublicId: u.imagePublicId,
+          imagePublicIds: u.imagePublicIds,
+          updatedAt: Date.now(),
+        });
+        count++;
+      }
     }
     return count;
   },
