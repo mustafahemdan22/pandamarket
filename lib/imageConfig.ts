@@ -198,9 +198,9 @@ function buildCloudinaryUrl(
     return { primary: publicId, fallback: publicId };
   }
 
-  // Local path starting with / — serve directly via Next.js
+  // Strip leading slash if present to ensure proper Cloudinary public ID
   if (publicId.startsWith('/')) {
-    return { primary: publicId, fallback: FALLBACK_IMAGE_PATH };
+    publicId = publicId.substring(1);
   }
 
   // Build Cloudinary URL from public ID + transformations
