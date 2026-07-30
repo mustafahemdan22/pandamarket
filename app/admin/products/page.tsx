@@ -23,7 +23,7 @@ import {
   FiImage
 } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageProvider';
-import { buildImageUrl } from '@/lib/cloudinary';
+import { getImageUrl } from '@/lib/imageConfig';
 import toast from 'react-hot-toast';
 
 interface AdminProduct {
@@ -336,7 +336,7 @@ export default function AdminProductsPage() {
                         <div className="flex items-center space-x-3 rtl:space-x-reverse">
                           <div className="w-12 h-12 relative rounded-xl bg-slate-800 overflow-hidden flex-shrink-0 border border-slate-700">
                             <Image
-                              src={buildImageUrl(product.imagePublicId, { width: 100, height: 100 }).primary}
+                              src={getImageUrl(product.imagePublicId, 'thumbnail').primary}
                               alt={product.nameEn}
                               fill
                               className="object-cover"

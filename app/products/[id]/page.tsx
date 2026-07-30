@@ -315,7 +315,7 @@ const ProductDetailPage = () => {
             className="space-y-4"
           >
             <ProductImageGallery
-              mainImagePublicId={product.imagePublicId || product.image || ''}
+              mainImagePublicId={product.imagePublicId || ''}
               galleryImagePublicIds={product.imagePublicIds?.slice(1) || []}
               alt={productName}
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden"

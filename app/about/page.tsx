@@ -3,11 +3,15 @@
 import { motion } from 'framer-motion';
 import { FiTarget, FiUsers, FiAward, FiHeart } from 'react-icons/fi';
 import { useLanguage } from '../../contexts/LanguageProvider';
-import img from "../Phoenix_10_A_cute_panda_mother_with_her_two_baby_pandas_shoppi_3.jpg";
+import { ABOUT_PAGE_IMAGE, FALLBACK_IMAGE_PATH, CLOUDINARY_CLOUD_NAME } from '../../lib/imageConfig';
 import Image from "next/image";
+import { useState } from 'react';
 
 const AboutPage = () => {
   const { language } = useLanguage();
+  const [imgSrc, setImgSrc] = useState<string>(
+    `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/w_800,h_600,c_fill,q_auto,f_auto/${ABOUT_PAGE_IMAGE}`
+  );
 
   const values = [
     {
@@ -88,10 +92,11 @@ const AboutPage = () => {
             </div>
             <div className="relative h-80 w-full">
               <Image 
-                src={img} 
+                src={imgSrc} 
                 alt="Panda" 
                 fill 
                 className="object-cover"
+                onError={() => setImgSrc(FALLBACK_IMAGE_PATH)}
               />
               <div className="absolute inset-0 bg-[rgba(0,0,0,0.2)]"></div>
             </div>

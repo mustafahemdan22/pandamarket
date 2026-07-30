@@ -7,7 +7,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Fresh Local Tomatoes 1 kg",
         "price": 18,
         "compareAtPrice": 22,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118372/pandamarket/categories/produce/products/fresh-local-tomatoes-1kg/1.jpg",
         "imagePublicId": "pandamarket/categories/produce/products/fresh-local-tomatoes-1kg/1",
         "imagePublicIds": [
             "pandamarket/categories/produce/products/fresh-local-tomatoes-1kg/1"
@@ -31,7 +30,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Premium Local Bananas 1 kg",
         "price": 25,
         "compareAtPrice": 28,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118380/pandamarket/categories/produce/products/premium-local-bananas-1kg/1.jpg",
         "imagePublicId": "pandamarket/categories/produce/products/premium-local-bananas-1kg/1",
         "imagePublicIds": [
             "pandamarket/categories/produce/products/premium-local-bananas-1kg/1"
@@ -55,7 +53,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Fresh Cooking Potatoes 1 kg",
         "price": 20,
         "compareAtPrice": 24,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118386/pandamarket/categories/produce/products/fresh-cooking-potatoes-1kg/1.jpg",
         "imagePublicId": "pandamarket/categories/produce/products/fresh-cooking-potatoes-1kg/1",
         "imagePublicIds": [
             "pandamarket/categories/produce/products/fresh-cooking-potatoes-1kg/1"
@@ -79,7 +76,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Fresh Greenhouse Cucumbers 1 kg",
         "price": 16,
         "compareAtPrice": 20,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118394/pandamarket/categories/produce/products/fresh-greenhouse-cucumbers-1kg/1.jpg",
         "imagePublicId": "pandamarket/categories/produce/products/fresh-greenhouse-cucumbers-1kg/1",
         "imagePublicIds": [
             "pandamarket/categories/produce/products/fresh-greenhouse-cucumbers-1kg/1"
@@ -103,7 +99,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Fresh Red Sweet Apples 1 kg",
         "price": 65,
         "compareAtPrice": 75,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118404/pandamarket/categories/produce/products/fresh-red-sweet-apples-1kg/1.jpg",
         "imagePublicId": "pandamarket/categories/produce/products/fresh-red-sweet-apples-1kg/1",
         "imagePublicIds": [
             "pandamarket/categories/produce/products/fresh-red-sweet-apples-1kg/1"
@@ -127,7 +122,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Juhayna Full Cream Milk 1L",
         "price": 45,
         "compareAtPrice": 50,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118412/pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/1.jpg",
         "imagePublicId": "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/1",
         "imagePublicIds": [
             "pandamarket/categories/dairy/products/juhayna-full-cream-milk-1l/1",
@@ -154,7 +148,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Domty White Feta Cheese 500g",
         "price": 42,
         "compareAtPrice": 48,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118421/pandamarket/categories/dairy/products/domty-white-feta-cheese-500g/1.jpg",
         "imagePublicId": "pandamarket/categories/dairy/products/domty-white-feta-cheese-500g/1",
         "imagePublicIds": [
             "pandamarket/categories/dairy/products/domty-white-feta-cheese-500g/1",
@@ -180,7 +173,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Almarai Natural Yogurt 105g 4pcs",
         "price": 28,
         "compareAtPrice": 32,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118447/pandamarket/categories/dairy/products/almarai-natural-yogurt-4pcs/1.jpg",
         "imagePublicId": "pandamarket/categories/dairy/products/almarai-natural-yogurt-4pcs/1",
         "imagePublicIds": [
             "pandamarket/categories/dairy/products/almarai-natural-yogurt-4pcs/1",
@@ -206,7 +198,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Puck Triangle Cheese 8pcs",
         "price": 85,
         "compareAtPrice": 95,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118454/pandamarket/categories/dairy/products/puck-triangle-cheese-8pcs/1.jpg",
         "imagePublicId": "pandamarket/categories/dairy/products/puck-triangle-cheese-8pcs/1",
         "imagePublicIds": [
             "pandamarket/categories/dairy/products/puck-triangle-cheese-8pcs/1",
@@ -232,7 +223,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Fresh Boneless Chicken Breast 1 kg",
         "price": 220,
         "compareAtPrice": 245,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118471/pandamarket/categories/meat/products/fresh-boneless-chicken-breast-1kg/1.jpg",
         "imagePublicId": "pandamarket/categories/meat/products/fresh-boneless-chicken-breast-1kg/1",
         "imagePublicIds": [
             "pandamarket/categories/meat/products/fresh-boneless-chicken-breast-1kg/1"
@@ -256,7 +246,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Fresh Minced Beef 500g",
         "price": 190,
         "compareAtPrice": 210,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118479/pandamarket/categories/meat/products/fresh-minced-beef-500g/1.jpg",
         "imagePublicId": "pandamarket/categories/meat/products/fresh-minced-beef-500g/1",
         "imagePublicIds": [
             "pandamarket/categories/meat/products/fresh-minced-beef-500g/1"
@@ -280,7 +269,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Farm Frites French Fries 2.5 kg",
         "price": 145,
         "compareAtPrice": 165,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118486/pandamarket/categories/frozen/products/farm-frites-french-fries-2-5kg/1.jpg",
         "imagePublicId": "pandamarket/categories/frozen/products/farm-frites-french-fries-2-5kg/1",
         "imagePublicIds": [
             "pandamarket/categories/frozen/products/farm-frites-french-fries-2-5kg/1"
@@ -304,7 +292,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Koki Crunchy Chicken Pane 800g",
         "price": 175,
         "compareAtPrice": 195,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118493/pandamarket/categories/frozen/products/koki-crunchy-chicken-pane-800g/1.jpg",
         "imagePublicId": "pandamarket/categories/frozen/products/koki-crunchy-chicken-pane-800g/1",
         "imagePublicIds": [
             "pandamarket/categories/frozen/products/koki-crunchy-chicken-pane-800g/1"
@@ -328,7 +315,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Al Doha Egyptian Rice 5 kg",
         "price": 175,
         "compareAtPrice": 195,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118499/pandamarket/categories/pantry/products/al-doha-egyptian-rice-5kg/1.jpg",
         "imagePublicId": "pandamarket/categories/pantry/products/al-doha-egyptian-rice-5kg/1",
         "imagePublicIds": [
             "pandamarket/categories/pantry/products/al-doha-egyptian-rice-5kg/1",
@@ -354,7 +340,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "El Malka Spaghetti Pasta 400g",
         "price": 15,
         "compareAtPrice": 18,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118502/pandamarket/categories/pantry/products/el-malka-spaghetti-pasta-400g/1.jpg",
         "imagePublicId": "pandamarket/categories/pantry/products/el-malka-spaghetti-pasta-400g/1",
         "imagePublicIds": [
             "pandamarket/categories/pantry/products/el-malka-spaghetti-pasta-400g/1",
@@ -379,7 +364,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Al Doha Yellow Lentils 500g",
         "price": 38,
         "compareAtPrice": 44,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118506/pandamarket/categories/pantry/products/al-doha-yellow-lentils-500g/1.jpg",
         "imagePublicId": "pandamarket/categories/pantry/products/al-doha-yellow-lentils-500g/1",
         "imagePublicIds": [
             "pandamarket/categories/pantry/products/al-doha-yellow-lentils-500g/1",
@@ -404,7 +388,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Kinooz Fava Beans 400g",
         "price": 25,
         "compareAtPrice": 28,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784294/pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1.jpg",
         "imagePublicId": "pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1",
         "imagePublicIds": [
             "pandamarket/categories/pantry/products/kinooz-fava-beans-400g/1",
@@ -429,7 +412,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Cristal Sunflower Oil 1.5L",
         "price": 115,
         "compareAtPrice": 130,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118517/pandamarket/categories/condiments/products/cristal-sunflower-oil-1-5l/1.jpg",
         "imagePublicId": "pandamarket/categories/condiments/products/cristal-sunflower-oil-1-5l/1",
         "imagePublicIds": [
             "pandamarket/categories/condiments/products/cristal-sunflower-oil-1-5l/1",
@@ -455,7 +437,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Sheraton Natural Pure Ghee 800g",
         "price": 310,
         "compareAtPrice": 340,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118524/pandamarket/categories/condiments/products/sheraton-natural-pure-ghee-800g/1.jpg",
         "imagePublicId": "pandamarket/categories/condiments/products/sheraton-natural-pure-ghee-800g/1",
         "imagePublicIds": [
             "pandamarket/categories/condiments/products/sheraton-natural-pure-ghee-800g/1"
@@ -479,7 +460,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Halwani Ghee 1kg",
         "price": 290,
         "compareAtPrice": 320,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118525/pandamarket/categories/condiments/products/halwani-ghee-1kg/1.jpg",
         "imagePublicId": "pandamarket/categories/condiments/products/halwani-ghee-1kg/1",
         "imagePublicIds": [
             "pandamarket/categories/condiments/products/halwani-ghee-1kg/1",
@@ -504,7 +484,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Heinz Tomato Ketchup 397g",
         "price": 45,
         "compareAtPrice": 50,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118528/pandamarket/categories/condiments/products/heinz-tomato-ketchup-397g/1.jpg",
         "imagePublicId": "pandamarket/categories/condiments/products/heinz-tomato-ketchup-397g/1",
         "imagePublicIds": [
             "pandamarket/categories/condiments/products/heinz-tomato-ketchup-397g/1",
@@ -529,7 +508,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Hellmanns Mayonnaise 400ml",
         "price": 65,
         "compareAtPrice": 75,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118530/pandamarket/categories/condiments/products/hellmanns-mayonnaise-400ml/1.jpg",
         "imagePublicId": "pandamarket/categories/condiments/products/hellmanns-mayonnaise-400ml/1",
         "imagePublicIds": [
             "pandamarket/categories/condiments/products/hellmanns-mayonnaise-400ml/1",
@@ -554,7 +532,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Oreo Chocolate Biscuits 154g",
         "price": 32,
         "compareAtPrice": 36,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118537/pandamarket/categories/snacks/products/oreo-chocolate-biscuits-154g/1.jpg",
         "imagePublicId": "pandamarket/categories/snacks/products/oreo-chocolate-biscuits-154g/1",
         "imagePublicIds": [
             "pandamarket/categories/snacks/products/oreo-chocolate-biscuits-154g/1",
@@ -580,7 +557,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Chipsy Salt & Vinegar Potato Chips 100g",
         "price": 18,
         "compareAtPrice": 20,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118541/pandamarket/categories/snacks/products/chipsy-salt-vinegar-potato-chips-100g/1.jpg",
         "imagePublicId": "pandamarket/categories/snacks/products/chipsy-salt-vinegar-potato-chips-100g/1",
         "imagePublicIds": [
             "pandamarket/categories/snacks/products/chipsy-salt-vinegar-potato-chips-100g/1",
@@ -605,7 +581,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Cadbury Dairy Milk Chocolate 90g",
         "price": 48,
         "compareAtPrice": 55,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118549/pandamarket/categories/snacks/products/cadbury-dairy-milk-chocolate-90g/1.jpg",
         "imagePublicId": "pandamarket/categories/snacks/products/cadbury-dairy-milk-chocolate-90g/1",
         "imagePublicIds": [
             "pandamarket/categories/snacks/products/cadbury-dairy-milk-chocolate-90g/1",
@@ -630,7 +605,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Beyti Orange Juice 1L",
         "price": 35,
         "compareAtPrice": 40,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118560/pandamarket/categories/beverages/products/beyti-orange-juice-1l/1.jpg",
         "imagePublicId": "pandamarket/categories/beverages/products/beyti-orange-juice-1l/1",
         "imagePublicIds": [
             "pandamarket/categories/beverages/products/beyti-orange-juice-1l/1"
@@ -654,7 +628,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Juhayna Orange Juice 1L",
         "price": 36,
         "compareAtPrice": 42,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784058/pandamarket/categories/beverages/products/juhayna-orange-juice-1l/1.jpg",
         "imagePublicId": "pandamarket/categories/beverages/products/juhayna-orange-juice-1l/1",
         "imagePublicIds": [
             "pandamarket/categories/beverages/products/juhayna-orange-juice-1l/1",
@@ -679,7 +652,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Coca Cola 1L",
         "price": 22,
         "compareAtPrice": 25,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784023/pandamarket/categories/beverages/products/coca-cola-1l/1.jpg",
         "imagePublicId": "pandamarket/categories/beverages/products/coca-cola-1l/1",
         "imagePublicIds": [
             "pandamarket/categories/beverages/products/coca-cola-1l/1",
@@ -704,7 +676,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Pepsi 1.5L",
         "price": 28,
         "compareAtPrice": 32,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784087/pandamarket/categories/beverages/products/pepsi-1-5l/1.jpg",
         "imagePublicId": "pandamarket/categories/beverages/products/pepsi-1-5l/1",
         "imagePublicIds": [
             "pandamarket/categories/beverages/products/pepsi-1-5l/1",
@@ -729,7 +700,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Hayat Natural Mineral Water 600ml",
         "price": 6,
         "compareAtPrice": 8,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784039/pandamarket/categories/beverages/products/hayat-mineral-water-600ml/1.jpg",
         "imagePublicId": "pandamarket/categories/beverages/products/hayat-mineral-water-600ml/1",
         "imagePublicIds": [
             "pandamarket/categories/beverages/products/hayat-mineral-water-600ml/1",
@@ -754,7 +724,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Ariel Automatic Laundry Detergent Powder 4 kg",
         "price": 280,
         "compareAtPrice": 320,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118600/pandamarket/categories/cleaning/products/ariel-automatic-laundry-detergent-powder-4kg/1.jpg",
         "imagePublicId": "pandamarket/categories/cleaning/products/ariel-automatic-laundry-detergent-powder-4kg/1",
         "imagePublicIds": [
             "pandamarket/categories/cleaning/products/ariel-automatic-laundry-detergent-powder-4kg/1",
@@ -779,7 +748,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Ariel Automatic Power Gel 2L",
         "price": 195,
         "compareAtPrice": 220,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784100/pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1.jpg",
         "imagePublicId": "pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1",
         "imagePublicIds": [
             "pandamarket/categories/cleaning/products/ariel-automatic-gel-2l/1",
@@ -804,7 +772,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Fairy Lemon Dishwashing Liquid 1L",
         "price": 75,
         "compareAtPrice": 85,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118623/pandamarket/categories/cleaning/products/fairy-lemon-dishwashing-liquid-1l/1.jpg",
         "imagePublicId": "pandamarket/categories/cleaning/products/fairy-lemon-dishwashing-liquid-1l/1",
         "imagePublicIds": [
             "pandamarket/categories/cleaning/products/fairy-lemon-dishwashing-liquid-1l/1",
@@ -829,7 +796,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Tide Laundry Detergent Powder 2.5kg",
         "price": 155,
         "compareAtPrice": 175,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1784784135/pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1.jpg",
         "imagePublicId": "pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1",
         "imagePublicIds": [
             "pandamarket/categories/cleaning/products/tide-detergent-2-5kg/1",
@@ -854,7 +820,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Sunsilk Smooth & Shine Shampoo 350ml",
         "price": 70,
         "compareAtPrice": 80,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118628/pandamarket/categories/personal-care/products/sunsilk-smooth-shine-shampoo-350ml/1.jpg",
         "imagePublicId": "pandamarket/categories/personal-care/products/sunsilk-smooth-shine-shampoo-350ml/1",
         "imagePublicIds": [
             "pandamarket/categories/personal-care/products/sunsilk-smooth-shine-shampoo-350ml/1"
@@ -878,7 +843,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Dove Beauty Cream Bar Soap 135g",
         "price": 38,
         "compareAtPrice": 44,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118636/pandamarket/categories/personal-care/products/dove-beauty-cream-bar-soap-135g/1.jpg",
         "imagePublicId": "pandamarket/categories/personal-care/products/dove-beauty-cream-bar-soap-135g/1",
         "imagePublicIds": [
             "pandamarket/categories/personal-care/products/dove-beauty-cream-bar-soap-135g/1"
@@ -902,7 +866,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Pampers Pants Size 3 58 Diapers",
         "price": 360,
         "compareAtPrice": 410,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118643/pandamarket/categories/baby-care/products/pampers-pants-size-3-58-diapers/1.jpg",
         "imagePublicId": "pandamarket/categories/baby-care/products/pampers-pants-size-3-58-diapers/1",
         "imagePublicIds": [
             "pandamarket/categories/baby-care/products/pampers-pants-size-3-58-diapers/1"
@@ -926,7 +889,6 @@ export const sampleProducts: Product[] = [
         "nameEn": "Rich Bake White Toast Bread 500g",
         "price": 42,
         "compareAtPrice": 48,
-        "image": "https://res.cloudinary.com/dfq1xxerr/image/upload/v1785118649/pandamarket/categories/bakery/products/rich-bake-white-toast-bread-500g/1.jpg",
         "imagePublicId": "pandamarket/categories/bakery/products/rich-bake-white-toast-bread-500g/1",
         "imagePublicIds": [
             "pandamarket/categories/bakery/products/rich-bake-white-toast-bread-500g/1"

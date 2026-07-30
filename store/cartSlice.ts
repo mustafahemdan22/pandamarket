@@ -7,9 +7,8 @@ export interface Product {
   name: string;
   nameEn: string;
   price: number;
-  image?: string; // Legacy: Cloudinary URL for backward compatibility
-  imagePublicId?: string; // New: Cloudinary public ID
-  imagePublicIds?: string[]; // New: Array of Cloudinary public IDs (3-5 images)
+  imagePublicId?: string; // Cloudinary public ID
+  imagePublicIds?: string[]; // Array of Cloudinary public IDs (3-5 images)
   category: string;
   subcategory?: string;
   brand: string;

@@ -54,7 +54,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     );
   };
 
-  const mainImagePublicId = product.imagePublicId || product.imagePublicIds?.[0] || product.image;
+  const mainImagePublicId = product.imagePublicId || product.imagePublicIds?.[0] || '';
 
   return (
     <Link href={`/products/${product.id}`}>

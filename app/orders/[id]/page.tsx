@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useOrders } from "@/contexts/OrderProvider";
-import { buildImageUrl } from "@/lib/cloudinary";
+import { getOrderImage, FALLBACK_IMAGE_PATH } from "@/lib/imageConfig";
 
 const orderStatusTranslations: Record<string, { ar: string; en: string; color: string; icon: React.ReactNode }> = {
   pending: { ar: "قيد الانتظار", en: "Pending", color: "bg-yellow-100 text-yellow-800", icon: <FiHelpCircle className="w-4 h-4" /> },
@@ -276,9 +276,9 @@ export default function OrderDetailPage() {
                 const nameEn = item.productNameEn || item.productName || item.product?.nameEn || "Item";
                 const nameAr = item.productNameAr || item.product?.name || item.productName || nameEn;
                 const displayName = language === "ar" ? nameAr : nameEn;
-                const imgId = item.imagePublicId || item.product?.image || item.product?.imagePublicId || "";
-                const imgResult = buildImageUrl(imgId, { width: 200, height: 200, crop: "fill" });
-                const imgSrc = imgResult.primary || imgResult.fallback || "/images/image-missing.svg";
+                const imgId = item.imagePublicId || item.product?.imagePublicId || "";
+                const imgResult = getOrderImage(imgId);
+                const imgSrc = imgResult.primary || FALLBACK_IMAGE_PATH;
 
                 return (
                   <div key={index} className="px-6 py-4 flex gap-4">

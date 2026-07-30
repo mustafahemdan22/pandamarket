@@ -5,19 +5,19 @@ import Link from 'next/link';
 import { useLanguage } from '../../../contexts/LanguageProvider';
 import { FiArrowLeft, FiArrowRight, FiCalendar, FiUser } from 'react-icons/fi';
 import styles from './BlogPost.module.css';
-import { useEffect, useState ,use } from 'react';
-import img from "../Phoenix_10_A_vibrant_promotional_banner_showing_smart_shopping_3.jpg";
-import img2 from "../Phoenix_10_Fresh_colorful_fruits_and_vegetables_display_repres_2.jpg";
-import img3 from "../Phoenix_10_Professional_food_storage_and_preservation_concept_3.jpg";
+import { useEffect, useState, use } from 'react';
+import { BLOG_IMAGES, FALLBACK_IMAGE_PATH, CLOUDINARY_CLOUD_NAME } from '../../../lib/imageConfig';
 
-// بيانات المقالات
+const getBlogImgSrc = (key: keyof typeof BLOG_IMAGES) =>
+  `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/w_1200,h_600,c_fill,q_auto,f_auto/${BLOG_IMAGES[key]}`;
+
 const blogPosts = {
   'smart-shopping': {
     title: {
       ar: 'نصائح للتسوق الذكي في السوبر ماركت',
       en: 'Smart Shopping Tips at the Supermarket'
     },
-    image: img,
+    imageKey: 'smartShopping' as const,
     author: {
       ar: 'فريق باندا ماركت',
       en: 'Panda Market Team'
@@ -94,7 +94,7 @@ const blogPosts = {
       ar: 'أهمية المنتجات الطازجة في نظامك الغذائي',
       en: 'The Importance of Fresh Produce in Your Diet'
     },
-    image: img2,
+    imageKey: 'freshProduce' as const,
     author: {
       ar: 'د. سارة أحمد',
       en: 'Dr. Sarah Ahmed'
@@ -179,7 +179,7 @@ const blogPosts = {
       ar: 'طرق تخزين الأطعمة للحفاظ على جودتها',
       en: 'How to Store Food and Keep It Fresh'
     },
-    image: img3,
+    imageKey: 'foodStorage' as const,
     author: {
       ar: 'أحمد محمد',
       en: 'Ahmed Mohamed'
@@ -310,6 +310,7 @@ const blogPosts = {
     }
   }
 };
+
 export default function BlogPostPage({ 
   params 
 }: { 
@@ -318,7 +319,14 @@ export default function BlogPostPage({
   const { slug } = use(params);
   const { language } = useLanguage();
   const [isDark, setIsDark] = useState(false);
+  const [headerImgSrc, setHeaderImgSrc] = useState('');
   const post = blogPosts[slug as keyof typeof blogPosts];
+
+  useEffect(() => {
+    if (post) {
+      setHeaderImgSrc(getBlogImgSrc(post.imageKey));
+    }
+  }, [post]);
 
   useEffect(() => {
     const checkDarkMode = () => {
@@ -358,13 +366,16 @@ export default function BlogPostPage({
 
         {/* Header Image */}
         <div className={`${styles.headerImage} ${styles.fadeIn}`}>
-          <Image
-            src={post.image}
-            alt={post.title[language]}
-            fill
-            priority
-            className="object-cover"
-          />
+          {headerImgSrc && (
+            <Image
+              src={headerImgSrc}
+              alt={post.title[language]}
+              fill
+              priority
+              className="object-cover"
+              onError={() => setHeaderImgSrc(FALLBACK_IMAGE_PATH)}
+            />
+          )}
         </div>
 
         {/* Title */}

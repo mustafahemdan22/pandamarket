@@ -2,7 +2,13 @@
 
 import Image from 'next/image';
 import { useState, useCallback } from 'react';
-import { buildImageUrl, CloudinaryTransformations, ImageUrlResult } from '../lib/cloudinary';
+import {
+  FALLBACK_IMAGE_PATH,
+  PRESETS,
+  getImageUrl,
+  getResponsiveSrcSet,
+  type ImageUrlResult,
+} from '../lib/imageConfig';
 
 interface ProductImageGalleryProps {
   mainImagePublicId: string;
@@ -18,37 +24,18 @@ export function ProductImageGallery({
   className = '',
 }: ProductImageGalleryProps) {
   const [imgSrcMap, setImgSrcMap] = useState<Record<number, string>>({});
-  const fallbackSrc = '/images/image-missing.svg';
 
   const allImages = [mainImagePublicId, ...galleryImagePublicIds];
-
-  const mainTransformations: CloudinaryTransformations = {
-    width: 800,
-    height: 800,
-    crop: 'fill',
-    quality: 'auto',
-    format: 'auto',
-  };
-
-  const thumbTransformations: CloudinaryTransformations = {
-    width: 100,
-    height: 100,
-    crop: 'fill',
-    quality: 'auto',
-    format: 'auto',
-  };
-
-  const getImageUrls = (publicId: string, transformations: CloudinaryTransformations): ImageUrlResult => {
-    return buildImageUrl(publicId, transformations);
-  };
-
   const validImages = allImages.filter((id): id is string => typeof id === 'string');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const safeIndex = Math.min(selectedIndex, validImages.length - 1);
   const currentPublicId = validImages[safeIndex] || '';
 
+  const mainResult: ImageUrlResult = getImageUrl(currentPublicId, 'galleryMain');
+  const thumbResult: ImageUrlResult = getImageUrl(currentPublicId, 'galleryThumb');
+
   const handleImageError = useCallback((index: number) => {
-    setImgSrcMap((prev) => ({ ...prev, [index]: fallbackSrc }));
+    setImgSrcMap((prev) => ({ ...prev, [index]: FALLBACK_IMAGE_PATH }));
   }, []);
 
   return (
@@ -57,7 +44,7 @@ export function ProductImageGallery({
       <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800">
         <Image
           key={`main-${safeIndex}-${imgSrcMap[safeIndex] || 'primary'}`}
-          src={imgSrcMap[safeIndex] || getImageUrls(currentPublicId, mainTransformations).primary}
+          src={imgSrcMap[safeIndex] || mainResult.primary}
           alt={`${alt} - Image ${safeIndex + 1}`}
           fill
           className="object-cover transition-transform duration-300 hover:scale-105"
@@ -88,29 +75,32 @@ export function ProductImageGallery({
       {/* Thumbnail Strip */}
       {validImages.length > 1 && (
         <div className="mt-3 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-          {validImages.map((publicId, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedIndex(index)}
-              className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                index === safeIndex
-                  ? 'border-green-500 shadow-lg shadow-green-500/25'
-                  : 'border-transparent hover:border-gray-300 dark:hover:border-gray-600'
-              }`}
-              aria-label={`View image ${index + 1}`}
-              aria-current={index === safeIndex ? 'true' : 'false'}
-            >
-              <Image
-                key={`thumb-${index}-${imgSrcMap[index] || 'primary'}`}
-                src={imgSrcMap[index] || getImageUrls(publicId, thumbTransformations).primary}
-                alt={`${alt} - Thumbnail ${index + 1}`}
-                fill
-                className="object-cover"
-                sizes="80px"
-                onError={() => handleImageError(index)}
-              />
-            </button>
-          ))}
+          {validImages.map((publicId, index) => {
+            const thumbImg = getImageUrl(publicId, 'galleryThumb');
+            return (
+              <button
+                key={index}
+                onClick={() => setSelectedIndex(index)}
+                className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                  index === safeIndex
+                    ? 'border-green-500 shadow-lg shadow-green-500/25'
+                    : 'border-transparent hover:border-gray-300 dark:hover:border-gray-600'
+                }`}
+                aria-label={`View image ${index + 1}`}
+                aria-current={index === safeIndex ? 'true' : 'false'}
+              >
+                <Image
+                  key={`thumb-${index}-${imgSrcMap[index] || 'primary'}`}
+                  src={imgSrcMap[index] || thumbImg.primary}
+                  alt={`${alt} - Thumbnail ${index + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                  onError={() => handleImageError(index)}
+                />
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
@@ -123,20 +113,15 @@ interface CategoryImageProps {
   imagePublicId: string | undefined;
   alt: string;
   className?: string;
-  transformations?: CloudinaryTransformations;
 }
 
 export function CategoryImage({
   imagePublicId,
   alt,
   className = '',
-  transformations = { width: 600, height: 400, crop: 'fill', quality: 'auto', format: 'auto' },
 }: CategoryImageProps) {
-  const [imgSrc, setImgSrc] = useState<string>(() =>
-    imagePublicId
-      ? buildImageUrl(imagePublicId, transformations).primary
-      : '/images/image-missing.svg'
-  );
+  const result = getImageUrl(imagePublicId, 'category');
+  const [imgSrc, setImgSrc] = useState<string>(result.primary);
 
   return (
     <Image
@@ -146,7 +131,7 @@ export function CategoryImage({
       fill
       className={`object-cover ${className}`}
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      onError={() => setImgSrc('/images/image-missing.svg')}
+      onError={() => setImgSrc(FALLBACK_IMAGE_PATH)}
     />
   );
 }
@@ -166,20 +151,11 @@ export function ProductCardImage({
   className = '',
   priority = false,
 }: ProductCardImageProps) {
-  const [imgSrc, setImgSrc] = useState<string>(() =>
-    buildImageUrl(imagePublicId || '', {
-      width: 400,
-      height: 400,
-      crop: 'fill',
-      quality: 'auto',
-      format: 'auto',
-    }).primary
-  );
-
-  const fallbackSrc = '/images/image-missing.svg';
+  const result = getImageUrl(imagePublicId || '', 'productCard');
+  const [imgSrc, setImgSrc] = useState<string>(result.primary);
 
   const handleError = useCallback(() => {
-    setImgSrc(fallbackSrc);
+    setImgSrc(FALLBACK_IMAGE_PATH);
   }, []);
 
   return (
@@ -209,12 +185,8 @@ export function HeroImage({
   alt,
   className = '',
 }: HeroImageProps) {
-  const transformations = { width: 1920, height: 600, crop: 'fill' as const, quality: 'auto' as const, format: 'auto' as const, gravity: 'center' as const };
-  const [imgSrc, setImgSrc] = useState<string>(() =>
-    imagePublicId
-      ? buildImageUrl(imagePublicId, transformations).primary
-      : '/images/image-missing.svg'
-  );
+  const result = getImageUrl(imagePublicId, 'hero');
+  const [imgSrc, setImgSrc] = useState<string>(result.primary);
 
   return (
     <Image
@@ -225,7 +197,7 @@ export function HeroImage({
       className={`object-cover ${className}`}
       priority
       sizes="100vw"
-      onError={() => setImgSrc('/images/image-missing.svg')}
+      onError={() => setImgSrc(FALLBACK_IMAGE_PATH)}
     />
   );
 }

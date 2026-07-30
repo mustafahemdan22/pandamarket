@@ -13,7 +13,7 @@ import {
   FiArrowRight, FiChevronDown, FiChevronUp
 } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageProvider';
-import { buildImageUrl } from '@/lib/cloudinary';
+import { getImageUrl } from '@/lib/imageConfig';
 import toast from 'react-hot-toast';
 
 interface AdminProduct {
@@ -512,7 +512,7 @@ export default function BulkAIImageGenerator() {
                       <div className="flex items-center gap-3">
                         {job.publicIds[0] && (
                           <img 
-                            src={buildImageUrl(job.publicIds[0], { width: 50, height: 50, crop: 'fill' }).primary} 
+                            src={getImageUrl(job.publicIds[0], 'thumbnail').primary} 
                             alt={job.productName}
                             className="w-10 h-10 rounded-lg object-cover border border-white/10"
                             loading="lazy"
